@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ebecee"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/person_center_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/top_bg1"
+        android:gravity="center"
+        android:text="个人中心"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ebecee" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- 这是头像页面 -->
+
+            <RelativeLayout
+                android:id="@+id/person_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_doctor_item"
+                android:padding="10dp" >
+
+                <com.mdground.yizhida.view.CircleImageView
+                    android:id="@+id/person_icon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/app_icon2" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/person_icon"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/hospital"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/enter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/in_button" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/duty_title"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button"
+                android:layout_marginBottom="-1dp"
+                android:text="值班表" />
+
+            <TextView
+                android:id="@+id/tv_schedule"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button"
+                android:text="排班表"
+                android:layout_marginBottom="-1dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/income_title"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_doctor_item"
+                android:clickable="true"
+                android:layout_marginBottom="-1dp"
+                android:drawableRight="@drawable/in_button"
+                android:text="我的收入" />
+
+            <TextView
+                android:id="@+id/connect_screen_title"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_doctor_item"
+                android:clickable="true"
+                android:drawableRight="@drawable/in_button"
+                android:text="连接导诊屏"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/contact_us"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button"
+                android:layout_marginBottom="-1dp"
+                android:text="联系客服" />
+
+            <TextView
+                android:id="@+id/service_protocol"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button"
+                android:layout_marginBottom="-1dp"
+                android:text="医直达软件服务协议" />
+
+            <TextView
+                android:id="@+id/update_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/box3_nor"
+                android:drawableRight="@drawable/in_button"
+                android:padding="10dp"
+                android:text="版本更新"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/mylist_item_text"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/about_yidiguan"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button"
+                android:text="关于医得馆" />
+
+            <TextView
+                android:id="@+id/change_password"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="-1dp"
+                android:text="修改密码"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button" />
+
+            <TextView
+                android:id="@+id/exit"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_doctor_item"
+                android:drawableRight="@drawable/in_button"
+                android:text="退出账号" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

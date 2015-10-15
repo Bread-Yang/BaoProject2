@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/llt_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_tab_one"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="@string/anamnesis"
+                android:textColor="@color/tab_color"
+                android:textSize="@dimen/basic_info_text_size" />
+
+            <View
+                android:id="@+id/view_tab_one"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/tab_line_margin_top"
+                android:background="@color/tab_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_tab_two"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="@string/allergic_history"
+                android:textSize="@dimen/basic_info_text_size" />
+
+            <View
+                android:id="@+id/view_tab_two"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/tab_line_margin_top"
+                android:background="@color/tab_color"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_tab_three"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="@string/medication_compliance"
+                android:textSize="@dimen/basic_info_text_size" />
+
+            <View
+                android:id="@+id/view_tab_three"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/tab_line_margin_top"
+                android:background="@color/tab_color"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_tab_four"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="@string/other_information"
+                android:textSize="@dimen/basic_info_text_size" />
+
+            <View
+                android:id="@+id/view_tab_four"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/tab_line_margin_top"
+                android:background="@color/tab_color"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <View android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/llt_tab"
+        android:background="#E4E5E5"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llt_tab" >
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

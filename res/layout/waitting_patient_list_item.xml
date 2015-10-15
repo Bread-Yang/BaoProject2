@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/hidden_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#222222"
+        android:gravity="right"
+        android:tag="hidden_layout" >
+
+        <TextView
+            android:id="@+id/operator_name"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:background="@null"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/basic_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#ffffffff"
+        android:gravity="center_vertical"
+        android:tag="basic_info_layout" >
+
+        <TextView
+            android:id="@+id/sequence_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="start"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:text="0212"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/sequence_number"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:lines="1"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/mylist_item_text"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/sex_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingRight="20dp"
+            android:text="男"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/age_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/sex_text"
+            android:layout_toRightOf="@id/name_text"
+            android:ellipsize="start"
+            android:ems="3"
+            android:gravity="right|center_vertical"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:text="10"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="#80808080" />
+
+        <TextView
+            android:id="@+id/remark_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/name_text"
+            android:layout_alignRight="@+id/age_text"
+            android:layout_below="@+id/name_text"
+            android:ellipsize="end"
+            android:ems="10"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:text="ajdflaksldjfalsjdfklajsldjflaskjd;lfjsla;kdj"
+            android:textColor="#9A999A"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</FrameLayout>

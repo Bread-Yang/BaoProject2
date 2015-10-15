@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FF333333"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp" >
+
+    <Button
+        android:id="@+id/takephoto"
+        style="@style/mygraybutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="拍照"
+        android:textColor="@drawable/new_textcolor_selector"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/getlocal"
+        style="@style/mygraybutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/takephoto"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="选择本地照片"
+        android:textColor="@drawable/new_textcolor_selector"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/modify_note"
+        style="@style/mygraybutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/getlocal"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="取消"
+        android:textColor="@drawable/new_textcolor_selector"
+        android:textSize="16sp" />
+
+</RelativeLayout>

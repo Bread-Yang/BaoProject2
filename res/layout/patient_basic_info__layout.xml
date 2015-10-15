@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/edit_icon" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@+id/iv_edit"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:paddingLeft="12dp" >
+
+                <!-- 生日 -->
+
+                <TextView
+                    android:id="@+id/birthday_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/patient_birthday"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/birthday_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/birthday_title"
+                    android:layout_toRightOf="@id/birthday_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 手机 -->
+
+                <TextView
+                    android:id="@+id/tv_phone_num_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/patient_phone"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_phone_num_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_phone_num_title"
+                    android:layout_toRightOf="@id/tv_phone_num_title"
+                    android:ellipsize="end"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 身份证 -->
+
+                <TextView
+                    android:id="@+id/identity_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/patient_identity"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/identity_card_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/identity_card_title"
+                    android:layout_toRightOf="@id/identity_card_title"
+                    android:ellipsize="end"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:background="#D6D6D6" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 紧急联系人 -->
+
+                <TextView
+                    android:id="@+id/contact_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/emergency_contact"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/contact_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/contact_title"
+                    android:layout_toRightOf="@id/contact_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 联系人电话 -->
+
+                <TextView
+                    android:id="@+id/contact_phone_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_tel"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/contact_phone_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/contact_phone_title"
+                    android:layout_toRightOf="@id/contact_phone_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 联系人关系 -->
+
+                <TextView
+                    android:id="@+id/contact_relation_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_relation"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/contact_relation_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/contact_relation_title"
+                    android:layout_toRightOf="@id/contact_relation_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 邮箱 -->
+
+                <TextView
+                    android:id="@+id/mail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/patient_email"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/mail_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/mail_title"
+                    android:layout_toRightOf="@id/mail_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:background="#D6D6D6" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 内部编号 -->
+
+                <TextView
+                    android:id="@+id/tv_internal_number_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/internal_number"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_internal_number_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_internal_number_title"
+                    android:layout_toRightOf="@id/tv_internal_number_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 社保 -->
+
+                <TextView
+                    android:id="@+id/security_insurance_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/social_security_number"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/security_insurance_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/security_insurance_title"
+                    android:layout_toRightOf="@id/security_insurance_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 医保 -->
+
+                <TextView
+                    android:id="@+id/medical_insurance_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/medical_insurance_number"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/medical_insurance_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/medical_insurance_title"
+                    android:layout_toRightOf="@id/medical_insurance_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 婚姻状况 -->
+
+                <TextView
+                    android:id="@+id/tv_marital_status_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/marital_status"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_marital_status_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_marital_status_title"
+                    android:layout_toRightOf="@id/tv_marital_status_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 民族 -->
+
+                <TextView
+                    android:id="@+id/tv_nation_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nation"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_nation_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_nation_title"
+                    android:layout_toRightOf="@id/tv_nation_title"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 住址 -->
+
+                <TextView
+                    android:id="@+id/address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/address_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/address_title"
+                    android:layout_toRightOf="@id/address_title"
+                    android:ellipsize="end"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:background="#D6D6D6" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 就职公司 -->
+
+                <TextView
+                    android:id="@+id/tv_company_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/company"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_company_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_company_title"
+                    android:layout_toRightOf="@id/tv_company_title"
+                    android:ellipsize="end"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/basic_info_margin_top"
+                android:paddingLeft="12dp" >
+
+                <!-- 职位 -->
+
+                <TextView
+                    android:id="@+id/tv_position_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/position"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_position_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_position_title"
+                    android:layout_toRightOf="@id/tv_position_title"
+                    android:ellipsize="end"
+                    android:textColor="@color/basic_information_text_color"
+                    android:textSize="@dimen/basic_info_text_size" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <TextView 
+        android:id="@+id/record_one_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:text="药物过敏"
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/record_one_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/record_one_title"
+        android:layout_alignTop="@id/record_one_title"
+        android:layout_marginLeft="12dp"
+        android:text="无"
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/record_two_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginTop="@dimen/basic_info_margin_top"
+        android:layout_below="@id/record_one_title"
+        android:layout_alignLeft="@id/record_one_title"
+        android:text="慢性疾病"
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/record_two_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/record_two_title"
+        android:layout_alignTop="@id/record_two_title"
+        android:layout_marginLeft="12dp"
+        android:text="慢性咽喉"
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/record_three_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginTop="@dimen/basic_info_margin_top"
+        android:layout_below="@id/record_two_title"
+        android:layout_alignLeft="@id/record_two_title"
+        android:text="最近用药"
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/record_three_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/record_three_title"
+        android:layout_alignTop="@id/record_three_title"
+        android:layout_marginLeft="12dp"
+        android:text="日夜白肤宁"
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+   
+    
+
+</RelativeLayout>

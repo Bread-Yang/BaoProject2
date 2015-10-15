@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/top_bg1"
+    android:orientation="vertical"
+    android:paddingBottom="5sp"
+    android:paddingLeft="15sp"
+    android:paddingRight="15sp"
+    android:paddingTop="5sp" >
+    
+      <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:text="取消"
+        android:clickable="true"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/search_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/cancel"
+        android:background="@drawable/button2_sel" >
+
+        <ImageView
+            android:id="@+id/search_left_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/search_icon1" />
+        
+        
+         <ImageView
+            android:id="@+id/clear_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:visibility="gone"
+            android:src="@drawable/delete1" />
+
+        <EditText
+            android:id="@+id/search_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/clear_edit"
+            android:layout_toRightOf="@+id/search_left_icon"
+            android:background="@null"
+            android:hint="姓名、手机号码"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:textColor="#ffffff"
+            android:textColorHint="#80ffffff"
+            android:textSize="15sp" >
+            
+        </EditText>
+
+       
+    </RelativeLayout>
+
+  
+
+</RelativeLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg" >
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="138dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/ImageView1"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/about_icon" />
+
+        <TextView
+            android:id="@+id/TextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/ImageView1"
+            android:layout_alignRight="@id/ImageView1"
+            android:layout_below="@+id/ImageView1"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal|top"
+            android:paddingTop="17dp"
+            android:text="医直达"
+            android:textColor="#747474"
+            android:textSize="36sp"
+            android:visibility="visible" />
+    </RelativeLayout>
+    
+    <ImageView 
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mdground"
+        android:layout_marginBottom="52dp"/>
+
+</RelativeLayout>

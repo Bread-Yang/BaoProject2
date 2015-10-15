@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/waiting_room_head_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/top_bg1" >
+
+        <ImageView
+            android:id="@+id/main_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_search" />
+
+        <TextView
+            android:id="@+id/fragment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="候诊室"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/open_left"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/statistics" />
+    </RelativeLayout>
+
+    <com.mdground.yizhida.view.RadioView
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/waiting_room_head_layout"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF" >
+    </com.mdground.yizhida.view.RadioView>
+
+    <com.handmark.pulltorefresh.library.extras.PullToRefreshSwipeMenuListView
+        android:id="@+id/pull_swipeListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/radio_group"
+        android:divider="@null" />
+
+    <RelativeLayout
+        android:id="@+id/empty_prompt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/no_body_img"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:src="@drawable/nopeople" />
+
+        <TextView
+            android:id="@+id/no_body_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/no_body_img"
+            android:layout_alignRight="@id/no_body_img"
+            android:layout_below="@id/no_body_img"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="无人"
+            android:textColor="@color/mynor_text"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

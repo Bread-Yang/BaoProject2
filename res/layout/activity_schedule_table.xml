@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/layout_table_head"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/box3_nor" >
+
+        <TextView
+            android:id="@+id/tv_mounth"
+            android:layout_width="102dp"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="7dp"
+            android:gravity="center_horizontal|bottom"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="20sp" />
+
+        <com.mdground.yizhida.view.ScheduleHScrollView
+            android:id="@+id/schedule_hscrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/tv_mounth"
+            android:focusable="false"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:id="@+id/layout_head_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </com.mdground.yizhida.view.ScheduleHScrollView>
+    </RelativeLayout>
+
+    <!--
+	<com.mdground.yizhida.view.PullToRefreshView
+        android:id="@+id/pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/layout_table_head"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/lv_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null" />
+    </com.mdground.yizhida.view.PullToRefreshView>
+    -->
+
+
+    <!--
+         <com.mdground.yizhida.view.fixedheadtable.TableFixHeaders
+        android:id="@+id/table_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/layout_table_head"
+        android:layout_centerHorizontal="true" />
+    -->
+
+    <com.handmark.pulltorefresh.library.extras.PullToRefreshFixedTable
+        android:id="@+id/table_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/layout_table_head"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

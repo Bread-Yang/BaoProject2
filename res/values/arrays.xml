@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="income_category">
+        <item>今日收益</item>
+        <item>总收益</item>
+        <item>近一周收益</item>
+        <item>近一月收益</item>
+        <item>已转出</item>
+        <item>剩余金额</item>
+    </string-array>
+
+</resources>

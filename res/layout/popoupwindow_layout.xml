@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_root_layout"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content" >
+
+    <ListView
+        android:id="@+id/doctor_listview"
+        android:layout_width="200dp"
+        android:layout_height="210dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/list_bg"
+        android:divider="@null"
+        android:listSelector="@drawable/bg_listview_item_selector2"
+        android:paddingTop="12dp"
+        android:scrollbars="none" />
+
+</RelativeLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/basic_info_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:background="#ffffffff"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/sequence_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:text="002"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/age"
+            android:layout_toRightOf="@+id/sequence_number"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="王小明"
+            android:ellipsize="end"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/sex_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:text="男"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/age_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/sex_text"
+            android:gravity="right|center_vertical"
+            android:text="16岁"
+            android:textColor="@color/mylist_item_text"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="#80808080" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

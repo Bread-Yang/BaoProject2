@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingBottom="20dp"
+    tools:context="com.yizhida.login.LoginActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="4月9日"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#374043"
+            android:textSize="27sp" />
+
+        <TextView
+            android:id="@+id/week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="星期四"
+            android:textColor="#374043"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80808080" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="left"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/waiting_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/wait_title"
+            android:text="0"
+            android:textColor="#374043"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/wait_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/waiting_count"
+            android:layout_alignBottom="@+id/waiting_count"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="候诊"
+            android:textColor="#374043"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80808080" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="left"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/passed_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/passed_title"
+            android:text="0"
+            android:textStyle="bold"
+            android:textColor="#374043"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/passed_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/passed_count"
+            android:layout_alignBottom="@+id/passed_count"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="过号"
+            android:textColor="#374043"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80808080" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="left"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/finished_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/finished_title"
+            android:text="0"
+            android:textColor="#374043"
+            android:textStyle="bold"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/finished_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/finished_count"
+            android:layout_alignBottom="@+id/finished_count"
+            android:layout_alignParentLeft="true"
+            android:text="已诊"
+            android:layout_centerVertical="true"
+            android:textColor="#374043"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80808080" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="left"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/total_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/total_title"
+            android:text="0"
+            android:textColor="#374043"
+            android:textStyle="bold"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/total_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/total_count"
+            android:layout_alignBottom="@+id/total_count"
+            android:layout_alignParentLeft="true"
+            android:text="合计"
+            android:textColor="#374043"
+            android:layout_centerVertical="true"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#80808080" />
+
+</LinearLayout>

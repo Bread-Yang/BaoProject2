@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tv_time_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:ems="4"
+        android:gravity="center"
+        android:maxEms="4"
+        android:minEms="4"
+        android:singleLine="true"
+        android:text="开始时间"
+        android:textColor="#374043"
+        android:textSize="17sp" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="20dp"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tv_time_begin"
+        android:background="@android:color/black"
+        android:clickable="false"
+        android:paddingLeft="20dp" />
+
+    <TextView
+        android:id="@+id/tv_time_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/line"
+        android:clickable="false"
+        android:ems="4"
+        android:gravity="center"
+        android:maxEms="4"
+        android:minEms="4"
+        android:singleLine="true"
+        android:textColor="#374043"
+        android:text="结束时间"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        android:src="@drawable/delete2" />
+
+</RelativeLayout>

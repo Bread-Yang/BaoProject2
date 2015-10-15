@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <TextView 
+        android:id="@+id/diagnosis_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:text="就诊时间："
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/diagnosis_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/diagnosis_title"
+        android:layout_alignTop="@id/diagnosis_title"
+        android:layout_marginLeft="12dp"
+        android:text="无"
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/waiting_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginTop="@dimen/basic_info_margin_top"
+        android:layout_below="@id/diagnosis_title"
+        android:layout_alignLeft="@id/diagnosis_title"
+        android:text="候诊时间："
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/waiting_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/waiting_title"
+        android:layout_alignTop="@id/waiting_title"
+        android:layout_marginLeft="12dp"
+        android:text="慢性咽喉"
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/register_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginTop="@dimen/basic_info_margin_top"
+        android:layout_below="@id/waiting_title"
+        android:layout_alignLeft="@id/waiting_title"
+        android:text="挂号时间："
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/register_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/register_title"
+        android:layout_alignTop="@id/register_title"
+        android:layout_marginLeft="12dp"
+        android:text="日夜白肤宁"
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/register_source_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_marginTop="@dimen/basic_info_margin_top"
+        android:layout_below="@id/register_title"
+        android:layout_alignLeft="@id/register_title"
+        android:text="挂号来源:"
+         android:textSize="@dimen/basic_info_text_size"/>
+    
+    <TextView 
+        android:id="@+id/register_source_value"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/basic_information_text_color"
+        android:layout_toRightOf="@id/register_source_title"
+        android:layout_alignTop="@id/register_source_title"
+        android:layout_marginLeft="12dp"
+        android:text="日夜白肤宁"
+        android:textSize="@dimen/basic_info_text_size"/>
+    
+   
+    
+
+</RelativeLayout>

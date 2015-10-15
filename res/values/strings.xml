@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">医直达</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- 登录界面 -->
+    <string name="error_username_null">请输入账号</string>
+    <string name="error_password_null">请输入密码</string>
+    <string name="logining">正在登录</string>
+    <string name="request_error">请求异常</string>
+
+    <!-- 忘记密码界面 -->
+    <string name="auth_code_error">验证码错误，请重新输入</string>
+    <string name="auth_code_null">请输入验证码</string>
+    
+    <!-- 挂号成功对话框 -->
+    <string name="dialog_regist_success">成功挂号</string>
+    <string name="dialog_regist_wait_people">前面等待人数：%d人</string>
+
+    <!-- 通用文字,频繁使用文字 -->
+    <string name="ok">确定</string>
+    <string name="cancle">取消</string>
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pull_to_refresh_release_label">释放更新</string>
+    <string name="pull_to_refresh_refreshing_label">加载中\u2026</string>
+    <string name="pull_to_refresh_footer_release_label">松开后加载</string>
+    <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
+    <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
+    <string name="aready_diagnosis_info_string">已诊信息</string>
+    <string name="basic_info_string">基本信息</string>
+    <string name="record_info_string">病历信息</string>
+    <string name="aready_pass_info_string">过号信息</string>
+    <string name="medicine_info_string">药物信息</string>
+    <string name="nurse_waiting_string">候诊大厅</string>
+    <string name="doctor_waiting_string">候诊室</string>
+    <string name="no_match_patient_title">无匹配</string>
+    <string name="no_match_patient_value">很抱歉,没有找到相关病人</string>
+    <string name="search_prompt_title">快速搜索病人资料</string>
+    <string name="search_prompt_value">输入病人姓名或者手机号码</string>
+    
+    <!-- 候诊界面文字 -->
+	<string name="activity_waitting_opt_pass">过号</string>
+	<string name="activity_waitting_opt_finish">结束</string>
+	<string name="activity_waitting_opt_assign">分配</string>
+	<string name="activity_waitting_opt_rebuild">重新排队</string>
+	<string name="doctor_waiting_title">%s候诊室</string>
+
+	<!-- 找回密码界面文字 -->
+    <string name="activity_pwd_verify_prompt">您的密保手机号码是%s,请点击&quot;获取验证码&quot;</string>
+    <string name="activity_pwd_verify_getAuthCode">获取验证码</string>
+    <string name="activity_pwd_verify_regetAuthCode">重新发送</string>
+    <string name="activity_pwd_verify_sending">正在发送(%d)</string>
+    
+    <string name="activity_pwd_edit_pwd_null">请输入新密码</string>
+    <string name="activity_pwd_edit_comfirm_pwd_null">请输入确认新密码</string>
+    <string name="activity_pwd_edit_pwd_different">密码输入不一致</string>
+    
+    <string name="query_ing">正在查询</string>
+    <string name="no_body">无人%s</string>
+    <string name="anamnesis">既往史</string>
+    <string name="allergic_history">过敏史</string>
+    <string name="medication_compliance">服药情况</string>
+    <string name="other_information">其他信息</string>
+    
+    <!-- 病人详细信息 -->
+    <string name="patient_birthday">生日:</string>
+    <string name="patient_phone">手机:</string>
+    <string name="patient_identity">身份证:</string>
+    <string name="emergency_contact">紧急联系人:</string>
+    <string name="contact_tel">联系人电话:</string>
+    <string name="contact_relation">联系人关系:</string>
+    <string name="patient_email">邮箱:</string>
+    <string name="internal_number">内部编号:</string>
+    <string name="social_security_number">社保号:</string>
+    <string name="medical_insurance_number">医保号:</string>
+    <string name="marital_status">婚姻状况:</string>
+    <string name="nation">民族:</string>
+    <string name="address">住址:</string>
+    <string name="company">就职公司:</string>
+    <string name="position">职位:</string>
+    
+    
+
+</resources>

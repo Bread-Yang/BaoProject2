@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ebecee"
+    android:orientation="vertical"
+    tools:context="com.yizhida.activity.MainActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/top_bg1" >
+
+        <TextView
+            android:id="@+id/person_information_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="个人信息"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/box3_nor"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/headlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/head_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="头像"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <com.mdground.yizhida.view.CircleImageView
+                        android:id="@+id/head_img"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/enter_1"
+                        android:src="@drawable/head_man" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/namelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_doctor_item"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/name_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:text="姓名"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/name_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/enter_2"
+                        android:layout_toRightOf="@+id/name_title"
+                        android:gravity="center_vertical|right"
+                        android:text="李一全"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/accountlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/account_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:text="账号"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/account_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/enter_3"
+                        android:layout_toRightOf="@+id/account_title"
+                        android:gravity="center_vertical|right"
+                        android:text="1234567"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/erweimalayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@drawable/bg_doctor_item"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/qr_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="我的二维码"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/qr_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/enter_4"
+                        android:src="@drawable/qrcode" />
+
+                    <ImageView
+                        android:id="@+id/enter_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/addresslayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@drawable/bg_doctor_item"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/address_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:text="我的地址"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/address_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/enter_5"
+                        android:layout_toRightOf="@+id/address_title"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/box3_nor"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/sexlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:layout_marginTop="-1dp"
+                    android:background="@drawable/bg_doctor_item"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/sex_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="性别"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/sex_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/enter_6"
+                        android:layout_toRightOf="@+id/sex_title"
+                        android:gravity="center_vertical|right"
+                        android:text="男"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/birthlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@drawable/bg_doctor_item"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/birth_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="生日"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/birth_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/enter_7"
+                        android:text="1999年1月1日"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/idcardlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:background="@drawable/bg_doctor_item"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/area_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="身份证"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/id_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/enter_11"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/box3_nor"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/practice_code_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
+                    android:layout_marginTop="-1dp"
+                    android:background="@drawable/bg_doctor_item"
+                    android:clickable="true"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/practice_code_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="执业编号"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/practice_code_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/practice_code_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/practice_code_enter"
+                        android:text="MS12345678"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/practice_category_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_doctor_item"
+                    android:clickable="true"
+                    android:layout_marginBottom="-1dp"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/practice_category_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="执业类别"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/practice_category_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/practice_category_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/practice_category_enter"
+                        android:text="内科"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/practice_scope_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_doctor_item"
+                    android:clickable="true"
+                    android:layout_marginBottom="-1dp"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/practice_scope_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="执业范围"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/practice_scope_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/practice_scope_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/practice_scope_enter"
+                        android:text="医得馆"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/collegelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_doctor_item"
+                    android:layout_marginBottom="-1dp"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/college_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="毕业学院"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/college_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/college_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/college_enter"
+                        android:layout_toRightOf="@+id/college_title"
+                        android:gravity="center_vertical|right"
+                        android:text="广东医学院"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/professionlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_doctor_item"
+                    android:layout_marginBottom="-1dp"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/profession_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:text="毕业专业"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/profession_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/profession_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/profession_enter"
+                        android:layout_toRightOf="@+id/profession_title"
+                        android:gravity="center_vertical|right"
+                        android:singleLine="true"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/emrtypelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:id="@+id/education_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="学历"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/education_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/enter_8"
+                        android:text="1999年1月1日"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/resumelayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_doctor_item"
+                    android:layout_marginBottom="-1dp"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/resume_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="个人简历"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/enter_9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/in_button" />
+
+                    <TextView
+                        android:id="@+id/resume_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/mylist_item_text"
+                        android:textSize="18sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

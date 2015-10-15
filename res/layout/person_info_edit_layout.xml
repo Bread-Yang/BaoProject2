@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ebecee"
+    android:orientation="vertical"
+    tools:context="com.yizhida.login.LoginActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/top_bg1"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="保存"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <!-- 设置输入信息，姓名，毕业学校，地址，毕业专业 -->
+    <LinearLayout
+        android:id="@+id/edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:background="@drawable/box3_nor" >
+
+        <TextView
+            android:id="@+id/content_input_title"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:text="12345"
+            android:layout_marginLeft="15dp"
+            android:layout_height="50dp" />
+
+        <com.mdground.yizhida.view.ClearEditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_input_box_clear"
+            android:inputType="text"
+            android:longClickable="false"
+            android:gravity="right|center_vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" />
+    </LinearLayout>
+    
+    <!-- 这是简历 -->
+    <RelativeLayout 
+        android:id="@+id/resume_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:visibility="gone">
+        
+        <WebView
+             android:id="@+id/resume_content"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    
+    <!-- 这是男女 -->
+     <LinearLayout
+         android:id="@+id/sex_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/box3_nor"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/select_man"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp" >
+
+            <ImageView
+                android:id="@+id/man_selected"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/sel_icon" />
+
+            <TextView
+                android:id="@+id/man_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="男"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#60808080" />
+
+        <RelativeLayout
+            android:id="@+id/select_girl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="10dp" >
+
+            <ImageView
+                android:id="@+id/girl_selected"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/sel_icon" />
+
+            <TextView
+                android:id="@+id/girl_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="女"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

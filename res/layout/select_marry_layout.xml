@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sex_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:background="@color/white" >
+    
+    <View 
+        android:id="@+id/line"
+        android:layout_height="0.2dp"
+        android:layout_width="match_parent"
+        android:background="#cccccc"/>
+
+    <TextView
+        android:id="@+id/unmarry_text"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="单身"
+        android:background="@drawable/textcolor_selector"
+        android:clickable="true"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="#60808080" />
+
+    <TextView
+        android:id="@+id/marry_text"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="已婚"
+         android:background="@drawable/textcolor_selector"
+         android:clickable="true"
+        android:textSize="16sp" />
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="#60808080" />
+
+    <TextView
+        android:id="@+id/break_marry_text"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center"
+         android:clickable="true"
+          android:background="@drawable/textcolor_selector"
+        android:text="离异"
+        android:textSize="16sp" />
+
+</LinearLayout>
