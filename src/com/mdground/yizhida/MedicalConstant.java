@@ -1,5 +1,7 @@
 package com.mdground.yizhida;
 
+import android.graphics.Typeface;
+
 /**
  * 网络请求的常量类
  * 
@@ -35,5 +37,8 @@ public class MedicalConstant {
 	// 信鸽推送
 	public static final long XG_V2_ACCESS_ID = 2100142473;
 	public static final String XG_V2_ACCESS_KEY = "AP6YZ6M68H1M";
+	
+	// 字体
+	public static Typeface NotoSans_Regular;
 
 }

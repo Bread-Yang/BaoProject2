@@ -26,11 +26,11 @@ import com.mdground.yizhida.screen.ScreenManager;
 
 import android.content.Context;
 
-public class PatientAppointmentPresenterImpl implements PatientAppointmentPresenter, ConnectStausListener {
-	private PatientAppointmentView mView;
+public class PatientDetailPresenterImpl implements PatientDetailPresenter, ConnectStausListener {
+	private PatientDetailView mView;
 	private Context context;
 
-	public PatientAppointmentPresenterImpl(PatientAppointmentView view) {
+	public PatientDetailPresenterImpl(PatientDetailView view) {
 		this.mView = view;
 		context = (Context) view;
 	}
@@ -75,7 +75,7 @@ public class PatientAppointmentPresenterImpl implements PatientAppointmentPresen
 
 			@Override
 			public void onSuccess(ResponseData response) {
-				L.e(PatientAppointmentPresenterImpl.this, "patient content : " + response.getContent());
+				L.e(PatientDetailPresenterImpl.this, "patient content : " + response.getContent());
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
 					Patient patient = response.getContent(Patient.class);
 					mView.updateViewData(patient);
@@ -110,7 +110,7 @@ public class PatientAppointmentPresenterImpl implements PatientAppointmentPresen
 
 			@Override
 			public void onSuccess(ResponseData response) {
-				L.e(PatientAppointmentPresenterImpl.this, "既往史的message : " + response.getContent());
+				L.e(PatientDetailPresenterImpl.this, "既往史的message : " + response.getContent());
 				List<Anamnesis> list = response.getContent(new TypeToken<List<Anamnesis>>() {
 				});
 				

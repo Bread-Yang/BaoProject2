@@ -2,7 +2,7 @@ package com.mdground.yizhida.activity.appointment;
 
 import com.mdground.yizhida.bean.AppointmentInfo;
 
-public interface PatientAppointmentPresenter {
+public interface PatientDetailPresenter {
 
 	public void updateAppointment(AppointmentInfo appointment, int status);
 

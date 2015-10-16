@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.AppointmentInfo;
 
 /**
@@ -87,6 +88,7 @@ public class AppointmentHelper {
 			List<AppointmentInfo> tmpList = mapAppointment.get(appointment.getOPDatePeriod());
 			if (tmpList == null) {
 				tmpList = new ArrayList<AppointmentInfo>();
+				L.e(AppointmentHelper.class, "appointment.getOPDatePeriod() : " + appointment.getOPDatePeriod());
 				mapAppointment.put(appointment.getOPDatePeriod(), tmpList);
 			}
 			tmpList.add(appointment);
@@ -98,7 +100,9 @@ public class AppointmentHelper {
 			AppointmentInfo appointmentInfo = new AppointmentInfo();
 			appointmentInfo.setType(AppointmentInfo.GROUP);
 			appointmentInfo.setOPDatePeriod(entry.getKey());
-			resultList.add(appointmentInfo);
+//			resultList.add(appointmentInfo);
+			entry.getValue().get(0).setType(AppointmentInfo.GROUP);   // 这个时间段的第一个预约上面要显示预约时间
+			entry.getValue().get(0).setGroup_num(entry.getValue().size());
 			resultList.addAll(entry.getValue());
 		}
 

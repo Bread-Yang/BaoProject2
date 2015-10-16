@@ -6,7 +6,7 @@ import com.mdground.yizhida.activity.base.BaseView;
 import com.mdground.yizhida.bean.Anamnesis;
 import com.mdground.yizhida.bean.Patient;
 
-public interface PatientAppointmentView extends BaseView {
+public interface PatientDetailView extends BaseView {
 	
 	//修改预约状态更新界面
 	void updateViewSatus(int status);

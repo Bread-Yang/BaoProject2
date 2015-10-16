@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.graphics.Typeface;
 
 import com.mdground.yizhida.api.MdgAppliction;
 import com.mdground.yizhida.bean.Employee;
@@ -43,11 +44,13 @@ public class MedicalAppliction extends MdgAppliction {
 		initTencentXgPush();
 
 		// 初始化异常crash
-//		CrashHandler crashHandler = CrashHandler.getInstance();
-//		crashHandler.init(getApplicationContext());
+		// CrashHandler crashHandler = CrashHandler.getInstance();
+		// crashHandler.init(getApplicationContext());
 
 		// CalligraphyConfig.initDefault("fonts/hwxh.ttf", R.attr.fontPath);
 		// CalligraphyConfig.initDefault("fonts/boby.ttf", R.attr.fontPath);
+
+		MedicalConstant.NotoSans_Regular = Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf");
 	}
 
 	public boolean isMainProcess() {

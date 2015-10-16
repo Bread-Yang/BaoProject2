@@ -95,6 +95,10 @@ public class AppointmentInfo implements Parcelable {
 	@SerializedName("OPStatus")
 	@Expose
 	private int OPStatus;
+	
+	@SerializedName("OPType")
+	@Expose
+	private int OPType;
 
 	@SerializedName("ClinicID")
 	@Expose
@@ -154,6 +158,9 @@ public class AppointmentInfo implements Parcelable {
 
 	@Transient
 	private int type = UNKNOW;
+	
+	@Transient
+	private int group_num = 0;
 
 	public AppointmentInfo() {
 		// TODO Auto-generated constructor stub
@@ -229,6 +236,14 @@ public class AppointmentInfo implements Parcelable {
 
 	public void setOPStatus(int oPStatus) {
 		OPStatus = oPStatus;
+	}
+	
+	public int getOPType() {
+		return OPType;
+	}
+
+	public void setOPType(int oPType) {
+		OPType = oPType;
 	}
 
 	public int getClinicID() {
@@ -365,6 +380,14 @@ public class AppointmentInfo implements Parcelable {
 		this.type = type;
 	}
 
+	public int getGroup_num() {
+		return group_num;
+	}
+
+	public void setGroup_num(int group_num) {
+		this.group_num = group_num;
+	}
+
 	@Override
 	public String toString() {
 		return "AppointmentInfo [AppointmentNo=" + OPNo + ", AppointmentStatus=" + OPStatus + ", ClinicID=" + ClinicID + ", DoctorID=" + DoctorID
@@ -376,6 +399,7 @@ public class AppointmentInfo implements Parcelable {
 	public AppointmentInfo(Parcel source) {
 		this.OPNo = source.readInt();
 		this.OPStatus = source.readInt();
+		this.OPType = source.readInt();
 		this.ClinicID = source.readInt();
 		this.DoctorID = source.readInt();
 		this.OPID = source.readInt();
@@ -398,6 +422,7 @@ public class AppointmentInfo implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(OPNo);
 		dest.writeInt(OPStatus);
+		dest.writeInt(OPType);
 		dest.writeInt(ClinicID);
 		dest.writeInt(DoctorID);
 		dest.writeInt(OPID);

@@ -12,7 +12,7 @@ import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuItem
 import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView;
 import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.mdground.yizhida.R;
-import com.mdground.yizhida.activity.appointment.PatientAppointmentActivity;
+import com.mdground.yizhida.activity.appointment.PatientDetailActivity;
 import com.mdground.yizhida.activity.base.BaseActivity;
 import com.mdground.yizhida.activity.doctorlist.DoctorSelectListActivity;
 import com.mdground.yizhida.activity.searchpatient.SearchPatientActivity;
@@ -366,7 +366,7 @@ public class WaitingRomActivity extends BaseActivity implements WaitingRomView, 
 		appointments.remove(nextAppiontment);
 
 		Intent intent = new Intent();
-		intent.setClass(this, PatientAppointmentActivity.class);
+		intent.setClass(this, PatientDetailActivity.class);
 		intent.putExtra(MemberConstant.APPOINTMENT, nextAppiontment);
 
 		startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
@@ -408,7 +408,7 @@ public class WaitingRomActivity extends BaseActivity implements WaitingRomView, 
 		if (appointment.getType() == AppointmentInfo.GROUP) {
 			return;
 		}
-		Intent intent = new Intent(WaitingRomActivity.this, PatientAppointmentActivity.class);
+		Intent intent = new Intent(WaitingRomActivity.this, PatientDetailActivity.class);
 		appointment.setOPEMR(currentDoctor.getEMRType());
 		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
 		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, position - 1);

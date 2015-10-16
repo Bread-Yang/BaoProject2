@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/hidden_layout"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#222222"
-        android:gravity="right"
-        android:tag="hidden_layout" >
+    <RelativeLayout
+        android:id="@+id/rlt_group"
+        android:layout_width="fill_parent"
+        android:background="#EAEBEC"
+        android:layout_height="48dp" >
 
         <TextView
-            android:id="@+id/operator_name"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:background="@null"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:id="@+id/tv_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="25dp"
+            android:text="8:30~10:00"
+            android:textColor="#818081"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/tv_group_num"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_marginRight="25dp"
+            android:text="8人"
+            android:textColor="#818081"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/basic_info_layout"
@@ -33,17 +46,25 @@
         <TextView
             android:id="@+id/sequence_number"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:ellipsize="start"
             android:gravity="center_vertical"
-            android:textStyle="bold"
             android:paddingLeft="20dp"
             android:singleLine="true"
             android:text="0212"
             android:textColor="@color/mylist_item_text"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_booking_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sequence_number"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/booking" />
 
         <TextView
             android:id="@+id/name_text"
@@ -53,13 +74,13 @@
             android:layout_toRightOf="@+id/sequence_number"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:textStyle="bold"
             android:lines="1"
             android:paddingLeft="20dp"
             android:singleLine="true"
             android:text=""
             android:textColor="@color/mylist_item_text"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/sex_text"
@@ -112,4 +133,4 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-</FrameLayout>
+</LinearLayout>

@@ -116,7 +116,7 @@ public class AppointmentAdapter extends SimpleAdapter<AppointmentInfo> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.waitting_patient_list_item;
+		return R.layout.item_waitting_patient_list;
 	}
 
 	private void initNurseOperator(ViewHolder viewHolder, AppointmentInfo appointment) {

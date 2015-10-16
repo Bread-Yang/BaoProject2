@@ -28,7 +28,7 @@ import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuList
 import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
-import com.mdground.yizhida.activity.appointment.PatientAppointmentActivity;
+import com.mdground.yizhida.activity.appointment.PatientDetailActivity;
 import com.mdground.yizhida.activity.base.BaseFragment;
 import com.mdground.yizhida.activity.searchpatient.SearchPatientActivity;
 import com.mdground.yizhida.adapter.AppointmentAdapter;
@@ -303,6 +303,7 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 						continue;
 					}
 					nextAppiontment = appointment;
+					index = i;
 					break;
 				}
 			} else {
@@ -314,10 +315,12 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 		if (nextAppiontment == null) {
 			return;
 		}
-		appointments.remove(nextAppiontment);
+//		appointments.remove(nextAppiontment);
 		nextAppiontment.setDoctorName(employee.getEmployeeName());
-		Intent intent = new Intent(getActivity(), PatientAppointmentActivity.class);
+		Intent intent = new Intent(getActivity(), PatientDetailActivity.class);
 		intent.putExtra(MemberConstant.APPOINTMENT, nextAppiontment);
+		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
+		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
 		presenter.callPatient(nextAppiontment, employee.getEmployeeName());
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 	}
@@ -399,11 +402,21 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// 跳转到病人详情页
 		AppointmentInfo appointment = appointments.get(position - 1);
-		if (appointment.getType() == AppointmentInfo.GROUP) {
-			return;
-		}
+//		if (appointment.getType() == AppointmentInfo.GROUP) {
+//			return;
+//		}
 		appointment.setDoctorName(employee.getEmployeeName());
-		Intent intent = new Intent(getActivity(), PatientAppointmentActivity.class);
+		
+//		ArrayList<AppointmentInfo> tempList = new ArrayList<AppointmentInfo>();
+//		tempList.addAll(appointments);
+//		
+//		for (int i = 0; i < appointments.size(); i++) {
+//			if (appointments.get(i).getType() == AppointmentInfo.GROUP) {
+//				tempList.remove(i);
+//			}
+//		}
+		
+		Intent intent = new Intent(getActivity(), PatientDetailActivity.class);
 		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
 		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, position - 1);
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);

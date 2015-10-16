@@ -3,17 +3,20 @@ package com.mdground.yizhida.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.handmark.pulltorefresh.library.extras.pinnedsectionlistview.PinnedSectionListView.PinnedSectionListAdapter;
+import com.mdground.yizhida.MedicalConstant;
+import com.mdground.yizhida.R;
+import com.mdground.yizhida.bean.AppointmentInfo;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.handmark.pulltorefresh.library.extras.pinnedsectionlistview.PinnedSectionListView.PinnedSectionListAdapter;
-import com.mdground.yizhida.R;
-import com.mdground.yizhida.bean.AppointmentInfo;
 
 /**
  * 预约信息适配器
@@ -35,7 +38,11 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 	}
 
 	protected static class ViewHolder extends BaseHolder {
+		private RelativeLayout rlt_group;
+		private TextView tv_group_name;
+		private TextView tv_group_num;
 		private TextView squencesNmeber;
+		private ImageView iv_booking_icon;
 		private TextView patientName;
 		private TextView patientSex;
 		private TextView patientAge;
@@ -79,31 +86,57 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 		BaseHolder holder = null;
 		int type = getItemViewType(position);
 		if (convertView == null) {
-			switch (type) {
-			case AppointmentInfo.GROUP:
-				convertView = mInflater.inflate(R.layout.waitting_patient_group_item, null);
-				holder = createGroupHolder(convertView);
-				convertView.setTag(holder);
-				break;
-			default:
-				convertView = mInflater.inflate(R.layout.waitting_patient_list_item, null);
-				holder = createItemHolder(convertView);
-				convertView.setTag(holder);
-				break;
-			}
+			convertView = mInflater.inflate(R.layout.item_waitting_patient_list, null);
+			holder = createItemHolder(convertView);
+			convertView.setTag(holder);
+			// switch (type) {
+			// case AppointmentInfo.GROUP:
+			// convertView =
+			// mInflater.inflate(R.layout.waitting_patient_group_item, null);
+			// holder = createGroupHolder(convertView);
+			// convertView.setTag(holder);
+			// break;
+			// default:
+			// convertView =
+			// mInflater.inflate(R.layout.waitting_patient_list_item, null);
+			// holder = createItemHolder(convertView);
+			// convertView.setTag(holder);
+			// break;
+			// }
 		} else {
 			holder = (BaseHolder) convertView.getTag();
 		}
 
-		switch (type) {
-		case AppointmentInfo.GROUP:
-			bindGroupData(position, holder);
-			break;
-
-		default:
-			bindItemData(position, holder);
-			break;
+//		switch (type) {
+//		case AppointmentInfo.GROUP:
+//			bindGroupData(position, holder);
+//			break;
+//
+//		default:
+//			bindItemData(position, holder);
+//			break;
+//		}
+		
+		RelativeLayout rlt_group = ((ViewHolder)holder).rlt_group;
+		TextView tv_group_name = ((ViewHolder)holder).tv_group_name;
+		TextView tv_group_num = ((ViewHolder)holder).tv_group_num;
+		
+		if (type != AppointmentInfo.GROUP) {
+			rlt_group.setVisibility(View.GONE);
+		} else {
+			rlt_group.setVisibility(View.VISIBLE);
+			tv_group_name.setTypeface(MedicalConstant.NotoSans_Regular);
+			
+			int datePeriod = appointmentList.get(position).getOPDatePeriod();
+			String timeRange = calcTime(datePeriod);
+			tv_group_name.setText(timeRange);
+			
+			String group_num = mContext.getResources().getString(R.string.group_num);
+			group_num = String.format(group_num, appointmentList.get(position).getGroup_num());
+			tv_group_num.setText(group_num);
 		}
+
+		bindItemData(position, holder);
 
 		return convertView;
 	}
@@ -112,7 +145,7 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 		if (!(holder instanceof GroupViewHolder)) {
 			return;
 		}
-		
+
 		GroupViewHolder groupHolder = (GroupViewHolder) holder;
 		AppointmentInfo appointmentInfo = getItem(position);
 		// if (appointmentInfo.getType() == AppointmentInfo.GROUP) {
@@ -148,6 +181,7 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 			String pattern = "0000.";
 			java.text.DecimalFormat df = new java.text.DecimalFormat(pattern);
 			viewHolder.squencesNmeber.setText(df.format(appointment.getOPNo()));
+			viewHolder.squencesNmeber.setTypeface(MedicalConstant.NotoSans_Regular);
 			viewHolder.patientName.setText(appointment.getPatientName());
 			viewHolder.remark.setText(appointment.getRemark());
 			long status = appointment.getOPStatus();
@@ -169,6 +203,11 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 				viewHolder.squencesNmeber.setTextColor(Color.BLACK);
 				viewHolder.remark.setTextColor(Color.GRAY);
 			}
+			if (appointment.getOPType() == 1) { // 是微信预约
+				viewHolder.iv_booking_icon.setVisibility(View.VISIBLE);
+			} else {
+				viewHolder.iv_booking_icon.setVisibility(View.INVISIBLE);
+			}
 		}
 
 	}
@@ -181,7 +220,11 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 	private BaseHolder createItemHolder(View convertView) {
 		ViewHolder itemHolder = new ViewHolder();
+		itemHolder.rlt_group = (RelativeLayout) convertView.findViewById(R.id.rlt_group);
+		itemHolder.tv_group_name = (TextView) convertView.findViewById(R.id.tv_group_name);
+		itemHolder.tv_group_num = (TextView) convertView.findViewById(R.id.tv_group_num);
 		itemHolder.squencesNmeber = (TextView) convertView.findViewById(R.id.sequence_number);
+		itemHolder.iv_booking_icon = (ImageView) convertView.findViewById(R.id.iv_booking_icon);
 		itemHolder.patientName = (TextView) convertView.findViewById(R.id.name_text);
 		itemHolder.patientSex = (TextView) convertView.findViewById(R.id.sex_text);
 		itemHolder.patientAge = (TextView) convertView.findViewById(R.id.age_text);

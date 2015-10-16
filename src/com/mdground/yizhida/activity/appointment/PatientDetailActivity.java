@@ -48,8 +48,8 @@ import android.widget.TextView;
  * @author Administrator
  * 
  */
-public class PatientAppointmentActivity extends PatientCommonActivity
-		implements OnClickListener, PatientAppointmentView {
+public class PatientDetailActivity extends PatientCommonActivity
+		implements OnClickListener, PatientDetailView {
 
 	private static final int OPT_PASS = 1;
 	private static final int OPT_REQUEUE = 2;
@@ -73,7 +73,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 	private CircleImageView circleHeadImage;
 
-	private PatientAppointmentPresenter presenter;
+	private PatientDetailPresenter presenter;
 
 	// 预约状态
 	private int opStatus;
@@ -273,7 +273,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			role = loginEmployee.getEmployeeRole();
 		}
 
-		presenter = new PatientAppointmentPresenterImpl(this);
+		presenter = new PatientDetailPresenterImpl(this);
 		presenter.getPatientDetail(appointmentInfo.getPatientID());
 
 		mSymptomDao = SymptomDao.getInstance(this);
@@ -424,7 +424,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			break;
 		case R.id.iv_edit:
 			dialog_patient_detail.dismiss();
-			Intent intent = new Intent(PatientAppointmentActivity.this, PatientEditActivity.class);
+			Intent intent = new Intent(PatientDetailActivity.this, PatientEditActivity.class);
 			intent.putExtra(MemberConstant.PATIENT, mPatient);
 			startActivityForResult(intent, MemberConstant.PATIENT_REQUEST_CODE);
 			break;

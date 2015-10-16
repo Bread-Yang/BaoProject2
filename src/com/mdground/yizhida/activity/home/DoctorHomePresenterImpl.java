@@ -50,13 +50,13 @@ public class DoctorHomePresenterImpl implements DoctorHomePresenter, ConnectStau
 					});
 					if ((status & AppointmentInfo.STATUS_WATTING) != 0) {
 						appointmentInfos = AppointmentHelper.sortAppoint(appointmentInfos);
-//						appointmentInfos = AppointmentHelper.groupAppointment(appointmentInfos, new Comparator<Integer>() {
-// 
-//							@Override
-//							public int compare(Integer lhs, Integer rhs) {
-//								return lhs.compareTo(rhs);
-//							}
-//						});
+						appointmentInfos = AppointmentHelper.groupAppointment(appointmentInfos, new Comparator<Integer>() {
+ 
+							@Override
+							public int compare(Integer lhs, Integer rhs) {
+								return lhs.compareTo(rhs);
+							}
+						});
 					} else {
 						appointmentInfos = AppointmentHelper.sort2Appoint(appointmentInfos);
 						appointmentInfos = AppointmentHelper.groupAppointment(appointmentInfos, new Comparator<Integer>() {
