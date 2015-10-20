@@ -16,7 +16,7 @@ import com.mdground.yizhida.util.RegexUtil;
 import com.mdground.yizhida.util.Tools;
 import com.mdground.yizhida.view.TitleBar;
 
-public class VerifyPasswordActivity extends TitleBarActivity implements VerifyPasswordView, OnClickListener {
+public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswordView, OnClickListener {
 
 	private VerifyPasswordPresenter presenter;
 	private Button btnConfirm;
@@ -28,7 +28,7 @@ public class VerifyPasswordActivity extends TitleBarActivity implements VerifyPa
 
 	@Override
 	public int getContentLayout() {
-		return R.layout.activity_password_verify2;
+		return R.layout.activity_password_code;
 	}
 
 	@Override

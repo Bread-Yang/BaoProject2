@@ -2,55 +2,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg2" >
+    android:background="@drawable/login_bg" >
 
-    <TextView
-        android:id="@+id/modify_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="132dp"
-        android:text="需要修改账户密码"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffff"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/first_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/modify_note"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:text="首次使用"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/weclome_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/first_note"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
-        android:text="欢迎使用医得馆科技的医直达"
-        android:textColor="#ffffff"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/nextBtn"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/modify_note"
-        android:layout_margin="20dp"
-        android:background="@drawable/button3_nor"
-        android:gravity="center"
-        android:onClick="nextStep"
-        android:padding="15dp"
-        android:text="下一步"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:background="@drawable/login_bg2" >
+
+        <TextView
+            android:id="@+id/tv_welcome_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="130dp"
+            android:text="欢迎使用医得馆科技的医直达"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_first_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_welcome_note"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:text="首次使用"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/modify_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_first_note"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:text="需要修改账户密码"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btn_change_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_ignore_step"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button3_nor"
+            android:gravity="center"
+            android:onClick="nextStep"
+            android:padding="15dp"
+            android:text="@string/change_password"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_ignore_step"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button3_nor"
+            android:gravity="center"
+            android:onClick="navigateToHome"
+            android:padding="15dp"
+            android:text="@string/ignore_step"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

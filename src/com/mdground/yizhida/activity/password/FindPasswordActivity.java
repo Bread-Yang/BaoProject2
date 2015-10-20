@@ -95,7 +95,7 @@ public class FindPasswordActivity extends TitleBarActivity implements OnClickLis
 
 	@Override
 	public void navigateToVerfyCode() {
-		Intent intent = new Intent(this, VerifyPasswordActivity.class);
+		Intent intent = new Intent(this, VerifyCodeActivity.class);
 		intent.putExtra(MemberConstant.PHONE, etPhone.getText().toString());
 		startActivityForResult(intent, MemberConstant.PASSWORD_REQUEST_CODE);
 	}

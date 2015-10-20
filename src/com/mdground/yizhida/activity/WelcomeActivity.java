@@ -7,7 +7,8 @@ import android.view.View;
 import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.base.BaseActivity;
-import com.mdground.yizhida.activity.password.VerifyPasswordActivity;
+import com.mdground.yizhida.activity.home.MainActivity;
+import com.mdground.yizhida.activity.password.VerifyCodeActivity;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.constant.MemberConstant;
 
@@ -26,9 +27,18 @@ public class WelcomeActivity extends BaseActivity {
 			return;
 		}
 		Intent intent = new Intent();
-		intent.setClass(WelcomeActivity.this, VerifyPasswordActivity.class);
+		intent.setClass(WelcomeActivity.this, VerifyCodeActivity.class);
 		intent.putExtra(MemberConstant.PHONE, loginEmployee.getWorkPhone());
 		startActivityForResult(intent, MemberConstant.PASSWORD_REQUEST_CODE);
+		finish();
+	}
+
+	public void navigateToHome(View view) {
+		Intent intent = new Intent(this, MainActivity.class);
+
+		intent.putExtra(MemberConstant.EMPLOYEE_ROLE,
+				((MedicalAppliction) this.getApplication()).getLoginEmployee().getEmployeeRole());
+		startActivity(intent);
 		finish();
 	}
 
@@ -46,25 +56,25 @@ public class WelcomeActivity extends BaseActivity {
 	@Override
 	public void findView() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void initMemberData() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setListener() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

@@ -10,6 +10,10 @@
     <string name="error_password_null">请输入密码</string>
     <string name="logining">正在登录</string>
     <string name="request_error">请求异常</string>
+    
+    <!-- 修改密码 -->
+    <string name="change_password">修改密码</string>
+    <string name="ignore_step">跳过</string>
 
     <!-- 忘记密码界面 -->
     <string name="auth_code_error">验证码错误，请重新输入</string>

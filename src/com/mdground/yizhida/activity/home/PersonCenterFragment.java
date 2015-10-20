@@ -19,7 +19,7 @@ import com.mdground.yizhida.activity.ProtocolActivity;
 import com.mdground.yizhida.activity.base.BaseFragment;
 import com.mdground.yizhida.activity.income.IncomeActivity;
 import com.mdground.yizhida.activity.login.LoginActivity;
-import com.mdground.yizhida.activity.password.VerifyPasswordActivity;
+import com.mdground.yizhida.activity.password.VerifyCodeActivity;
 import com.mdground.yizhida.activity.personedit.PersonEditActivity;
 import com.mdground.yizhida.activity.rota.RotaActivity;
 import com.mdground.yizhida.activity.schedule.ScheduleTableActivity;
@@ -173,7 +173,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 			this.getActivity().startActivity(intent);
 			break;
 		case R.id.change_password:
-			intent.setClass(this.getActivity(), VerifyPasswordActivity.class);
+			intent.setClass(this.getActivity(), VerifyCodeActivity.class);
 			intent.putExtra(MemberConstant.PHONE, loginEmployee.getWorkPhone());
 			this.getActivity().startActivityForResult(intent, MemberConstant.PASSWORD_REQUEST_CODE);
 			break;
