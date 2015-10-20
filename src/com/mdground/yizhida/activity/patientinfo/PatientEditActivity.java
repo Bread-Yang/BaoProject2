@@ -198,7 +198,8 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 		EtNameValue.setText(mPatient.getPatientName());
 		EtEnglishValue.setText(mPatient.getForeignName());
 		TvSexValue.setText(mPatient.getGenderStr());
-		TvBirthdayValue.setText(DateUtils.getDateString(mPatient.getDOB(), new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA)));
+		TvBirthdayValue
+				.setText(DateUtils.getDateString(mPatient.getDOB(), new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA)));
 		EtPhoneValue.setText(mPatient.getPhone());
 		EtIdCardValue.setText(mPatient.getIDCard());
 		EtUrgencyConcat.setText(mPatient.getEmergencyName());// 紧急联系人
@@ -291,7 +292,8 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 			return null;
 		} else {
 			findViewById(R.id.birthday_notify).setVisibility(View.GONE);
-			mPatient.setDOB(DateUtils.toDate(TvBirthdayValue.getText().toString(), new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA)));
+			mPatient.setDOB(DateUtils.toDate(TvBirthdayValue.getText().toString(),
+					new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA)));
 		}
 
 		if (EtPhoneValue.getText() == null || EtPhoneValue.getText().toString().equals("")) {
@@ -300,7 +302,9 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 			// return null;
 			mPatient.setPhone("");
 		} else {
-			if (/*!RegexUtil.isPhoneNumber(EtPhoneValue.getText().toString())*/ EtPhoneValue.getText().toString() == null || EtPhoneValue.getText().toString().length() != 11) {
+			if (/*
+				 * !RegexUtil.isPhoneNumber(EtPhoneValue.getText().toString())
+				 */ EtPhoneValue.getText().toString() == null || EtPhoneValue.getText().toString().length() != 11) {
 				showToast("手机格式不支持");
 				findViewById(R.id.phone_notify).setVisibility(View.VISIBLE);
 				return null;
@@ -354,7 +358,8 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (MemberConstant.LOCATION_REQUEST_CODE == requestCode && resultCode == MemberConstant.LOCATION_RESOULT_CODE && intent != null) {
+		if (MemberConstant.LOCATION_REQUEST_CODE == requestCode && resultCode == MemberConstant.LOCATION_RESOULT_CODE
+				&& intent != null) {
 			mPatient.setCountryID(intent.getIntExtra(MemberConstant.LOCATION_CONTURY_ID, 86));
 			mPatient.setCityID(intent.getIntExtra(MemberConstant.LOCATION_CITY_ID, -1));
 			mPatient.setProvinceID(intent.getIntExtra(MemberConstant.LOCATION_PROVINCE_ID, -1));
@@ -362,7 +367,8 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 			mPatient.setStreet(intent.getStringExtra(MemberConstant.LOCATION_STREET));
 			mPatient.setAddress(intent.getStringExtra(MemberConstant.LOCATION_ADDRESS));
 			TvAddressValue.setText(mPatient.getAddress());
-		} else if (MemberConstant.APPIONTMENT_REQUEST_CODE == requestCode && resultCode == MemberConstant.APPIONTMENT_RESOULT_CODE && intent != null) {
+		} else if (MemberConstant.APPIONTMENT_REQUEST_CODE == requestCode
+				&& resultCode == MemberConstant.APPIONTMENT_RESOULT_CODE && intent != null) {
 			setResult(resultCode, intent);
 			finish();
 		} else if (requestCode == GetPhotoPop.PHOTO_REQUEST_GALLERY) {// 从相册返回的数据
@@ -597,10 +603,11 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 		}
 
 		if (datePickerDialog == null) {
-			datePickerDialog = new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-					calendar.get(Calendar.DAY_OF_MONTH));
+			datePickerDialog = new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
+					calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		} else {
-			datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+					calendar.get(Calendar.DAY_OF_MONTH));
 		}
 		datePickerDialog.show();
 	}
@@ -641,7 +648,28 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		TvBirthdayValue.setText(year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日");
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+
+		Calendar currentCalendar = Calendar.getInstance();
+		currentCalendar.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+
+		Calendar targetCalendar = Calendar.getInstance();
+		targetCalendar.set(year, monthOfYear, dayOfMonth);
+		
+		long currentMillis = currentCalendar.getTimeInMillis();
+		long targetMillis = targetCalendar.getTimeInMillis();
+
+		long interval = currentMillis - targetMillis;
+		
+		long minimumInterval = 30L * 24 * 3600 * 1000;
+
+		if (interval > minimumInterval) { // 大于30天
+			TvBirthdayValue.setText(year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日");
+		} else {
+			Toast.makeText(getApplicationContext(), R.string.birthday_no_less_than_30, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

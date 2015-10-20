@@ -294,5 +294,30 @@ public class DateUtils {
 		}
 		return null;
 	}
+	
+	/**
+	 * 当前时段和预约的时段对比
+	 * 
+	 * @param opPeriod 
+	 * 预约的时段
+	 * 
+	 * @return  
+	 * 1 : 大于, 0 : 等于, -1 : 小于
+	 */
+	public static int compareToCurrentPeriod(int opPeriod) {
+		Calendar c = Calendar.getInstance();
+		int currentHour = c.get(Calendar.HOUR_OF_DAY); // 当前时间
+
+		currentHour = currentHour / 2 + 1;
+		
+		if (opPeriod > currentHour) {
+			return 1;
+		} else if (opPeriod == currentHour) {
+			return 0;
+		} else {
+			return -1;
+		}
+		
+	}
 
 }

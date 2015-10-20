@@ -401,7 +401,7 @@ public class PersonEditActivity extends BaseActivity implements OnClickListener 
 			@Override
 			public void onSuccess(ResponseData response) {
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
-					showToast("保存成功");
+//					showToast("保存成功");
 				} else {
 					requestError(response.getCode(), response.getMessage());
 				}

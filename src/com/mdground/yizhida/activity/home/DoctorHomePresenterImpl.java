@@ -45,13 +45,16 @@ public class DoctorHomePresenterImpl implements DoctorHomePresenter, ConnectStau
 			@Override
 			public void onSuccess(ResponseData response) {
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
-//					L.e(this, "getAppointmentInfoListByDoctor response.getContent : " + response.getContent());
-					List<AppointmentInfo> appointmentInfos = response.getContent(new TypeToken<List<AppointmentInfo>>() {
+					// L.e(this, "getAppointmentInfoListByDoctor
+					// response.getContent : " + response.getContent());
+					List<AppointmentInfo> appointmentInfos = response
+							.getContent(new TypeToken<List<AppointmentInfo>>() {
 					});
 					if ((status & AppointmentInfo.STATUS_WATTING) != 0) {
 						appointmentInfos = AppointmentHelper.sortAppoint(appointmentInfos);
-						appointmentInfos = AppointmentHelper.groupAppointment(appointmentInfos, new Comparator<Integer>() {
- 
+						appointmentInfos = AppointmentHelper.groupAppointment(status, appointmentInfos,
+								new Comparator<Integer>() {
+
 							@Override
 							public int compare(Integer lhs, Integer rhs) {
 								return lhs.compareTo(rhs);
@@ -59,7 +62,8 @@ public class DoctorHomePresenterImpl implements DoctorHomePresenter, ConnectStau
 						});
 					} else {
 						appointmentInfos = AppointmentHelper.sort2Appoint(appointmentInfos);
-						appointmentInfos = AppointmentHelper.groupAppointment(appointmentInfos, new Comparator<Integer>() {
+						appointmentInfos = AppointmentHelper.groupAppointment(status, appointmentInfos,
+								new Comparator<Integer>() {
 
 							@Override
 							public int compare(Integer lhs, Integer rhs) {
@@ -142,7 +146,7 @@ public class DoctorHomePresenterImpl implements DoctorHomePresenter, ConnectStau
 	 */
 	@Override
 	public void callPatient(AppointmentInfo appointment, String doctorName) {
-		if (!ScreenManager.getInstance().isConnected()) {
+		if (!ScreenManager.getInstance().isConnected() || appointment.getOPStatus() != AppointmentInfo.STATUS_WATTING) { // 只有处于"候诊中"的状态才能叫
 			// mView.showToast("请重新连接导诊屏");
 			return;
 		}

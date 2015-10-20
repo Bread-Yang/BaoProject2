@@ -201,7 +201,8 @@ public class SearchPatientActivity extends BaseActivity implements OnItemClickLi
 			addPersonLayout.setVisibility(View.GONE);
 			LvSearchResult.setAdapter(searchSimpleAdapter);
 		}
-		if (!isDestroyed()) {
+//		if (!isDestroyed()) {
+		if (!isFinishing()) {
 			searchDetailAdapter.notifyDataSetChanged();
 			searchSimpleAdapter.notifyDataSetChanged();
 		}

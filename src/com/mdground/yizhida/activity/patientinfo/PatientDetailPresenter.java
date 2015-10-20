@@ -13,4 +13,6 @@ public interface PatientDetailPresenter {
 	public void updateAppointment(AppointmentInfo appointment, int status);
 	
 	public void saveAppointment(AppointmentInfo appointment);
+	
+	public void getPatientMedicalHistory(int patientId);
 }

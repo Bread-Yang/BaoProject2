@@ -50,6 +50,8 @@ public class AppointmentInfo implements Parcelable {
 	public static final int UNKNOW = 4;
 	@Transient
 	public static final int GROUP = 5;
+	@Transient
+	public static final int EMPTY = 6;
 
 	/* 等待支付 */
 	@Transient
@@ -359,7 +361,7 @@ public class AppointmentInfo implements Parcelable {
 	}
 
 	public int getType() {
-		if (type == GROUP) {
+		if (type == GROUP || type == EMPTY) {
 			return type;
 		}
 
@@ -415,6 +417,7 @@ public class AppointmentInfo implements Parcelable {
 		long tmpCreateTime = source.readLong();
 		this.CreateTime = tmpCreateTime == -1 ? null : new Date(tmpCreateTime);
 		this.DoctorName = source.readString();
+		this.OPDatePeriod = source.readInt();
 		this.OPEMR = source.readString();
 	}
 
@@ -448,6 +451,7 @@ public class AppointmentInfo implements Parcelable {
 			dest.writeLong(CreateTime.getTime());
 		}
 		dest.writeString(DoctorName);
+		dest.writeInt(OPDatePeriod);
 		dest.writeString(OPEMR);
 	}
 

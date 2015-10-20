@@ -51,7 +51,9 @@
                     android:id="@+id/headlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" >
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/head_title"
@@ -83,7 +85,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_doctor_item"
-                    android:padding="10dp" >
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/name_title"
@@ -143,11 +147,11 @@
                         android:id="@+id/account_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/enter_3"
                         android:layout_toRightOf="@+id/account_title"
                         android:gravity="center_vertical|right"
-                        android:text="1234567"
                         android:textColor="@color/mylist_item_text"
                         android:textSize="18sp" />
                 </RelativeLayout>
@@ -158,7 +162,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
                     android:background="@drawable/bg_doctor_item"
-                    android:padding="10dp" >
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/qr_title"
@@ -191,7 +197,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
                     android:background="@drawable/bg_doctor_item"
-                    android:padding="10dp" >
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/address_title"
@@ -238,7 +246,9 @@
                     android:layout_marginBottom="-1dp"
                     android:layout_marginTop="-1dp"
                     android:background="@drawable/bg_doctor_item"
-                    android:padding="10dp" >
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/sex_title"
@@ -275,7 +285,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
                     android:background="@drawable/bg_doctor_item"
-                    android:padding="10dp" >
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/birth_title"
@@ -333,6 +345,7 @@
                         android:id="@+id/id_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/enter_11"
                         android:textColor="@color/mylist_item_text"
@@ -379,6 +392,7 @@
                         android:id="@+id/practice_code_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/practice_code_enter"
                         android:text="MS12345678"
@@ -390,9 +404,9 @@
                     android:id="@+id/practice_category_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
                     android:background="@drawable/bg_doctor_item"
                     android:clickable="true"
-                    android:layout_marginBottom="-1dp"
                     android:padding="10dp" >
 
                     <TextView
@@ -416,6 +430,7 @@
                         android:id="@+id/practice_category_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/practice_category_enter"
                         android:text="内科"
@@ -427,9 +442,9 @@
                     android:id="@+id/practice_scope_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="-1dp"
                     android:background="@drawable/bg_doctor_item"
                     android:clickable="true"
-                    android:layout_marginBottom="-1dp"
                     android:padding="10dp" >
 
                     <TextView
@@ -453,6 +468,7 @@
                         android:id="@+id/practice_scope_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/practice_scope_enter"
                         android:text="医得馆"
@@ -464,9 +480,11 @@
                     android:id="@+id/collegelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_doctor_item"
                     android:layout_marginBottom="-1dp"
-                    android:padding="10dp" >
+                    android:background="@drawable/bg_doctor_item"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/college_title"
@@ -501,9 +519,11 @@
                     android:id="@+id/professionlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_doctor_item"
                     android:layout_marginBottom="-1dp"
-                    android:padding="10dp" >
+                    android:background="@drawable/bg_doctor_item"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/profession_title"
@@ -573,9 +593,11 @@
                     android:id="@+id/resumelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_doctor_item"
                     android:layout_marginBottom="-1dp"
-                    android:padding="10dp" >
+                    android:background="@drawable/bg_doctor_item"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/resume_title"

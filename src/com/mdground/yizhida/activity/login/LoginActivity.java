@@ -1,5 +1,18 @@
 package com.mdground.yizhida.activity.login;
 
+import com.mdground.yizhida.R;
+import com.mdground.yizhida.activity.WelcomeActivity;
+import com.mdground.yizhida.activity.base.BaseActivity;
+import com.mdground.yizhida.activity.home.MainActivity;
+import com.mdground.yizhida.activity.password.FindPasswordActivity;
+import com.mdground.yizhida.api.utils.PxUtil;
+import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.dialog.LoadingDialog;
+import com.mdground.yizhida.util.PreferenceUtils;
+import com.mdground.yizhida.view.ClearEditText;
+import com.mdground.yizhida.view.ResizeLayout;
+import com.mdground.yizhida.view.ResizeLayout.OnResizeListener;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,21 +20,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.mdground.yizhida.R;
-import com.mdground.yizhida.activity.WelcomeActivity;
-import com.mdground.yizhida.activity.base.BaseActivity;
-import com.mdground.yizhida.activity.home.MainActivity;
-import com.mdground.yizhida.activity.password.FindPasswordActivity;
-import com.mdground.yizhida.constant.MemberConstant;
-import com.mdground.yizhida.dialog.LoadingDialog;
-import com.mdground.yizhida.util.PreferenceUtils;
-import com.mdground.yizhida.view.ClearEditText;
-import com.mdground.yizhida.view.ResizeLayout;
-import com.mdground.yizhida.view.ResizeLayout.OnResizeListener;
 
 public class LoginActivity extends BaseActivity implements OnResizeListener, OnClickListener, LoginView {
 	private ResizeLayout LoginRootLayout;
@@ -32,6 +35,7 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 	private ClearEditText EtPassword;
 	private TextView TvFindPassword;
 	private ScrollView mScrollView;
+	private ImageView iv_logo;
 
 	private LoginPresenter presenter;
 
@@ -49,6 +53,7 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 
 	@Override
 	public void findView() {
+		iv_logo = (ImageView) this.findViewById(R.id.iv_logo);
 		TvHorizaontalName = (TextView) this.findViewById(R.id.app_name_horizaontal);
 		TvVerticalName = (TextView) this.findViewById(R.id.app_name_vertical);
 		BtLogin = (Button) this.findViewById(R.id.login_button);
@@ -95,12 +100,12 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 				showToast("请输入账号");
 				return;
 			}
-			
+
 			if (EtPassword.getText() == null || EtPassword.getText().toString().equals("")) {
 				showToast("请输入密码");
 				return;
 			}
-			
+
 			presenter.validateCredentials(EtLoginName.getText().toString(), EtPassword.getText().toString());
 			break;
 		default:
@@ -111,23 +116,33 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 	@Override
 	public void OnResize(int w, final int h, int oldw, final int oldh) {
 		Log.e("LoginActivity", "OnResize()");
-		
+
 		Handler handler = new Handler(Looper.getMainLooper());
 		handler.post(new Runnable() {
 
 			@Override
 			public void run() {
-//				int offset = oldh - h;
-//				if (offset > 0) {
-//					//tanqi
-//					TvHorizaontalName.setVisibility(View.VISIBLE);
-//					TvVerticalName.setVisibility(View.GONE);
-//					mScrollView.scrollTo(0, offset);
-//				} else {
-//					TvHorizaontalName.setVisibility(View.GONE);
-//					TvVerticalName.setVisibility(View.VISIBLE);
-//				}
+				LayoutParams params = iv_logo.getLayoutParams();
 
+				int offset = oldh - h;
+				if (offset > 0) {
+					// tanqi
+					TvHorizaontalName.setVisibility(View.VISIBLE);
+					TvVerticalName.setVisibility(View.GONE);
+					mScrollView.scrollTo(0, offset / 10);
+
+					params.height = PxUtil.dip2px(getApplicationContext(), 80);
+					params.width = PxUtil.dip2px(getApplicationContext(), 80);
+
+				} else {
+					TvHorizaontalName.setVisibility(View.GONE);
+					TvVerticalName.setVisibility(View.VISIBLE);
+
+					params.height = PxUtil.dip2px(getApplicationContext(), 130);
+					params.width = PxUtil.dip2px(getApplicationContext(), 130);
+				}
+
+				iv_logo.setLayoutParams(params);
 			}
 		});
 

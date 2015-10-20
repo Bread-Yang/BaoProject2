@@ -164,7 +164,7 @@ public class PatientCommonActivity extends BaseActivity {
 		}
 		this.TvPatientSex.setText(patient.getGenderStr());
 		if (patient.getPhone() == null || patient.getPhone().equals("")) {
-			this.TvPhone.setVisibility(View.INVISIBLE);
+			this.TvPhone.setVisibility(View.GONE);
 		} else {
 			this.TvPhone.setText(patient.getPhone());
 		}

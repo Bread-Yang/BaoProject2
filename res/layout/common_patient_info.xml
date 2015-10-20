@@ -11,9 +11,10 @@
 
         <Button
             android:id="@+id/btn_left_arrow"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/left_arrow_blue" />
+            android:background="@null"
+            android:drawableLeft="@drawable/left_arrow_blue" />
 
         <TextView
             android:id="@+id/patient_no"
@@ -24,23 +25,23 @@
             android:gravity="center"
             android:paddingLeft="13dp"
             android:paddingRight="13dp"
-            android:text="4005"
             android:textColor="@color/white"
             android:textSize="25sp" />
 
         <Button
             android:id="@+id/btn_right_arrow"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/right_arrow_blue" />
+            android:background="@null"
+            android:drawableRight="@drawable/right_arrow_blue" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/import_patient_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" >
+        android:layout_marginTop="15dp" >
 
         <com.mdground.yizhida.view.CircleImageView
             android:id="@+id/headimg"
@@ -53,13 +54,13 @@
             android:id="@+id/patient_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/headimg"
             android:ellipsize="end"
             android:maxWidth="180dp"
             android:singleLine="true"
-            android:text="杨镕宾"
-            android:textSize="30sp" />
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/patient_age"
@@ -67,9 +68,9 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/patient_name"
             android:layout_below="@id/patient_name"
-            android:layout_marginTop="4dp"
-            android:text="25岁"
-            android:textSize="15sp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="2dp"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/patient_sex"
@@ -77,10 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/patient_age"
             android:layout_below="@id/patient_name"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="18dp"
             android:layout_toRightOf="@id/patient_age"
-            android:text="男"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="1dp"
@@ -106,6 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:drawableLeft="@drawable/phone"
+        android:visibility="gone"
         android:textColor="@color/mysel2_text"
         android:textSize="25sp" />
 

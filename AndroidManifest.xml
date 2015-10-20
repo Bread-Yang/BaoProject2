@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mdground.yizhida"
     android:versionCode="12"
-    android:versionName="1.0.10.15" >
+    android:versionName="1.0.10.20" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -100,7 +100,7 @@
             android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
         <activity
-            android:name="com.mdground.yizhida.activity.waiting.WaitingRomActivity"
+            android:name="com.mdground.yizhida.activity.waiting.WaitingRoomActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
@@ -161,7 +161,7 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name="com.mdground.yizhida.activity.appointment.PatientDetailActivity"
+            android:name="com.mdground.yizhida.activity.appointment.PatientAppointmentActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >

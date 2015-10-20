@@ -20,7 +20,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.base.BaseFragment;
 import com.mdground.yizhida.activity.searchpatient.SearchPatientActivity;
-import com.mdground.yizhida.activity.waiting.WaitingRomActivity;
+import com.mdground.yizhida.activity.waiting.WaitingRoomActivity;
 import com.mdground.yizhida.adapter.DoctorRoomListAdapter;
 import com.mdground.yizhida.api.bean.DoctorWaittingCount;
 import com.mdground.yizhida.bean.Doctor;
@@ -90,7 +90,7 @@ public class NurseHomeFragment extends BaseFragment implements OnClickListener, 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Intent intent = new Intent(getActivity(), WaitingRomActivity.class);
+		Intent intent = new Intent(getActivity(), WaitingRoomActivity.class);
 		intent.putExtra(MemberConstant.DOCTOR, doctors.get(position - 1));
 		intent.putParcelableArrayListExtra(MemberConstant.DOCTOR_LIST, doctors);
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);

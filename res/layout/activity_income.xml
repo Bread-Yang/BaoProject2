@@ -45,9 +45,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/layout_title_bar"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -59,7 +60,7 @@
                 android:textSize="18sp" />
 
             <com.mdground.yizhida.view.RiseNumberTextView
-                android:id="@+id/tv_today_income"
+                android:id="@+id/tv_yesterday_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="#5F522811"
@@ -69,38 +70,40 @@
                 android:text="0.00"
                 android:textColor="#FFFFFF"
                 android:textSize="100sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总收入（元）"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+                <com.mdground.yizhida.view.RiseNumberTextView
+                    android:id="@+id/tv_total_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:text="0.00"
+                    android:textColor="@android:color/white"
+                    android:textSize="26sp" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="#FFFFFF"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="总收入（元）"
-            android:textColor="#797e80"
-            android:textSize="15sp" />
-
-        <com.mdground.yizhida.view.RiseNumberTextView
-            android:id="@+id/tv_total_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0.00"
-            android:textColor="#FF6a15"
-            android:textSize="55sp" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="30dp" >
+        android:paddingTop="42dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -112,7 +115,7 @@
                 android:id="@+id/tv_week_income_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="近一周收入（元）"
+                android:text="近一周收入(元)"
                 android:textColor="#797e80"
                 android:textSize="15sp" />
 
@@ -121,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_week_income_title"
+                android:layout_marginTop="10dp"
                 android:text="0.00"
                 android:textColor="#797e80"
                 android:textSize="27sp" />
@@ -135,13 +139,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-             android:gravity="center_horizontal" >
+            android:gravity="center_horizontal" >
 
             <TextView
                 android:id="@+id/tv_month_income_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="近一月收入（元）"
+                android:text="近一月收入(元)"
                 android:textColor="#797e80"
                 android:textSize="15sp" />
 
@@ -150,6 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_month_income_title"
+                android:layout_marginTop="10dp"
                 android:text="0.00"
                 android:textColor="#797e80"
                 android:textSize="27sp" />
@@ -161,10 +166,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="30dp"
-        android:visibility="invisible" >
+        android:paddingTop="40dp"
+        android:visibility="visible" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -172,27 +177,30 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_total_withdraw_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已转出（元）"
+                android:text="已结算收入(元)"
                 android:textColor="#797e80"
                 android:textSize="15sp" />
 
             <com.mdground.yizhida.view.RiseNumberTextView
-                android:id="@+id/tv_turn_out"
+                android:id="@+id/tv_total_withdraw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_total_withdraw_title"
+                android:layout_marginTop="10dp"
                 android:text="0.00"
                 android:textColor="#797e80"
                 android:textSize="27sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@drawable/line1" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -200,20 +208,23 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_not_settle_balance_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="剩余金额（元）"
+                android:text="待结算收入(元)"
                 android:textColor="#797e80"
                 android:textSize="15sp" />
 
             <com.mdground.yizhida.view.RiseNumberTextView
-                android:id="@+id/tv_balance"
+                android:id="@+id/tv_not_settle_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_not_settle_balance_title"
+                android:layout_marginTop="10dp"
                 android:text="0.00"
                 android:textColor="#797e80"
                 android:textSize="27sp" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

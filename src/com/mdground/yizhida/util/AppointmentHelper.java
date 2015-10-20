@@ -1,6 +1,7 @@
 package com.mdground.yizhida.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -71,9 +72,29 @@ public class AppointmentHelper {
 		return appointments;
 	}
 
-	public static List<AppointmentInfo> groupAppointment(List<AppointmentInfo> appointmentList, Comparator<Integer> comparator) {
+	public static List<AppointmentInfo> groupAppointment(int opStatus, List<AppointmentInfo> appointmentList,
+			Comparator<Integer> comparator) {
+
+		Calendar c = Calendar.getInstance();
+		int currentHour = c.get(Calendar.HOUR_OF_DAY); // 当前时间
+
+		currentHour = currentHour / 2 + 1;
+
+		List<AppointmentInfo> resultList = new ArrayList<AppointmentInfo>();
+
 		if (appointmentList == null || appointmentList.size() == 0) {
-			return null;
+			AppointmentInfo appointmentHeader = new AppointmentInfo();
+			appointmentHeader.setType(AppointmentInfo.GROUP);
+			appointmentHeader.setOPDatePeriod(currentHour);
+			appointmentHeader.setGroup_num(0);
+			resultList.add(appointmentHeader); // 增加一个类型位group的空类,作为ListView的Header显示出来
+
+			AppointmentInfo appointmentEmpty = new AppointmentInfo();
+			appointmentEmpty.setType(AppointmentInfo.EMPTY);
+			appointmentEmpty.setOPStatus(opStatus);
+			resultList.add(appointmentEmpty); // 提示 "当前时段无人XX"
+
+			return resultList;
 		}
 
 		Map<Integer, List<AppointmentInfo>> mapAppointment = new TreeMap<Integer, List<AppointmentInfo>>(comparator);
@@ -88,25 +109,98 @@ public class AppointmentHelper {
 			List<AppointmentInfo> tmpList = mapAppointment.get(appointment.getOPDatePeriod());
 			if (tmpList == null) {
 				tmpList = new ArrayList<AppointmentInfo>();
-				L.e(AppointmentHelper.class, "appointment.getOPDatePeriod() : " + appointment.getOPDatePeriod());
 				mapAppointment.put(appointment.getOPDatePeriod(), tmpList);
 			}
 			tmpList.add(appointment);
 		}
 
-		List<AppointmentInfo> resultList = new ArrayList<AppointmentInfo>();
 		resultList.addAll(disgnosingAppointment);
+
+		int lastKey = 0;
+		if (opStatus != AppointmentInfo.STATUS_WATTING) {
+			lastKey = 12;
+		}
+		boolean isAlreadyAddCurrentTips = false;
 		for (Entry<Integer, List<AppointmentInfo>> entry : mapAppointment.entrySet()) {
+			if (opStatus == AppointmentInfo.STATUS_WATTING) {
+				if (!mapAppointment.containsKey(currentHour) && lastKey < currentHour && currentHour < entry.getKey()) { // 有将来预约的情况
+					AppointmentInfo appointmentHeader = new AppointmentInfo();
+					appointmentHeader.setType(AppointmentInfo.GROUP);
+					appointmentHeader.setOPDatePeriod(currentHour);
+					appointmentHeader.setGroup_num(0);
+					resultList.add(appointmentHeader); // 增加一个类型位group的空类,作为ListView的Header显示出来
+
+					AppointmentInfo appointmentEmpty = new AppointmentInfo();
+					appointmentEmpty.setOPStatus(opStatus);
+					appointmentEmpty.setType(AppointmentInfo.EMPTY);
+					resultList.add(appointmentEmpty);
+				}
+			} else {
+				if (!mapAppointment.containsKey(currentHour) && lastKey > currentHour && currentHour > entry.getKey()) { // 有将来预约的情况
+					isAlreadyAddCurrentTips = true;
+					
+					AppointmentInfo appointmentHeader = new AppointmentInfo();
+					appointmentHeader.setType(AppointmentInfo.GROUP);
+					appointmentHeader.setOPDatePeriod(currentHour);
+					appointmentHeader.setGroup_num(0);
+					resultList.add(appointmentHeader); // 增加一个类型位group的空类,作为ListView的Header显示出来
+
+					AppointmentInfo appointmentEmpty = new AppointmentInfo();
+					appointmentEmpty.setOPStatus(opStatus);
+					appointmentEmpty.setType(AppointmentInfo.EMPTY);
+					resultList.add(appointmentEmpty);
+				}
+			}
+
 			AppointmentInfo appointmentInfo = new AppointmentInfo();
 			appointmentInfo.setType(AppointmentInfo.GROUP);
 			appointmentInfo.setOPDatePeriod(entry.getKey());
-//			resultList.add(appointmentInfo);
-			entry.getValue().get(0).setType(AppointmentInfo.GROUP);   // 这个时间段的第一个预约上面要显示预约时间
-			entry.getValue().get(0).setGroup_num(entry.getValue().size());
+			appointmentInfo.setGroup_num(entry.getValue().size());
+			resultList.add(appointmentInfo); // 增加一个类型位group的空类,作为ListView的Header显示出来
+			// entry.getValue().get(0).setType(AppointmentInfo.GROUP); //
+			// 这个时间段的第一个预约上面要显示预约时间
+			// entry.getValue().get(0).setGroup_num(entry.getValue().size());
 			resultList.addAll(entry.getValue());
+
+			lastKey = entry.getKey();
+		}
+		
+		if (opStatus != AppointmentInfo.STATUS_WATTING && !isAlreadyAddCurrentTips && !mapAppointment.containsKey(currentHour)) {
+			AppointmentInfo appointmentHeader = new AppointmentInfo();
+			appointmentHeader.setType(AppointmentInfo.GROUP);
+			appointmentHeader.setOPDatePeriod(currentHour);
+			appointmentHeader.setGroup_num(0);
+			resultList.add(appointmentHeader); // 增加一个类型位group的空类,作为ListView的Header显示出来
+
+			AppointmentInfo appointmentEmpty = new AppointmentInfo();
+			appointmentEmpty.setOPStatus(opStatus);
+			appointmentEmpty.setType(AppointmentInfo.EMPTY);
+			resultList.add(appointmentEmpty);
 		}
 
+		if (opStatus == AppointmentInfo.STATUS_WATTING) {
+			if (lastKey < currentHour) { // 所有预约都在当前时间之前的情况(没有将来预约)
+				AppointmentInfo appointmentHeader = new AppointmentInfo();
+				appointmentHeader.setType(AppointmentInfo.GROUP);
+				appointmentHeader.setOPDatePeriod(currentHour);
+				appointmentHeader.setGroup_num(0);
+				resultList.add(appointmentHeader); // 增加一个类型位group的空类,作为ListView的Header显示出来
+
+				AppointmentInfo appointmentEmpty = new AppointmentInfo();
+				appointmentEmpty.setOPStatus(opStatus);
+				appointmentEmpty.setType(AppointmentInfo.EMPTY);
+				resultList.add(appointmentEmpty);
+			}
+		}
+		
 		return resultList;
+	}
+	
+	private void createCurrentEmptyAppointSection() {
+		Calendar c = Calendar.getInstance();
+		int currentHour = c.get(Calendar.HOUR_OF_DAY); // 当前时间
+
+		currentHour = currentHour / 2 + 1;
 	}
 
 }

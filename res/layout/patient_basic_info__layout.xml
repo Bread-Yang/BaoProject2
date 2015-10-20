@@ -14,8 +14,9 @@
         android:src="@drawable/edit_icon" />
 
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:layout_below="@+id/iv_edit"
         android:scrollbars="none" >
 

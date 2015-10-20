@@ -36,7 +36,9 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bg_doctor_item"
-                android:padding="10dp" >
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp" >
 
                 <com.mdground.yizhida.view.CircleImageView
                     android:id="@+id/person_icon"
@@ -82,9 +84,9 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
                 android:background="@drawable/bg_doctor_item"
                 android:drawableRight="@drawable/in_button"
-                android:layout_marginBottom="-1dp"
                 android:text="值班表" />
 
             <TextView
@@ -92,10 +94,10 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
                 android:background="@drawable/bg_doctor_item"
                 android:drawableRight="@drawable/in_button"
                 android:text="排班表"
-                android:layout_marginBottom="-1dp"
                 android:visibility="gone" />
 
             <TextView
@@ -103,9 +105,9 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
                 android:background="@drawable/bg_doctor_item"
                 android:clickable="true"
-                android:layout_marginBottom="-1dp"
                 android:drawableRight="@drawable/in_button"
                 android:text="我的收入" />
 
@@ -125,10 +127,10 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bg_doctor_item"
                 android:drawableRight="@drawable/in_button"
-                android:layout_marginBottom="-1dp"
                 android:text="联系客服" />
 
             <TextView
@@ -136,9 +138,9 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
                 android:background="@drawable/bg_doctor_item"
                 android:drawableRight="@drawable/in_button"
-                android:layout_marginBottom="-1dp"
                 android:text="医直达软件服务协议" />
 
             <TextView
@@ -169,11 +171,11 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginBottom="-1dp"
-                android:text="修改密码"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_doctor_item"
-                android:drawableRight="@drawable/in_button" />
+                android:drawableRight="@drawable/in_button"
+                android:text="修改密码" />
 
             <TextView
                 android:id="@+id/exit"

@@ -1,7 +1,32 @@
 package com.mdground.yizhida.activity.home;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.extras.PullToRefreshSwipeMenuListView;
+import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenu;
+import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuCreator;
+import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuItem;
+import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView;
+import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.mdground.yizhida.MedicalAppliction;
+import com.mdground.yizhida.R;
+import com.mdground.yizhida.activity.appointment.PatientAppointmentActivity;
+import com.mdground.yizhida.activity.base.BaseFragment;
+import com.mdground.yizhida.activity.searchpatient.SearchPatientActivity;
+import com.mdground.yizhida.adapter.AppointmentAdapter;
+import com.mdground.yizhida.adapter.AppointmentAdapter2;
+import com.mdground.yizhida.api.utils.L;
+import com.mdground.yizhida.bean.AppointmentInfo;
+import com.mdground.yizhida.bean.Employee;
+import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.util.DateUtils;
+import com.mdground.yizhida.util.Tools;
+import com.mdground.yizhida.view.RadioView;
+import com.mdground.yizhida.view.RadioView.SelectListener;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,28 +42,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.extras.PullToRefreshSwipeMenuListView;
-import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenu;
-import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuCreator;
-import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuItem;
-import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView;
-import com.handmark.pulltorefresh.library.extras.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
-import com.mdground.yizhida.MedicalAppliction;
-import com.mdground.yizhida.R;
-import com.mdground.yizhida.activity.appointment.PatientDetailActivity;
-import com.mdground.yizhida.activity.base.BaseFragment;
-import com.mdground.yizhida.activity.searchpatient.SearchPatientActivity;
-import com.mdground.yizhida.adapter.AppointmentAdapter;
-import com.mdground.yizhida.adapter.AppointmentAdapter2;
-import com.mdground.yizhida.bean.AppointmentInfo;
-import com.mdground.yizhida.bean.Employee;
-import com.mdground.yizhida.constant.MemberConstant;
-import com.mdground.yizhida.util.Tools;
-import com.mdground.yizhida.view.RadioView;
-import com.mdground.yizhida.view.RadioView.SelectListener;
 
 public class DoctorHomeFragment extends BaseFragment implements SelectListener, OnClickListener, DoctorHomeView,
 		OnRefreshListener<SwipeMenuListView>, OnMenuItemClickListener, OnItemClickListener {
@@ -88,7 +91,8 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 		emptyPromptLayout = (RelativeLayout) mainView.findViewById(R.id.empty_prompt);
 		TvNoBody = (TextView) mainView.findViewById(R.id.no_body_text);
 		TvNoBody.setText(R.string.query_ing);
-		pullToRefreshSwipeMenuListView = (PullToRefreshSwipeMenuListView) mainView.findViewById(R.id.pull_swipeListView);
+		pullToRefreshSwipeMenuListView = (PullToRefreshSwipeMenuListView) mainView
+				.findViewById(R.id.pull_swipeListView);
 	}
 
 	private void initView() {
@@ -266,7 +270,7 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 		if (appiontmentId <= 0) {
 			return;
 		}
-		AppointmentInfo nextAppiontment = null;
+		AppointmentInfo nextAppointment = null;
 		// 解决第一次重复显示同一个预约
 		for (int i = 0; i < appointments.size(); i++) {
 			if (appointments.get(i).getOPID() == appiontmentId) {
@@ -281,7 +285,9 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 		if (appointments.size() > 0) {
 			for (int i = 0; i < appointments.size(); i++) {
 				AppointmentInfo appointment = appointments.get(i);
-				if (appointment == null || appointment.getType() == AppointmentInfo.GROUP) {
+				if (appointment == null || appointment.getType() == AppointmentInfo.GROUP
+						|| appointment.getType() == AppointmentInfo.EMPTY
+						|| DateUtils.compareToCurrentPeriod(appointment.getOPDatePeriod()) == 1) {
 					continue;
 				}
 				tmpOffset = appointment.getOPID() - appiontmentId;
@@ -295,33 +301,35 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 					}
 				}
 			}
-			
+
 			if (index == -1) {
 				for (int i = 0; i < appointments.size(); i++) {
 					AppointmentInfo appointment = appointments.get(i);
-					if (appointment == null || appointment.getType() == AppointmentInfo.GROUP) {
+					if (appointment == null || appointment.getType() == AppointmentInfo.GROUP
+							|| appointment.getType() == AppointmentInfo.EMPTY
+							|| DateUtils.compareToCurrentPeriod(appointment.getOPDatePeriod()) == 1) {
 						continue;
 					}
-					nextAppiontment = appointment;
+					nextAppointment = appointment;
 					index = i;
 					break;
 				}
 			} else {
-				nextAppiontment = appointments.get(index);
+				nextAppointment = appointments.get(index);
 			}
 		} else {
 			return;
 		}
-		if (nextAppiontment == null) {
+		if (nextAppointment == null) {
 			return;
 		}
-//		appointments.remove(nextAppiontment);
-		nextAppiontment.setDoctorName(employee.getEmployeeName());
-		Intent intent = new Intent(getActivity(), PatientDetailActivity.class);
-		intent.putExtra(MemberConstant.APPOINTMENT, nextAppiontment);
+		// appointments.remove(nextAppiontment);
+		nextAppointment.setDoctorName(employee.getEmployeeName());
+		Intent intent = new Intent(getActivity(), PatientAppointmentActivity.class);
+		intent.putExtra(MemberConstant.APPOINTMENT, nextAppointment);
 		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
 		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
-		presenter.callPatient(nextAppiontment, employee.getEmployeeName());
+		presenter.callPatient(nextAppointment, employee.getEmployeeName());
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 	}
 
@@ -400,25 +408,38 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		L.e(this, "position : " + position);
+		position -= 1;
 		// 跳转到病人详情页
-		AppointmentInfo appointment = appointments.get(position - 1);
-//		if (appointment.getType() == AppointmentInfo.GROUP) {
-//			return;
-//		}
+		AppointmentInfo appointment = appointments.get(position);
+		if (appointment.getType() == AppointmentInfo.GROUP || appointment.getType() == appointment.EMPTY) {
+			return;
+		}
 		appointment.setDoctorName(employee.getEmployeeName());
+
+		ArrayList<AppointmentInfo> tempList = new ArrayList<AppointmentInfo>();
+
+		int index = position;
+		for (int i = 0; i < appointments.size(); i++) {
+			AppointmentInfo item = appointments.get(i);
+			if (item.getType() == AppointmentInfo.GROUP || item.getType() == AppointmentInfo.EMPTY) {
+				if (position > i) {
+					L.e(this, "position--");
+					index--;
+				}
+				continue;
+			}
+			tempList.add(item);
+		}
 		
-//		ArrayList<AppointmentInfo> tempList = new ArrayList<AppointmentInfo>();
-//		tempList.addAll(appointments);
-//		
-//		for (int i = 0; i < appointments.size(); i++) {
-//			if (appointments.get(i).getType() == AppointmentInfo.GROUP) {
-//				tempList.remove(i);
-//			}
-//		}
-		
-		Intent intent = new Intent(getActivity(), PatientDetailActivity.class);
-		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
-		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, position - 1);
+		if (appointment.getOPStatus() != AppointmentInfo.STATUS_WATTING) {
+			Collections.reverse(tempList);
+			index = tempList.size() - 1 - index;
+		}
+
+		Intent intent = new Intent(getActivity(), PatientAppointmentActivity.class);
+		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, tempList);
+		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 
 	}

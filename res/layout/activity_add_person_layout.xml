@@ -136,7 +136,7 @@
                     android:layout_marginBottom="-1dp"
                     android:background="@drawable/box3_nor"
                     android:padding="10dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/english_name_title"
@@ -260,6 +260,16 @@
                         android:maxLength="11"
                         android:singleLine="true" />
                 </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/box3_nor"
+                android:orientation="vertical"
+                android:visibility="visible" >
 
                 <RelativeLayout
                     android:id="@+id/idcardlayout"
@@ -298,16 +308,6 @@
                         android:lines="1"
                         android:singleLine="true" />
                 </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-1dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/box3_nor"
-                android:orientation="vertical"
-                android:visibility="visible" >
 
                 <RelativeLayout
                     android:id="@+id/urgency_concact_layout"

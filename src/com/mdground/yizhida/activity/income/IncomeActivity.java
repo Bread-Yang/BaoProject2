@@ -8,20 +8,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.mdground.yizhida.MedicalConstant;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.base.BaseActivity;
 import com.mdground.yizhida.api.bean.IncomeStatisticInfo;
 import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.util.MdgConfig;
 import com.mdground.yizhida.view.RiseNumberTextView;
 
 public class IncomeActivity extends BaseActivity implements OnClickListener, IncomeView {
 
-	private RiseNumberTextView tvTodayIncome;
-	private RiseNumberTextView tvTotalIncome;
-	private RiseNumberTextView tvWeekIncome;
-	private RiseNumberTextView tvMonthIncome;
-	private RiseNumberTextView tvTurnOut;
-	private RiseNumberTextView tvBalance;
+	private RiseNumberTextView tv_yesterday_income;
+	private RiseNumberTextView tv_total_income;
+	private RiseNumberTextView tv_week_income;
+	private RiseNumberTextView tv_month_income;
+	private RiseNumberTextView tv_total_withdraw;
+	private RiseNumberTextView tv_not_settle_balance;
 	private Handler mHandler;
 
 	private IncomePresenter presenter;
@@ -38,17 +40,23 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 
 	@Override
 	public void findView() {
-		tvTodayIncome = (RiseNumberTextView) findViewById(R.id.tv_today_income);
-		tvTotalIncome = (RiseNumberTextView) findViewById(R.id.tv_total_income);
-		tvWeekIncome = (RiseNumberTextView) findViewById(R.id.tv_week_income);
-		tvMonthIncome = (RiseNumberTextView) findViewById(R.id.tv_month_income);
-		tvTurnOut = (RiseNumberTextView) findViewById(R.id.tv_turn_out);
-		tvBalance = (RiseNumberTextView) findViewById(R.id.tv_balance);
+		tv_yesterday_income = (RiseNumberTextView) findViewById(R.id.tv_yesterday_income);
+		tv_total_income = (RiseNumberTextView) findViewById(R.id.tv_total_income);
+		tv_week_income = (RiseNumberTextView) findViewById(R.id.tv_week_income);
+		tv_month_income = (RiseNumberTextView) findViewById(R.id.tv_month_income);
+		tv_total_withdraw = (RiseNumberTextView) findViewById(R.id.tv_total_withdraw);
+		tv_not_settle_balance = (RiseNumberTextView) findViewById(R.id.tv_not_settle_balance);
 		findViewById(R.id.roll_out).setVisibility(View.GONE);
 	}
 
 	@Override
 	public void initView() {
+		tv_yesterday_income.setTypeface(MedicalConstant.NotoSans_Regular);
+		tv_total_income.setTypeface(MedicalConstant.NotoSans_Regular);
+		tv_week_income.setTypeface(MedicalConstant.NotoSans_Regular);
+		tv_month_income.setTypeface(MedicalConstant.NotoSans_Regular);
+		tv_total_withdraw.setTypeface(MedicalConstant.NotoSans_Regular);
+		tv_not_settle_balance.setTypeface(MedicalConstant.NotoSans_Regular);
 	}
 
 	@Override
@@ -80,7 +88,7 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 			// startActivity(intent);
 			break;
 		}
-		case R.id.tv_today_income:
+		case R.id.tv_yesterday_income:
 			type = MemberConstant.INCOME_TODAY;
 			break;
 		case R.id.tv_total_income:
@@ -92,13 +100,6 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 		case R.id.tv_month_income:
 			type = MemberConstant.INCOME_MONTH;
 			break;
-		case R.id.tv_turn_out:
-			type = MemberConstant.INCOME_TURN_OUT;
-			break;
-		case R.id.tv_balance: {
-			type = MemberConstant.INCOME_BALANCE;
-			break;
-		}
 		default:
 			break;
 		}
@@ -112,13 +113,30 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 
 	@Override
 	public void updateView(IncomeStatisticInfo incomeStatisticInfo) {
-		//个人收益
-		tvTodayIncome.setText(String.valueOf(new BigDecimal(incomeStatisticInfo.getYesterdayIncome()).divide(new BigDecimal(100)).floatValue()), TextView.BufferType.NORMAL, mHandler);
-		tvTotalIncome.setText(String.valueOf(new BigDecimal(incomeStatisticInfo.getTotalIncome()).divide(new BigDecimal(100)).floatValue()), TextView.BufferType.NORMAL, mHandler);
-		tvWeekIncome.setText(String.valueOf(new BigDecimal(incomeStatisticInfo.getWeekIncome()).divide(new BigDecimal(100)).floatValue()), TextView.BufferType.NORMAL, mHandler);
-		tvMonthIncome.setText(String.valueOf(new BigDecimal(incomeStatisticInfo.getMonthIncome()).divide(new BigDecimal(100)).floatValue()), TextView.BufferType.NORMAL, mHandler);
-//		tvTurnOut.setText(String.valueOf(incomeStatisticInfo.getTotalWithdrawal()), TextView.BufferType.NORMAL, mHandler);
-//		tvBalance.setText(String.valueOf(incomeStatisticInfo.getYesterdayIncome()), TextView.BufferType.NORMAL, mHandler);
+		// 个人收益
+		tv_yesterday_income.setText(String.valueOf(
+				new BigDecimal(incomeStatisticInfo.getYesterdayIncome()).divide(new BigDecimal(100)).floatValue()),
+				TextView.BufferType.NORMAL, mHandler);
+		tv_total_income.setText(
+				String.valueOf(
+						new BigDecimal(incomeStatisticInfo.getTotalIncome()).divide(new BigDecimal(100)).floatValue()),
+				TextView.BufferType.NORMAL, mHandler);
+		tv_week_income.setText(
+				String.valueOf(
+						new BigDecimal(incomeStatisticInfo.getWeekIncome()).divide(new BigDecimal(100)).floatValue()),
+				TextView.BufferType.NORMAL, mHandler);
+		tv_month_income.setText(
+				String.valueOf(
+						new BigDecimal(incomeStatisticInfo.getMonthIncome()).divide(new BigDecimal(100)).floatValue()),
+				TextView.BufferType.NORMAL, mHandler);
+		tv_total_withdraw.setText(String.valueOf(
+				new BigDecimal(incomeStatisticInfo.getTotalWithdrawal()).divide(new BigDecimal(100)).floatValue()),
+				TextView.BufferType.NORMAL, mHandler);
+		float not_settle_balance = (new BigDecimal(incomeStatisticInfo.getTotalIncome())
+				.subtract(new BigDecimal(incomeStatisticInfo.getTotalWithdrawal()))).divide(new BigDecimal(100))
+						.floatValue();
+		tv_not_settle_balance.setText(String.valueOf(not_settle_balance), TextView.BufferType.NORMAL, mHandler);
+
 	}
 
 }

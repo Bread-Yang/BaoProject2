@@ -11,6 +11,7 @@ import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.bean.IncomeStatisticInfo;
 import com.mdground.yizhida.api.server.clinic.GetEmployeeIncomeStatisticInfo;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Employee;
 
 public class IncomePresenterImpl implements IncomePresenter {
@@ -30,6 +31,7 @@ public class IncomePresenterImpl implements IncomePresenter {
 			@Override
 			public void onSuccess(ResponseData response) {
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
+					L.e(this, "收入是的json是 : " + response.getContent());
 					IncomeStatisticInfo incomeStatisticInfo = response.getContent(IncomeStatisticInfo.class);
 					mView.updateView(incomeStatisticInfo);
 				} else {

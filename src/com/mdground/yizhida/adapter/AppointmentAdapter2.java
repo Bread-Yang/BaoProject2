@@ -1,11 +1,13 @@
 package com.mdground.yizhida.adapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.handmark.pulltorefresh.library.extras.pinnedsectionlistview.PinnedSectionListView.PinnedSectionListAdapter;
 import com.mdground.yizhida.MedicalConstant;
 import com.mdground.yizhida.R;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.AppointmentInfo;
 
 import android.content.Context;
@@ -52,7 +54,13 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 	}
 
 	protected static class GroupViewHolder extends BaseHolder {
-		private TextView groupName;
+		private RelativeLayout rlt_group;
+		private TextView tv_group_name;
+		private TextView tv_group_num;
+	}
+	
+	protected static class EmptyViewHolder extends BaseHolder {
+		private TextView tv_tips;
 	}
 
 	public AppointmentAdapter2(Context context, List<AppointmentInfo> appointmentList) {
@@ -63,7 +71,7 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 	@Override
 	public int getViewTypeCount() {
-		return 6;
+		return 7;
 	}
 
 	@Override
@@ -83,60 +91,92 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		L.e(this, "position : " + position);
 		BaseHolder holder = null;
 		int type = getItemViewType(position);
+		L.e(this, "type : " + type);
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.item_waitting_patient_list, null);
-			holder = createItemHolder(convertView);
-			convertView.setTag(holder);
-			// switch (type) {
-			// case AppointmentInfo.GROUP:
 			// convertView =
-			// mInflater.inflate(R.layout.waitting_patient_group_item, null);
-			// holder = createGroupHolder(convertView);
-			// convertView.setTag(holder);
-			// break;
-			// default:
-			// convertView =
-			// mInflater.inflate(R.layout.waitting_patient_list_item, null);
+			// mInflater.inflate(R.layout.item_waitting_patient_list, null);
 			// holder = createItemHolder(convertView);
 			// convertView.setTag(holder);
-			// break;
-			// }
+			switch (type) {
+			case AppointmentInfo.GROUP:
+				convertView = mInflater.inflate(R.layout.item_waitting_patient_group, null);
+				holder = createGroupHolder(convertView);
+				convertView.setTag(holder);
+				break;
+			case AppointmentInfo.EMPTY:
+				convertView = mInflater.inflate(R.layout.item_waitting_patient_empty, null);
+				holder = createEmptyHolder(convertView);
+				convertView.setTag(holder);
+				break;
+			default:
+				convertView = mInflater.inflate(R.layout.item_waitting_patient_list, null);
+				holder = createItemHolder(convertView);
+				convertView.setTag(holder);
+				break;
+			}
 		} else {
 			holder = (BaseHolder) convertView.getTag();
 		}
 
-//		switch (type) {
-//		case AppointmentInfo.GROUP:
-//			bindGroupData(position, holder);
-//			break;
-//
-//		default:
-//			bindItemData(position, holder);
-//			break;
-//		}
-		
-		RelativeLayout rlt_group = ((ViewHolder)holder).rlt_group;
-		TextView tv_group_name = ((ViewHolder)holder).tv_group_name;
-		TextView tv_group_num = ((ViewHolder)holder).tv_group_num;
-		
-		if (type != AppointmentInfo.GROUP) {
-			rlt_group.setVisibility(View.GONE);
-		} else {
-			rlt_group.setVisibility(View.VISIBLE);
-			tv_group_name.setTypeface(MedicalConstant.NotoSans_Regular);
+		switch (type) {
+		case AppointmentInfo.GROUP:
+			bindGroupData(position, holder);
 			
-			int datePeriod = appointmentList.get(position).getOPDatePeriod();
-			String timeRange = calcTime(datePeriod);
-			tv_group_name.setText(timeRange);
+			Calendar c = Calendar.getInstance();
+			int currentHour = c.get(Calendar.HOUR_OF_DAY); // 当前时间
+
+			currentHour = currentHour / 2 + 1;
 			
-			String group_num = mContext.getResources().getString(R.string.group_num);
-			group_num = String.format(group_num, appointmentList.get(position).getGroup_num());
-			tv_group_num.setText(group_num);
+			if (currentHour == getItem(position).getOPDatePeriod()) {
+				((GroupViewHolder)holder).rlt_group.setBackgroundColor(Color.parseColor("#E8F6FF"));
+			} else {
+				((GroupViewHolder)holder).rlt_group.setBackgroundColor(Color.parseColor("#EAEBEC"));
+			}
+			break;
+		case AppointmentInfo.EMPTY:
+			switch (getItem(position).getOPStatus()) {
+			
+			case AppointmentInfo.STATUS_WATTING:
+				((EmptyViewHolder)holder).tv_tips.setText(R.string.current_time_nobody_waiting);
+				break;
+			case AppointmentInfo.STATUS_PASSED:
+				((EmptyViewHolder)holder).tv_tips.setText(R.string.current_time_nobody_pass);
+				break;
+			case AppointmentInfo.STATUS_FINISH:
+				((EmptyViewHolder)holder).tv_tips.setText(R.string.current_time_nobody_finish);
+				break;
+			}
+			break;
+		default:
+			bindItemData(position, holder);
+			break;
 		}
 
-		bindItemData(position, holder);
+		// RelativeLayout rlt_group = ((ViewHolder)holder).rlt_group;
+		// TextView tv_group_name = ((ViewHolder)holder).tv_group_name;
+		// TextView tv_group_num = ((ViewHolder)holder).tv_group_num;
+		//
+		// if (type != AppointmentInfo.GROUP) {
+		// rlt_group.setVisibility(View.GONE);
+		// } else {
+		// rlt_group.setVisibility(View.VISIBLE);
+		// tv_group_name.setTypeface(MedicalConstant.NotoSans_Regular);
+		//
+		// int datePeriod = appointmentList.get(position).getOPDatePeriod();
+		// String timeRange = calcTime(datePeriod);
+		// tv_group_name.setText(timeRange);
+		//
+		// String group_num =
+		// mContext.getResources().getString(R.string.group_num);
+		// group_num = String.format(group_num,
+		// appointmentList.get(position).getGroup_num());
+		// tv_group_num.setText(group_num);
+		// }
+		//
+		// bindItemData(position, holder);
 
 		return convertView;
 	}
@@ -148,11 +188,15 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 		GroupViewHolder groupHolder = (GroupViewHolder) holder;
 		AppointmentInfo appointmentInfo = getItem(position);
-		// if (appointmentInfo.getType() == AppointmentInfo.GROUP) {
 		int datePeriod = appointmentInfo.getOPDatePeriod();
 		String timeRange = calcTime(datePeriod);
-		groupHolder.groupName.setText(timeRange);
-		// }
+		groupHolder.tv_group_name.setText(timeRange);
+
+		groupHolder.tv_group_name.setTypeface(MedicalConstant.NotoSans_Regular);
+
+		String group_num = mContext.getResources().getString(R.string.group_num);
+		group_num = String.format(group_num, appointmentList.get(position).getGroup_num());
+		groupHolder.tv_group_num.setText(group_num);
 	}
 
 	// 计算时间区间
@@ -164,6 +208,13 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 		sb.append(df.format((datePeriod) * 2));
 		sb.append(":00");
 		return sb.toString();
+	}
+	
+	private void bindEmptyData(int position, BaseHolder holder) {
+		if (!(holder instanceof GroupViewHolder)) {
+			return;
+		}
+
 	}
 
 	private void bindItemData(int position, BaseHolder holder) {
@@ -214,7 +265,15 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 	private BaseHolder createGroupHolder(View convertView) {
 		GroupViewHolder viewHolder = new GroupViewHolder();
-		viewHolder.groupName = (TextView) convertView.findViewById(R.id.tv_group_name);
+		viewHolder.rlt_group = (RelativeLayout) convertView.findViewById(R.id.rlt_group);
+		viewHolder.tv_group_name = (TextView) convertView.findViewById(R.id.tv_group_name);
+		viewHolder.tv_group_num = (TextView) convertView.findViewById(R.id.tv_group_num);
+		return viewHolder;
+	}
+	
+	private BaseHolder createEmptyHolder(View convertView) {
+		EmptyViewHolder viewHolder = new EmptyViewHolder();
+		viewHolder.tv_tips = (TextView) convertView.findViewById(R.id.tv_tips);
 		return viewHolder;
 	}
 

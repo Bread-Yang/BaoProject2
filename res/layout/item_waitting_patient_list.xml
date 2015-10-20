@@ -9,6 +9,7 @@
         android:id="@+id/rlt_group"
         android:layout_width="fill_parent"
         android:background="#EAEBEC"
+        android:visibility="gone"
         android:layout_height="48dp" >
 
         <TextView

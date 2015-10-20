@@ -2,11 +2,8 @@ package com.mdground.yizhida.activity.login;
 
 import org.apache.http.Header;
 
-import android.app.Activity;
-import android.content.Context;
-import android.text.TextUtils;
-
 import com.mdground.yizhida.MedicalAppliction;
+import com.mdground.yizhida.R;
 import com.mdground.yizhida.api.base.RequestCallBack;
 import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
@@ -18,6 +15,11 @@ import com.mdground.yizhida.db.dao.EmployeeDao;
 import com.mdground.yizhida.util.MD5Util;
 import com.mdground.yizhida.util.MdgConfig;
 import com.mdground.yizhida.util.PreferenceUtils;
+
+import android.app.Activity;
+import android.content.Context;
+import android.text.TextUtils;
+import android.widget.EditText;
 
 public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 
@@ -80,6 +82,7 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 
 			if (employee.isNeedResetPwd()) {
 				mLoginView.navigateToWelcome();
+				((EditText)((Activity)mLoginView).findViewById(R.id.login_password)).setText("");
 				return;
 			}
 

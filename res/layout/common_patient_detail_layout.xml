@@ -29,7 +29,7 @@
             <View
                 android:id="@+id/view_tab_one"
                 android:layout_width="fill_parent"
-                android:layout_height="2dp"
+                android:layout_height="4dp"
                 android:layout_marginTop="@dimen/tab_line_margin_top"
                 android:background="@color/tab_color" />
         </LinearLayout>
@@ -51,7 +51,7 @@
             <View
                 android:id="@+id/view_tab_two"
                 android:layout_width="fill_parent"
-                android:layout_height="2dp"
+                android:layout_height="4dp"
                 android:layout_marginTop="@dimen/tab_line_margin_top"
                 android:background="@color/tab_color"
                 android:visibility="invisible" />
@@ -74,7 +74,7 @@
             <View
                 android:id="@+id/view_tab_three"
                 android:layout_width="fill_parent"
-                android:layout_height="2dp"
+                android:layout_height="4dp"
                 android:layout_marginTop="@dimen/tab_line_margin_top"
                 android:background="@color/tab_color"
                 android:visibility="invisible" />
@@ -97,7 +97,7 @@
             <View
                 android:id="@+id/view_tab_four"
                 android:layout_width="fill_parent"
-                android:layout_height="2dp"
+                android:layout_height="4dp"
                 android:layout_marginTop="@dimen/tab_line_margin_top"
                 android:background="@color/tab_color"
                 android:visibility="invisible" />
