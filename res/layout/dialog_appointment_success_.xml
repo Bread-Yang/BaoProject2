@@ -83,7 +83,7 @@
         android:layout_gravity="center_horizontal"
         android:padding="7dp"
         android:gravity="center"
-        android:text="@string/ok"
+        android:text="@string/confirm"
         android:textColor="#2480F1"
         android:textSize="20sp" />
 

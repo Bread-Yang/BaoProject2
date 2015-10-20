@@ -57,7 +57,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/sure"
+        android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/auth_code_layout"

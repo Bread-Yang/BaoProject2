@@ -14,6 +14,13 @@
     <!-- 修改密码 -->
     <string name="change_password">修改密码</string>
     <string name="ignore_step">跳过</string>
+    <string name="change_password_successfully">密码已修改成功!</string>
+    <string name="remember_new_password">请牢记您的新密码,您可以使用新密码登录了</string>
+    
+     <!-- 微信绑定 -->
+    <string name="bind_now">现在绑定</string>
+    <string name="recommend_bind">建议绑定微信</string>
+    <string name="bind_wechat_benefit">绑定微信,方便提现和转账</string>
 
     <!-- 忘记密码界面 -->
     <string name="auth_code_error">验证码错误，请重新输入</string>
@@ -24,7 +31,7 @@
     <string name="dialog_regist_wait_people">前面等待人数：%d人</string>
 
     <!-- 通用文字,频繁使用文字 -->
-    <string name="ok">确定</string>
+    <string name="confirm">确定</string>
     <string name="cancle">取消</string>
     <string name="pull_to_refresh_pull_label">下拉刷新</string>
     <string name="pull_to_refresh_release_label">释放更新</string>

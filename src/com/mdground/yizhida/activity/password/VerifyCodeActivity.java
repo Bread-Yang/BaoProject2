@@ -19,7 +19,7 @@ import com.mdground.yizhida.view.TitleBar;
 public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswordView, OnClickListener {
 
 	private VerifyPasswordPresenter presenter;
-	private Button btnConfirm;
+	private Button btn_confirm;
 	private TextView tvGetAuthCode;
 	private TextView tvPrompt;
 	private EditText etInputAuthCode;
@@ -28,12 +28,12 @@ public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswo
 
 	@Override
 	public int getContentLayout() {
-		return R.layout.activity_password_code;
+		return R.layout.activity_verify_code;
 	}
 
 	@Override
 	public void findView() {
-		btnConfirm = (Button) this.findViewById(R.id.sure);
+		btn_confirm = (Button) this.findViewById(R.id.btn_confirm);
 		tvGetAuthCode = (TextView) this.findViewById(R.id.get_auth_code);
 		tvPrompt = (TextView) this.findViewById(R.id.prompt);
 		etInputAuthCode = (EditText) this.findViewById(R.id.input_auth_code);
@@ -72,14 +72,14 @@ public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswo
 
 	@Override
 	public void setListener() {
-		btnConfirm.setOnClickListener(this);
+		btn_confirm.setOnClickListener(this);
 		tvGetAuthCode.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.sure:// 校验验证码
+		case R.id.btn_confirm:// 校验验证码
 			presenter.checkAuthCode(mPhone, etInputAuthCode.getText().toString());
 			break;
 		case R.id.get_auth_code:// 获取验证码

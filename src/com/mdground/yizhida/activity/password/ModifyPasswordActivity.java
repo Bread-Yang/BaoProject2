@@ -32,14 +32,14 @@ public class ModifyPasswordActivity extends TitleBarActivity implements OnClickL
 
 	@Override
 	public int getContentLayout() {
-		return R.layout.activity_password_modify;
+		return R.layout.activity_modify_password;
 	}
 
 	@Override
 	public void findView() {
 		EtPassword = (EditText) this.findViewById(R.id.password_value);
 		EtComfirmPassword = (EditText) this.findViewById(R.id.comfirm_password_value);
-		BtConfirm = (Button) this.findViewById(R.id.commit);
+		BtConfirm = (Button) this.findViewById(R.id.btn_commit);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class ModifyPasswordActivity extends TitleBarActivity implements OnClickL
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.commit:
+		case R.id.btn_commit:
 			presenter.modifyPassword(mPhone, EtPassword.getText().toString(), EtComfirmPassword.getText().toString());
 			break;
 		}
@@ -123,24 +123,28 @@ public class ModifyPasswordActivity extends TitleBarActivity implements OnClickL
 
 	@Override
 	public void finishModify() {
+		
+		Intent intent = new Intent(ModifyPasswordActivity.this, ModifyPasswordSuccessfullyActivity.class);
+		startActivity(intent);
+		finish();
 
-		Dialog dialog = new AlertDialog.Builder(this).setMessage("修改密码成功，请重新登陆！").setNegativeButton("确定", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				AppManager.getAppManager().finishAllActivity();
-				Intent intent = new Intent(ModifyPasswordActivity.this, LoginActivity.class);
-				startActivity(intent);
-			}
-		}).setPositiveButton("取消", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				
-			}
-		}).create();
-		dialog.setCanceledOnTouchOutside(false);
-		dialog.show();
+//		Dialog dialog = new AlertDialog.Builder(this).setMessage("修改密码成功，请重新登陆！").setNegativeButton("确定", new DialogInterface.OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				AppManager.getAppManager().finishAllActivity();
+//				Intent intent = new Intent(ModifyPasswordActivity.this, LoginActivity.class);
+//				startActivity(intent);
+//			}
+//		}).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		}).create();
+//		dialog.setCanceledOnTouchOutside(false);
+//		dialog.show();
 
 	}
 
