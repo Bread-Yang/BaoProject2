@@ -15,51 +15,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="180dp"
-            android:text="首次使用"
+            android:layout_marginTop="100dp"
+            android:text="@string/thanks_to_cooperate"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
-            android:textSize="24sp" />
+            android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_recommend_bind"
+            android:id="@+id/tv_welcome_to_use"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_first_note"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:text="@string/recommend_bind"
+            android:layout_marginTop="54dp"
+            android:text="@string/welcome_to_use"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff"
-            android:textSize="24sp" />
+            android:textSize="36sp" />
         
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_recommend_bind"
+            android:layout_below="@+id/tv_welcome_to_use"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="@string/bind_wechat_benefit"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_bind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_ignore_step"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="18dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/button3_nor"
-            android:gravity="center"
-            android:onClick="bindWechat"
-            android:padding="15dp"
-            android:text="@string/bind_now"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="48sp" />
 
         <Button
             android:id="@+id/btn_ignore_step"
@@ -69,11 +53,11 @@
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/button3_nor"
+            android:background="@drawable/selector_bg_use_now"
             android:gravity="center"
             android:onClick="navigateToHome"
             android:padding="15dp"
-            android:text="@string/ignore_step"
+            android:text="@string/use_now"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
     </RelativeLayout>

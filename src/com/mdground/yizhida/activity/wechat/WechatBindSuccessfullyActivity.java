@@ -4,6 +4,7 @@ import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.home.MainActivity;
 import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.util.AppManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,11 +17,7 @@ public class WechatBindSuccessfullyActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_wechat_bind);
-	}
-	
-	public void bindWechat(View view) {
-		
+		setContentView(R.layout.activity_wechat_bind_successfully);
 	}
 	
 	public void navigateToHome(View view) {
@@ -29,6 +26,7 @@ public class WechatBindSuccessfullyActivity extends Activity {
 		intent.putExtra(MemberConstant.EMPLOYEE_ROLE,
 				((MedicalAppliction) this.getApplication()).getLoginEmployee().getEmployeeRole());
 		startActivity(intent);
+		
 		finish();
 	}
 }

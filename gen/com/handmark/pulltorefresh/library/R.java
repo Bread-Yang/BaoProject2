@@ -58,20 +58,20 @@ public final class R {
 		public static final int indicator_right_padding = 0x7f070000;
 	}
 	public static final class drawable {
-		public static final int default_ptr_flip = 0x7f02003a;
-		public static final int default_ptr_rotate = 0x7f02003b;
-		public static final int indicator_arrow = 0x7f020050;
-		public static final int indicator_bg_bottom = 0x7f020051;
-		public static final int indicator_bg_top = 0x7f020052;
-		public static final int loading = 0x7f02005a;
-		public static final int refresh = 0x7f02007d;
+		public static final int default_ptr_flip = 0x7f020035;
+		public static final int default_ptr_rotate = 0x7f020036;
+		public static final int indicator_arrow = 0x7f02004a;
+		public static final int indicator_bg_bottom = 0x7f02004b;
+		public static final int indicator_bg_top = 0x7f02004c;
+		public static final int loading = 0x7f020054;
+		public static final int refresh = 0x7f020076;
 	}
 	public static final class id {
 		public static final int both = 0x7f080008;
 		public static final int choice = 0x7f080014;
 		public static final int disabled = 0x7f080009;
 		public static final int dismiss = 0x7f080015;
-		public static final int fl_inner = 0x7f0801d1;
+		public static final int fl_inner = 0x7f0801d2;
 		public static final int flip = 0x7f08000f;
 		public static final int gridview = 0x7f080000;
 		public static final int left = 0x7f080011;
@@ -81,10 +81,10 @@ public final class R {
 		public static final int pullFromEnd = 0x7f08000c;
 		public static final int pullFromStart = 0x7f08000d;
 		public static final int pullUpFromBottom = 0x7f08000e;
-		public static final int pull_to_refresh_image = 0x7f0801d2;
-		public static final int pull_to_refresh_progress = 0x7f0801d3;
-		public static final int pull_to_refresh_sub_text = 0x7f0801d5;
-		public static final int pull_to_refresh_text = 0x7f0801d4;
+		public static final int pull_to_refresh_image = 0x7f0801d3;
+		public static final int pull_to_refresh_progress = 0x7f0801d4;
+		public static final int pull_to_refresh_sub_text = 0x7f0801d6;
+		public static final int pull_to_refresh_text = 0x7f0801d5;
 		public static final int reveal = 0x7f080016;
 		public static final int right = 0x7f080013;
 		public static final int rotate = 0x7f080010;

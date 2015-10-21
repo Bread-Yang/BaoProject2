@@ -18,9 +18,12 @@
     <string name="remember_new_password">请牢记您的新密码,您可以使用新密码登录了</string>
     
      <!-- 微信绑定 -->
+    <string name="welcome_to_use">欢迎使用</string>
     <string name="bind_now">现在绑定</string>
     <string name="recommend_bind">建议绑定微信</string>
     <string name="bind_wechat_benefit">绑定微信,方便提现和转账</string>
+    <string name="thanks_to_cooperate">感谢您的配合!\n您可以在个人中心继续完善个人资料</string>
+    <string name="use_now">立即体验</string>
 
     <!-- 忘记密码界面 -->
     <string name="auth_code_error">验证码错误，请重新输入</string>

@@ -35,7 +35,7 @@
     </style>
 
     <style name="mygraybutton">
-        <item name="android:background">@drawable/graybutton_selector</item>
+        <item name="android:background">@drawable/selector_graybutton</item>
     </style>
 
     <style name="appointmentDialog" parent="android:style/Theme.Dialog">

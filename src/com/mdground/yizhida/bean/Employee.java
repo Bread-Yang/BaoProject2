@@ -56,6 +56,16 @@ public class Employee {
 	public String SpecialtyCode;
 
 	public String SpecialtyName;
+	
+	/**
+	 * 微信用户所在公众号唯一ID
+	 */
+	public String unionID;
+	
+	/**
+	 * 微信用户的唯一ID
+	 */
+	public String openID;
 
 	public boolean HasCertification;
 
@@ -283,6 +293,22 @@ public class Employee {
 
 	public void setSpecialtyName(String specialtyName) {
 		SpecialtyName = specialtyName;
+	}
+	
+	public String getUnionID() {
+		return unionID;
+	}
+
+	public void setUnionID(String unionID) {
+		this.unionID = unionID;
+	}
+
+	public String getOpenID() {
+		return openID;
+	}
+
+	public void setOpenID(String openID) {
+		this.openID = openID;
 	}
 
 	public boolean isHasCertification() {

@@ -4,6 +4,7 @@ import org.apache.http.Header;
 
 import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
+import com.mdground.yizhida.activity.wechat.WechatBindActivity;
 import com.mdground.yizhida.api.base.RequestCallBack;
 import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
@@ -18,6 +19,7 @@ import com.mdground.yizhida.util.PreferenceUtils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.EditText;
 
@@ -72,7 +74,8 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 		if (response.getCode() == ResponseCode.Normal.getValue()) {
 			Employee employee = response.getContent(Employee.class);
 			if ((employee.getEmployeeRole() & Employee.SCREEN) != 0
-					|| ((employee.getEmployeeRole() & Employee.DOCTOR) != 0 && (employee.getEmployeeRole() & Employee.NURSE) != 0)) {
+					|| ((employee.getEmployeeRole() & Employee.DOCTOR) != 0
+							&& (employee.getEmployeeRole() & Employee.NURSE) != 0)) {
 				mLoginView.showError("账号异常，请联系客服");
 				return;
 			}
@@ -80,9 +83,17 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 			Activity activity = (Activity) mLoginView;
 			((MedicalAppliction) activity.getApplication()).setLoginEmployee(employee);
 
+			// 第一次登陆需要修改密码
 			if (employee.isNeedResetPwd()) {
 				mLoginView.navigateToWelcome();
-				((EditText)((Activity)mLoginView).findViewById(R.id.login_password)).setText("");
+				((EditText) ((Activity) mLoginView).findViewById(R.id.login_password)).setText("");
+				return;
+			}
+			
+			// 没有绑定微信
+			if (employee.getOpenID() == null || "".equals(employee.getOpenID())) {
+				Intent intent = new Intent(context, WechatBindActivity.class);
+				context.startActivity(intent);
 				return;
 			}
 
@@ -91,9 +102,10 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 			PreferenceUtils.setPrefInt(context, MemberConstant.LOGIN_STATUS, MemberConstant.LOGIN_IN);
 			PreferenceUtils.setPrefString(context, MemberConstant.USERNAME, employee.getLoginID());
 			PreferenceUtils.setPrefString(context, MemberConstant.PASSWORD, employee.getLoginPwd());
-//			PreferenceUtils.setPrefInt(context, MemberConstant.DEVICE_ID, employee.getDeviceID());
+			// PreferenceUtils.setPrefInt(context, MemberConstant.DEVICE_ID,
+			// employee.getDeviceID());
 			MdgConfig.setDeviceId(employee.getDeviceID());
-			
+
 			mLoginView.navigateToHome(employee.getEmployeeRole());
 		} else {
 			mLoginView.requestError(response.getCode(), response.getMessage());

@@ -36,7 +36,8 @@ public class SaveEmployee extends GlobalRequest {
 		try {
 			obj.put("EmployeeName", employee.getEmployeeName());
 			obj.put("Gender", String.valueOf(employee.getGender()));
-			obj.put("DOB", DateUtils.getDateString(employee.getDOB(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)));
+			obj.put("DOB", DateUtils.getDateString(employee.getDOB(),
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)));
 			obj.put("CountryID", String.valueOf(employee.getCountryID()));
 			obj.put("ProvinceID", String.valueOf(employee.getProvinceID()));
 			obj.put("CityID", String.valueOf(employee.getCityID()));
@@ -45,6 +46,8 @@ public class SaveEmployee extends GlobalRequest {
 			obj.put("Address", employee.getAddress());
 			obj.put("GraduateSchool", employee.getGraduateSchool());
 			obj.put("SpecialtyName", employee.getSpecialtyName());
+			obj.put("unionID", employee.getUnionID());
+			obj.put("openID", employee.getOpenID());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

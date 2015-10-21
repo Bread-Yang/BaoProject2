@@ -24,6 +24,10 @@ public class MedicalConstant {
 	// 短信接口参数
 	public static final String APP_KEY = "8332dd660d6b";
 	public static final String APP_SECRECT = "7c1476ec13475006dcf4756abd406eab";
+	
+	// APP_ID 替换为你的应用从官方网站申请到的合法appId
+	public static final String WECHAT_APP_ID = "wx89ed82042044ca4a";
+    public static final String WECHAT_APP_SECRET = "14234cb71fc29c657be5cb8db93a6fb4";
 
 	// 医直达在sdcar的目录
 	public static final String APP_PATH = "/yideguan";

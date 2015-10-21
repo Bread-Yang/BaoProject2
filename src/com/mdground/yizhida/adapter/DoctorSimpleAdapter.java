@@ -29,7 +29,7 @@ public class DoctorSimpleAdapter extends SimpleAdapter<Doctor> {
 		if (selectedItem >= 0 && selectedItem == position) {
 			convertView.setBackgroundResource(R.color.click_gray);
 		}else{
-			convertView.setBackgroundResource(R.drawable.bg_listview_item_selector2);
+			convertView.setBackgroundResource(R.drawable.selector_bg_listview_item_2);
 		}
 		viewHolder.name.setText(doctor.getDoctorName());
 

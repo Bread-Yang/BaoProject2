@@ -1,10 +1,12 @@
 package com.mdground.yizhida.activity.login;
 
+import com.mdground.yizhida.MedicalConstant;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.WelcomeActivity;
 import com.mdground.yizhida.activity.base.BaseActivity;
 import com.mdground.yizhida.activity.home.MainActivity;
 import com.mdground.yizhida.activity.password.FindPasswordActivity;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.api.utils.PxUtil;
 import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.dialog.LoadingDialog;
@@ -12,6 +14,9 @@ import com.mdground.yizhida.util.PreferenceUtils;
 import com.mdground.yizhida.view.ClearEditText;
 import com.mdground.yizhida.view.ResizeLayout;
 import com.mdground.yizhida.view.ResizeLayout.OnResizeListener;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +31,8 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class LoginActivity extends BaseActivity implements OnResizeListener, OnClickListener, LoginView {
+public class LoginActivity extends BaseActivity
+		implements OnResizeListener, OnClickListener, LoginView {
 	private ResizeLayout LoginRootLayout;
 	private TextView TvHorizaontalName;
 	private TextView TvVerticalName;
@@ -44,13 +50,14 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_login);
 		findView();
 		initMemberData();
 		setListener();
 		initView();
 	}
-
+	
 	@Override
 	public void findView() {
 		iv_logo = (ImageView) this.findViewById(R.id.iv_logo);
@@ -96,17 +103,21 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 			startActivity(intent);
 			break;
 		case R.id.login_button:
-			if (EtLoginName.getText() == null || EtLoginName.getText().toString().equals("")) {
-				showToast("请输入账号");
-				return;
-			}
+			 if (EtLoginName.getText() == null ||
+			 EtLoginName.getText().toString().equals("")) {
+			 showToast("请输入账号");
+			 return;
+			 }
+			
+			 if (EtPassword.getText() == null ||
+			 EtPassword.getText().toString().equals("")) {
+			 showToast("请输入密码");
+			 return;
+			 }
+			
+			 presenter.validateCredentials(EtLoginName.getText().toString(),
+			 EtPassword.getText().toString());
 
-			if (EtPassword.getText() == null || EtPassword.getText().toString().equals("")) {
-				showToast("请输入密码");
-				return;
-			}
-
-			presenter.validateCredentials(EtLoginName.getText().toString(), EtPassword.getText().toString());
 			break;
 		default:
 			break;
@@ -186,5 +197,4 @@ public class LoginActivity extends BaseActivity implements OnResizeListener, OnC
 		Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
 		startActivity(intent);
 	}
-
 }

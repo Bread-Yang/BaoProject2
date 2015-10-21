@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/textcolor_selector"
+        android:background="@drawable/selector_textcolor"
         android:gravity="center"
         android:text="男"
         android:textSize="16sp" />
@@ -31,7 +31,7 @@
         android:id="@+id/girl_text"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@drawable/textcolor_selector"
+        android:background="@drawable/selector_textcolor"
         android:gravity="center"
         android:text="女"
         android:textSize="16sp" />

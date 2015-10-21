@@ -18,7 +18,7 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="拍照"
-        android:textColor="@drawable/new_textcolor_selector"
+        android:textColor="@drawable/selector_new_textcolor"
         android:textSize="16sp" />
 
     <Button
@@ -30,7 +30,7 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="选择本地照片"
-        android:textColor="@drawable/new_textcolor_selector"
+        android:textColor="@drawable/selector_new_textcolor"
         android:textSize="16sp" />
 
     <Button
@@ -42,7 +42,7 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:text="取消"
-        android:textColor="@drawable/new_textcolor_selector"
+        android:textColor="@drawable/selector_new_textcolor"
         android:textSize="16sp" />
 
 </RelativeLayout>

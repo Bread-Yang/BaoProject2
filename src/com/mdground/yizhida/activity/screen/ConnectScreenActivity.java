@@ -143,7 +143,7 @@ public class ConnectScreenActivity extends TitleBarActivity implements OnClickLi
 		case CONNECTED:
 			etIpAddress.setText(presenter.getConnectAddress());
 			etIpAddress.setFocusable(false);
-			btnConnect.setBackgroundResource(R.drawable.bg_button4_selector);
+			btnConnect.setBackgroundResource(R.drawable.selector_bg_button4);
 			btnConnect.setText("断开");
 			btnConnect.setEnabled(true);
 			connectedImg.setVisibility(View.VISIBLE);
@@ -152,7 +152,7 @@ public class ConnectScreenActivity extends TitleBarActivity implements OnClickLi
 			etIpAddress.setText(presenter.getConnectAddress());
 			etIpAddress.setFocusable(true);
 			etIpAddress.setFocusableInTouchMode(true);
-			btnConnect.setBackgroundResource(R.drawable.bg_button1_selector);
+			btnConnect.setBackgroundResource(R.drawable.selector_bg_button1);
 			btnConnect.setText("连接");
 			btnConnect.setEnabled(true);
 			connectedImg.setVisibility(View.GONE);
@@ -161,7 +161,7 @@ public class ConnectScreenActivity extends TitleBarActivity implements OnClickLi
 			etIpAddress.setText(presenter.getConnectAddress());
 			etIpAddress.setFocusable(true);
 			etIpAddress.setFocusableInTouchMode(true);
-			btnConnect.setBackgroundResource(R.drawable.bg_button1_selector);
+			btnConnect.setBackgroundResource(R.drawable.selector_bg_button1);
 			btnConnect.setText("连接中...");
 			btnConnect.setEnabled(false);
 			connectedImg.setVisibility(View.GONE);

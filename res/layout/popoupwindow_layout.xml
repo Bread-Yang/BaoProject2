@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/list_bg"
         android:divider="@null"
-        android:listSelector="@drawable/bg_listview_item_selector2"
+        android:listSelector="@drawable/selector_bg_listview_item_2"
         android:paddingTop="12dp"
         android:scrollbars="none" />
 

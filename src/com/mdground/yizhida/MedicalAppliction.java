@@ -3,14 +3,8 @@ package com.mdground.yizhida;
 import java.io.File;
 import java.util.List;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.content.Context;
-import android.graphics.Typeface;
-
 import com.mdground.yizhida.api.MdgAppliction;
 import com.mdground.yizhida.bean.Employee;
-import com.mdground.yizhida.crash.CrashHandler;
 import com.mdground.yizhida.db.Basedao;
 import com.mdground.yizhida.util.MdgConfig;
 import com.mdground.yizhida.util.MedicalImageDownload;
@@ -18,11 +12,22 @@ import com.mdground.yizhida.util.TencentXgPush;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.Context;
+import android.graphics.Typeface;
 
 public class MedicalAppliction extends MdgAppliction {
 
 	private Employee employee;// 登陆用户
-
+	
+	public String wechat_nickname = null;
+	
+	public static IWXAPI api;
+	
 	public MedicalAppliction() {
 	}
 
@@ -49,6 +54,10 @@ public class MedicalAppliction extends MdgAppliction {
 
 		// CalligraphyConfig.initDefault("fonts/hwxh.ttf", R.attr.fontPath);
 		// CalligraphyConfig.initDefault("fonts/boby.ttf", R.attr.fontPath);
+
+		// 注册微信
+		api = WXAPIFactory.createWXAPI(this, MedicalConstant.WECHAT_APP_ID, true);
+		api.registerApp(MedicalConstant.WECHAT_APP_ID);
 
 		MedicalConstant.NotoSans_Regular = Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf");
 	}

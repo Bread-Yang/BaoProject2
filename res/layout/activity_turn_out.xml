@@ -57,7 +57,7 @@
             android:layout_marginTop="40dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:background="@drawable/bg_button1_selector"
+            android:background="@drawable/selector_bg_button1"
             android:text="确定"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
