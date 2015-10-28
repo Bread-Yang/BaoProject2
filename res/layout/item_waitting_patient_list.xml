@@ -39,7 +39,7 @@
     <RelativeLayout
         android:id="@+id/basic_info_layout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:background="#ffffffff"
         android:gravity="center_vertical"
         android:tag="basic_info_layout" >

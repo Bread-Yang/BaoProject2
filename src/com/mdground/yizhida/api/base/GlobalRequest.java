@@ -5,8 +5,8 @@ import android.content.Context;
 
 public abstract class GlobalRequest extends BaseRequest {
 
-//	private static final String GLOBAL_SERVER = "https://guat.yideguan.com/api/RpcService.ashx";
-	private static final String GLOBAL_SERVER = "https://g.yideguan.com/api/RpcService.ashx";
+	private static final String GLOBAL_SERVER = "https://guat.yideguan.com/api/RpcService.ashx";
+//	private static final String GLOBAL_SERVER = "https://g.yideguan.com/api/RpcService.ashx";
 
 //	private static final String GLOBAL_SERVER = "http://192.168.0.107:8000/api/RpcService.ashx";
 

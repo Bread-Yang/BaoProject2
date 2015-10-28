@@ -84,7 +84,7 @@
                     android:id="@+id/namelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -161,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -196,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
                     android:layout_marginTop="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -284,7 +284,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -321,7 +321,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:padding="10dp" >
 
                     <TextView
@@ -367,7 +367,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
                     android:layout_marginTop="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:clickable="true"
                     android:padding="10dp" >
 
@@ -405,7 +405,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:clickable="true"
                     android:padding="10dp" >
 
@@ -443,7 +443,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:clickable="true"
                     android:padding="10dp" >
 
@@ -481,7 +481,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -520,7 +520,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >
@@ -594,7 +594,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-1dp"
-                    android:background="@drawable/bg_doctor_item"
+                    android:background="@drawable/selector_bg_doctor_item"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp" >

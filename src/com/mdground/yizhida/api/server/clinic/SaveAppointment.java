@@ -69,6 +69,7 @@ public class SaveAppointment extends ClinicRequest {
 		private Date OPDate;
 		private int OPStatus;
 		private int OPType;
+		private boolean Emergency;
 		private String Remark;
 		private String OPEMR;
 		private float Lat;
@@ -84,6 +85,7 @@ public class SaveAppointment extends ClinicRequest {
 			this.OPDate = appointmentInfo.getOPDate();
 			this.OPStatus = AppointmentInfo.STATUS_WATTING;
 			this.OPType = 2;
+			this.Emergency = appointmentInfo.isEmergency();
 			this.Remark = appointmentInfo.getRemark();
 			this.OPEMR = appointmentInfo.getOPEMR();
 			this.Lat = 123;
@@ -139,6 +141,14 @@ public class SaveAppointment extends ClinicRequest {
 
 		public void setOPType(int oPType) {
 			OPType = oPType;
+		}
+
+		public boolean isEmergency() {
+			return Emergency;
+		}
+
+		public void setEmergency(boolean emergency) {
+			Emergency = emergency;
 		}
 
 		public String getRemark() {

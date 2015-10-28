@@ -1,6 +1,7 @@
 package com.mdground.yizhida.activity.password;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,7 +45,7 @@ public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswo
 		if (mPhone != null && mPhone.length() == 11) {
 			String phone = mPhone.substring(0, 3) + "****" + mPhone.substring(7, 11);
 			tvPrompt.setText(Tools.getFormat(this, R.string.activity_pwd_verify_prompt, phone));
-		}else{
+		} else {
 			tvPrompt.setText(Tools.getFormat(this, R.string.activity_pwd_verify_prompt, mPhone));
 		}
 	}
@@ -67,7 +68,7 @@ public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswo
 		Intent intent = getIntent();
 		if (intent != null) {
 			mPhone = intent.getStringExtra(MemberConstant.PHONE);
-		} 
+		}
 	}
 
 	@Override
@@ -88,8 +89,26 @@ public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswo
 				return;
 			}
 			
-			presenter.getAuthCode(mPhone);
 			tvGetAuthCode.setClickable(false);
+
+			presenter.getAuthCode(mPhone);
+			
+			final CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
+				@Override
+				public void onTick(long arg0) {
+					tvGetAuthCode.setText("正在发送(" + arg0 / 1000 + ")");
+					tvGetAuthCode.setTextColor(getResources().getColor(R.color.mynor_text));
+				}
+
+				@Override
+				public void onFinish() {
+					tvGetAuthCode.setText("重新发送");
+					tvGetAuthCode.setTextColor(getResources().getColor(R.color.myblue));
+					tvGetAuthCode.setClickable(true);
+					
+				}
+			};
+			countDownTimer.start();
 			break;
 		}
 	}
@@ -109,13 +128,13 @@ public class VerifyCodeActivity extends TitleBarActivity implements VerifyPasswo
 
 	@Override
 	public void updateTime(int time) {
-		tvGetAuthCode.setText(Tools.getFormat(this, R.string.activity_pwd_verify_sending, time));
+//		tvGetAuthCode.setText(Tools.getFormat(this, R.string.activity_pwd_verify_sending, time));
 	}
 
 	@Override
 	public void showReSend() {
-		tvGetAuthCode.setText(getResources().getString(R.string.activity_pwd_verify_regetAuthCode));
-		tvGetAuthCode.setClickable(true);
+//		tvGetAuthCode.setText(getResources().getString(R.string.activity_pwd_verify_regetAuthCode));
+//		tvGetAuthCode.setClickable(true);
 	}
 
 	@Override

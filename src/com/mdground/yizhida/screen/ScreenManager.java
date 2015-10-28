@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.mdground.yizhida.api.utils.L;
+
 import android.os.Handler;
 
 /**
@@ -48,11 +50,12 @@ public class ScreenManager {
 
 	private ExecutorService pool = Executors.newFixedThreadPool(1);
 
-	class ConnectRunnabl implements Runnable {
+	class ConnectRunnable implements Runnable {
 
 		@Override
 		public void run() {
 			try {
+				L.e(ScreenManager.class, "不断地执行");
 				socket = new Socket(ip, port);
 				dis = new DataInputStream(socket.getInputStream());
 				dos = new DataOutputStream(socket.getOutputStream());
@@ -60,11 +63,13 @@ public class ScreenManager {
 				// 连接成功后接收服务器响应消息
 				byte buffer[] = new byte[1024];
 				mHandler.sendEmptyMessage(CONNECTED);
+				
 				while (dis.read(buffer) != -1) {
 					mHandler.obtainMessage(RECIVE_MSG, new String(buffer).trim()).sendToTarget();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+				L.e(ScreenManager.class,"连接断开了" );
 				if (e.getMessage() != null && e.getMessage().contains("connect failed")) {
 					mHandler.sendEmptyMessage(CONNECT_FAILED);
 				} else {
@@ -136,7 +141,7 @@ public class ScreenManager {
 				e.printStackTrace();
 			}
 		}
-		pool.execute(new ConnectRunnabl());
+		pool.execute(new ConnectRunnable());
 	}
 
 	public void startHeartbeat() {
@@ -176,7 +181,7 @@ public class ScreenManager {
 		if (dos == null) {
 			return;
 		}
-
+		
 		try {
 			dos.write(message.getBytes());
 			dos.flush();

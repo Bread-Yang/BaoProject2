@@ -30,7 +30,7 @@ public class RequestData {
 	private String ServiceToken = "";
 
 	// / 请求时间（现在与1970.1.1的时间差，单位秒）
-	private int ActionTimeSpan;
+	private long ActionTimeSpan;
 
 	// / 请求参数
 	private String QueryData;
@@ -110,11 +110,11 @@ public class RequestData {
 		ServiceToken = serviceToken;
 	}
 
-	public int getActionTimeSpan() {
+	public long getActionTimeSpan() {
 		return ActionTimeSpan;
 	}
 
-	public void setActionTimeSpan(int actionTimeSpan) {
+	public void setActionTimeSpan(long actionTimeSpan) {
 		ActionTimeSpan = actionTimeSpan;
 	}
 

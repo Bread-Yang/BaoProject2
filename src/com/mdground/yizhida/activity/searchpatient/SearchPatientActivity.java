@@ -1,6 +1,7 @@
 package com.mdground.yizhida.activity.searchpatient;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import android.annotation.SuppressLint;
@@ -254,7 +255,13 @@ public class SearchPatientActivity extends BaseActivity implements OnItemClickLi
 			Patient patient = new Patient();
 			patient.setClinicID(loginEmployee.getClinicID());
 			patient.setPatientName(EtSearchKey.getText().toString());
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DAY_OF_MONTH, -30);
+			patient.setDOB(c.getTime());
+			patient.setRegistrationTime(c.getTime());
 			intent.putExtra(MemberConstant.PATIENT, patient);
+			intent.putExtra("isAdd", true);
 			startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 			break;
 		}

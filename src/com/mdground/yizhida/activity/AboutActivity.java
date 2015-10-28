@@ -15,7 +15,7 @@ public class AboutActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.about_layout);
+		setContentView(R.layout.activity_about);
 		TextView textview = (TextView) findViewById(R.id.textView2);
 		textview.setText("V" + getVersion());
 		findViewById(R.id.back).setOnClickListener(new OnClickListener() {

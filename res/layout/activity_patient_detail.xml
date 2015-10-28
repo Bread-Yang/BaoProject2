@@ -11,13 +11,13 @@
         android:background="@drawable/top_bg1" >
 
         <TextView
-            android:id="@+id/edit"
+            android:id="@+id/tv_emergency"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:gravity="center_vertical"
-            android:text="编辑"
+            android:text="@string/emergency"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
@@ -63,8 +63,7 @@
         android:id="@+id/layout_opt_buttons"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_button_registration" >
+        android:layout_alignParentBottom="true" >
 
         <Button
             android:id="@+id/btn_opt"
@@ -72,7 +71,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@null"
+            android:background="@drawable/selector_bg_button_blue_swell"
             android:text="挂号"
             android:textColor="@color/white"
             android:textSize="22sp" />

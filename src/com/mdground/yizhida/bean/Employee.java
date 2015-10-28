@@ -60,12 +60,12 @@ public class Employee {
 	/**
 	 * 微信用户所在公众号唯一ID
 	 */
-	public String unionID;
+	public String UnionID;
 	
 	/**
 	 * 微信用户的唯一ID
 	 */
-	public String openID;
+	public String OpenID;
 
 	public boolean HasCertification;
 
@@ -122,6 +122,10 @@ public class Employee {
 	public int SystemTimeout;
 
 	public int Status;
+	
+	public boolean NeedBindWechat;
+	
+	public String WeChatName;
 
 	public int UpdatedBy;
 
@@ -296,19 +300,19 @@ public class Employee {
 	}
 	
 	public String getUnionID() {
-		return unionID;
+		return UnionID;
 	}
 
 	public void setUnionID(String unionID) {
-		this.unionID = unionID;
+		UnionID = unionID;
 	}
 
 	public String getOpenID() {
-		return openID;
+		return OpenID;
 	}
 
 	public void setOpenID(String openID) {
-		this.openID = openID;
+		OpenID = openID;
 	}
 
 	public boolean isHasCertification() {
@@ -533,6 +537,22 @@ public class Employee {
 
 	public void setStatus(int status) {
 		Status = status;
+	}
+
+	public boolean isNeedBindWechat() {
+		return NeedBindWechat;
+	}
+
+	public void setNeedBindWechat(boolean needBindWechat) {
+		NeedBindWechat = needBindWechat;
+	}
+
+	public String getWeChatName() {
+		return WeChatName;
+	}
+
+	public void setWeChatName(String weChatName) {
+		WeChatName = weChatName;
 	}
 
 	public int getUpdatedBy() {

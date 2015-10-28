@@ -99,10 +99,16 @@ public class AppointmentHelper {
 
 		Map<Integer, List<AppointmentInfo>> mapAppointment = new TreeMap<Integer, List<AppointmentInfo>>(comparator);
 		List<AppointmentInfo> disgnosingAppointment = new ArrayList<AppointmentInfo>();
+		List<AppointmentInfo> emergencyAppointment = new ArrayList<AppointmentInfo>();
 		for (int i = 0; i < appointmentList.size(); i++) {
 			AppointmentInfo appointment = appointmentList.get(i);
 			if ((appointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
 				disgnosingAppointment.add(appointment);
+				continue;
+			}
+			
+			if (appointment.isEmergency() && opStatus == AppointmentInfo.STATUS_WATTING) {
+				emergencyAppointment.add(appointment);
 				continue;
 			}
 
@@ -114,8 +120,18 @@ public class AppointmentHelper {
 			tmpList.add(appointment);
 		}
 
-		resultList.addAll(disgnosingAppointment);
-
+		resultList.addAll(disgnosingAppointment); // 就诊中
+		
+		if (emergencyAppointment.size() > 0) {
+			AppointmentInfo appointmentInfo = new AppointmentInfo();
+			appointmentInfo.setType(AppointmentInfo.GROUP);
+			appointmentInfo.setOPDatePeriod(0);
+			appointmentInfo.setGroup_num(emergencyAppointment.size());
+			resultList.add(appointmentInfo); // 增加一个类型位group的空类,作为ListView的Header显示出来
+		}
+		
+		resultList.addAll(emergencyAppointment);  // 急诊
+		
 		int lastKey = 0;
 		if (opStatus != AppointmentInfo.STATUS_WATTING) {
 			lastKey = 12;

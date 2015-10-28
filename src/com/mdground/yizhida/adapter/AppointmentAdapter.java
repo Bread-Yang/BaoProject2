@@ -126,9 +126,9 @@ public class AppointmentAdapter extends SimpleAdapter<AppointmentInfo> {
 			viewHolder.operator.setText("");
 		} else if ((appointment.getOPStatus() & AppointmentInfo.STATUS_WATTING) == AppointmentInfo.STATUS_WATTING) {
 			// 候诊状态，显示分配
-			viewHolder.operator.setText(mContext.getResources().getString(R.string.activity_waitting_opt_assign));
+			viewHolder.operator.setText(mContext.getResources().getString(R.string.opt_assign));
 		} else if ((appointment.getOPStatus() & AppointmentInfo.STATUS_PASSED) == AppointmentInfo.STATUS_PASSED) {// 过号状态
-			viewHolder.operator.setText(mContext.getResources().getString(R.string.activity_waitting_opt_rebuild));
+			viewHolder.operator.setText(mContext.getResources().getString(R.string.opt_rebuild));
 		}
 	}
 
@@ -136,10 +136,10 @@ public class AppointmentAdapter extends SimpleAdapter<AppointmentInfo> {
 		viewHolder.operator.setTag(appointment);
 		// 就诊状态，无操作
 		if ((appointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) == AppointmentInfo.STATUS_DIAGNOSING) {
-			viewHolder.operator.setText(mContext.getResources().getString(R.string.activity_waitting_opt_finish));
+			viewHolder.operator.setText(mContext.getResources().getString(R.string.opt_finish));
 		} else if ((appointment.getOPStatus() & AppointmentInfo.STATUS_WATTING) == AppointmentInfo.STATUS_WATTING) {
 			// 候诊状态，显示过号
-			viewHolder.operator.setText(mContext.getResources().getString(R.string.activity_waitting_opt_pass));
+			viewHolder.operator.setText(mContext.getResources().getString(R.string.opt_pass));
 		}
 	}
 

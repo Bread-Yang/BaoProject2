@@ -24,8 +24,6 @@ public class MedicalAppliction extends MdgAppliction {
 
 	private Employee employee;// 登陆用户
 	
-	public String wechat_nickname = null;
-	
 	public static IWXAPI api;
 	
 	public MedicalAppliction() {
@@ -56,8 +54,8 @@ public class MedicalAppliction extends MdgAppliction {
 		// CalligraphyConfig.initDefault("fonts/boby.ttf", R.attr.fontPath);
 
 		// 注册微信
-		api = WXAPIFactory.createWXAPI(this, MedicalConstant.WECHAT_APP_ID, true);
-		api.registerApp(MedicalConstant.WECHAT_APP_ID);
+		api = WXAPIFactory.createWXAPI(this, MedicalConstant.WECHAT_MOBILE_APP_ID, true);
+		api.registerApp(MedicalConstant.WECHAT_MOBILE_APP_ID);
 
 		MedicalConstant.NotoSans_Regular = Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf");
 	}

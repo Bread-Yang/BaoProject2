@@ -46,8 +46,9 @@ public class SaveEmployee extends GlobalRequest {
 			obj.put("Address", employee.getAddress());
 			obj.put("GraduateSchool", employee.getGraduateSchool());
 			obj.put("SpecialtyName", employee.getSpecialtyName());
-			obj.put("unionID", employee.getUnionID());
-			obj.put("openID", employee.getOpenID());
+			obj.put("UnionID", employee.getUnionID());
+			obj.put("OpenID", employee.getOpenID());
+			obj.put("WorkWX", employee.getWorkWX());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

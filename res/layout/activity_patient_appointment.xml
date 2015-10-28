@@ -15,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
             android:gravity="center_vertical"
+            android:padding="5dp"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
@@ -51,48 +51,44 @@
         layout="@layout/common_patient_info" />
 
     <!-- 这是基本信息Tab -->
+
     <include
         android:id="@+id/page_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/llt_btn"
         android:layout_below="@id/common_info"
         android:layout_marginTop="30dp"
-        android:layout_above="@+id/layout_opt_buttons"
         layout="@layout/common_patient_detail_layout" />
 
-
-
-    <RelativeLayout
-        android:id="@+id/layout_opt_buttons"
+    <LinearLayout
+        android:id="@+id/llt_btn"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
         android:visibility="gone" >
 
         <Button
-            android:id="@+id/btn_opt"
+            android:id="@+id/btn_one"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/btn_call"
-            android:background="@null"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_button_green_rectangle"
+            android:text="开始"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
         <Button
-            android:id="@+id/btn_call"
-            android:layout_width="120dp"
+            android:id="@+id/btn_two"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignBaseline="@+id/btn_opt"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="0dp"
-            android:background="@null"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_button_blue_swell"
             android:text="叫号"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="22sp" />
-    </RelativeLayout>
+            android:textSize="22sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </RelativeLayout>

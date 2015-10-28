@@ -158,7 +158,9 @@ public class PatientCommonActivity extends BaseActivity {
 		this.TvPatientAge.setText(patient.getAgeStr());
 		this.TvPatientName.setText(patient.getPatientName());
 		if (appiontmentNo != 0) {
-			this.TvAppionmentNo.setText(String.valueOf(appiontmentNo));
+			String pattern = "0000";
+			java.text.DecimalFormat df = new java.text.DecimalFormat(pattern);
+			TvAppionmentNo.setText(df.format(appiontmentNo));
 		} else {
 			this.TvAppionmentNo.setVisibility(View.GONE);
 		}

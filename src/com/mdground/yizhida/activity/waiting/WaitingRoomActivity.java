@@ -1,6 +1,7 @@
 package com.mdground.yizhida.activity.waiting;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -23,10 +24,14 @@ import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.AppointmentInfo;
 import com.mdground.yizhida.bean.Doctor;
 import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.screen.ScreenManager;
+import com.mdground.yizhida.util.DateUtils;
 import com.mdground.yizhida.util.Tools;
 import com.mdground.yizhida.view.RadioView;
 import com.mdground.yizhida.view.RadioView.SelectListener;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -44,6 +49,7 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 这是护士端看到的医生候诊的页面
@@ -55,7 +61,9 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		OnRefreshListener<SwipeMenuListView>, OnItemClickListener, OnMenuItemClickListener {
 
 	private static final int ACTION_REAPPOINT = 1;
-	private static final int ACTION_ASSIGN = 2;
+	// private static final int ACTION_ASSIGN = 2;
+	private static final int ACTION_CALL = 3;
+	private static final int ACTION_PASSED = 4;
 
 	private RadioView radioView;
 	private ListView doctorListView;
@@ -125,6 +133,7 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 				if (menu.getMenuItems().size() == 0) {
 					int type = menu.getViewType();
 					SwipeMenuItem optItem = null;// 操作按钮
+					SwipeMenuItem callItem = null;// 叫号按钮
 					switch (type) {
 					case AppointmentAdapter.PASSED:
 						optItem = new SwipeMenuItem(WaitingRoomActivity.this.getApplicationContext());
@@ -135,22 +144,38 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 						break;
 					case AppointmentAdapter.WATTING:
 						optItem = new SwipeMenuItem(WaitingRoomActivity.this.getApplicationContext());
-						optItem.setTitle("分配");
+						optItem.setTitle("过号");
 						optItem.setWidth(Tools.dip2px(WaitingRoomActivity.this, 120));
-						optItem.setAction(ACTION_ASSIGN);
+						optItem.setAction(ACTION_PASSED);
 						optItem.setVisable(true);
+
+						callItem = createCallMenuItem();
 						break;
 					default:
 						break;
 					}
 
+					if (callItem != null) {
+						menu.addMenuItem(callItem);
+					}
+
 					if (optItem != null) {
-						optItem.setBackground(R.color.bg_item_opt);
+						optItem.setBackground(R.drawable.selector_bg_button_black_dent);
 						optItem.setTitleSize(18);
 						optItem.setTitleColor(Color.WHITE);
 						menu.addMenuItem(optItem);
 					}
 
+				} else {
+					SwipeMenuItem item = menu.getMenuItemBayAction(ACTION_CALL);
+					if (item == null) {
+						return;
+					}
+					if (ScreenManager.getInstance().isConnected()) {
+						item.setVisable(true);
+					} else {
+						item.setVisable(false);
+					}
 				}
 			}
 
@@ -241,6 +266,30 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		pullToRefreshSwipeListView.setOnRefreshListener(this);
 	}
 
+	/**
+	 * 创建叫号按钮
+	 * 
+	 * @return
+	 */
+	private SwipeMenuItem createCallMenuItem() {
+		SwipeMenuItem callItem = null;
+
+		callItem = new SwipeMenuItem(getApplicationContext());
+		callItem.setBackground(R.drawable.selector_bg_button_blue_dent);
+		callItem.setWidth(Tools.dip2px(this, 120));
+		callItem.setTitle("叫号");
+		callItem.setTitleSize(18);
+		callItem.setAction(ACTION_CALL);
+		callItem.setTitleColor(Color.WHITE);
+		if (!ScreenManager.getInstance().isConnected()) {
+			callItem.setVisable(false);
+		} else {
+			callItem.setVisable(true);
+		}
+
+		return callItem;
+	}
+
 	@Override
 	public void onSelect(int i) {
 		switch (i) {
@@ -316,7 +365,7 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		if (appiontmentId <= 0) {
 			return;
 		}
-		AppointmentInfo nextAppiontment = null;
+		AppointmentInfo nextAppointment = null;
 		// 解决第一次重复显示同一个预约
 		for (int i = 0; i < appointments.size(); i++) {
 			if (appointments.get(i).getOPID() == appiontmentId) {
@@ -331,7 +380,9 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		if (appointments.size() > 0) {
 			for (int i = 0; i < appointments.size(); i++) {
 				AppointmentInfo appointment = appointments.get(i);
-				if (appointment == null || appointment.getType() == AppointmentInfo.GROUP) {
+				if (appointment == null || appointment.getType() == AppointmentInfo.GROUP
+						|| appointment.getType() == AppointmentInfo.EMPTY
+						|| DateUtils.compareToCurrentPeriod(appointment.getOPDatePeriod()) == 1) {
 					continue;
 				}
 				tmpOffset = appointment.getOPID() - appiontmentId;
@@ -349,27 +400,30 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 			if (index == -1) {
 				for (int i = 0; i < appointments.size(); i++) {
 					AppointmentInfo appointment = appointments.get(i);
-					if (appointment == null || appointment.getType() == AppointmentInfo.GROUP) {
+					if (appointment == null || appointment.getType() == AppointmentInfo.GROUP
+							|| appointment.getType() == AppointmentInfo.EMPTY
+							|| DateUtils.compareToCurrentPeriod(appointment.getOPDatePeriod()) == 1) {
 						continue;
 					}
-					nextAppiontment = appointment;
+					nextAppointment = appointment;
+					index = i;
 					break;
 				}
 			} else {
-				nextAppiontment = appointments.get(index);
+				nextAppointment = appointments.get(index);
 			}
 		} else {
 			return;
 		}
-		if (nextAppiontment == null) {
+		if (nextAppointment == null) {
 			return;
 		}
-		appointments.remove(nextAppiontment);
-
-		Intent intent = new Intent();
-		intent.setClass(this, PatientAppointmentActivity.class);
-		intent.putExtra(MemberConstant.APPOINTMENT, nextAppiontment);
-
+		// appointments.remove(nextAppiontment);
+		// nextAppointment.setDoctorName(employee.getEmployeeName());
+		Intent intent = new Intent(this, PatientAppointmentActivity.class);
+		intent.putExtra(MemberConstant.APPOINTMENT, nextAppointment);
+		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
+		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
 		startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 	}
 
@@ -441,11 +495,49 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 			return true;
 		}
 		switch (item.getAction()) {
-		case ACTION_ASSIGN:
+		case ACTION_CALL:
+			presenter.callPatient(appointments.get(position), currentDoctor.getEmployeeName());
+			break;
+		case ACTION_PASSED:
 			// 候诊状态，显示分配
-			Intent intent = new Intent(WaitingRoomActivity.this, DoctorSelectListActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT, appointment);
-			startActivityForResult(intent, MemberConstant.APPIONTMENT_ASSIGN_REQUEST_CODE);
+			// Intent intent = new Intent(WaitingRoomActivity.this,
+			// DoctorSelectListActivity.class);
+			// intent.putExtra(MemberConstant.APPOINTMENT, appointment);
+			// startActivityForResult(intent,
+			// MemberConstant.APPIONTMENT_ASSIGN_REQUEST_CODE);
+
+			if (position > appointments.size()) {
+				return false;
+			}
+			final AppointmentInfo appointmentInfo = appointments.get(position);
+			// if ((System.currentTimeMillis() -
+			// appintmentInfo.getCreateTime().getTime()) < (long) 30 * (long) 60
+			// * (long) 1000) {
+			// Toast.makeText(getActivity(), appintmentInfo.getTaStr() +
+			// "预约才不到半小时,请手下留情", Toast.LENGTH_SHORT).show();
+			// return false;
+			// }
+
+			Calendar c = Calendar.getInstance();
+			int currentHour = c.get(Calendar.HOUR_OF_DAY); // 当前时间
+
+			currentHour = currentHour / 2 + 1;
+
+			if (appointmentInfo.getOPDatePeriod() > currentHour) {
+				Toast.makeText(this, R.string.current_time_no_appointment_time, Toast.LENGTH_SHORT).show();
+				return false;
+			}
+
+			final AlertDialog myDialog = new AlertDialog.Builder(this).setMessage("确定过号？")
+					.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							presenter.updateAppointment(appointmentInfo, AppointmentInfo.STATUS_PASSED);
+						}
+					}).setNeutralButton("取消", null).create();
+			myDialog.show();
+
 			break;
 		case ACTION_REAPPOINT:
 			// 重新排队

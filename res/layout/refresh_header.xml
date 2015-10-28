@@ -34,7 +34,7 @@
             android:layout_toLeftOf="@+id/pull_to_refresh_text"
             android:indeterminate="true"
             android:indeterminateBehavior="repeat"
-            android:indeterminateDrawable="@drawable/reflash_bar"
+            android:indeterminateDrawable="@drawable/anim_reflash_bar"
             android:indeterminateOnly="true"
             android:visibility="gone" />
 

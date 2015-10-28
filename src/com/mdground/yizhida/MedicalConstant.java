@@ -25,19 +25,23 @@ public class MedicalConstant {
 	public static final String APP_KEY = "8332dd660d6b";
 	public static final String APP_SECRECT = "7c1476ec13475006dcf4756abd406eab";
 	
-	// APP_ID 替换为你的应用从官方网站申请到的合法appId
-	public static final String WECHAT_APP_ID = "wx89ed82042044ca4a";
-    public static final String WECHAT_APP_SECRET = "14234cb71fc29c657be5cb8db93a6fb4";
+	// APP_ID 替换为你的应用从官方网站申请到的合法appId   
+	public static final String WECHAT_MOBILE_APP_ID = "wx89ed82042044ca4a";
+    public static final String WECHAT_MOBILE_APP_SECRET = "14234cb71fc29c657be5cb8db93a6fb4";
+     
+    // 微信公众平台的Appid
+//    public static final String WECHAT_PUBLIC_APP_ID = "wxcb3d5adbfb987208";
+//    public static final String WECHAT_PUBLIC_APP_SECRET = "c05eec74ab0ecde5d6bd1f16c2bfb548";
 
 	// 医直达在sdcar的目录
 	public static final String APP_PATH = "/yideguan";
-	// 保存数据目录
+	// 保存数据目录 
 	public static final String APP_DATA = "/data";
 	// 保存二维码目录
 	public static final String APP_QRCODE = "/qrcode";
 	//保存crash打印
 	public static final String APP_CRASH = "/crash";
-
+ 
 	// 信鸽推送
 	public static final long XG_V2_ACCESS_ID = 2100142473;
 	public static final String XG_V2_ACCESS_KEY = "AP6YZ6M68H1M";

@@ -17,7 +17,7 @@
         android:layout_below="@+id/iv_record"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="还没有过敏史"
+        android:text="还没有既往史"
         android:textColor="#C3C3C3"
         android:textSize="20sp" />
 

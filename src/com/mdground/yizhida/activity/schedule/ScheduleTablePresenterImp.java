@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.http.Header;
 
-import android.content.Context;
-
 import com.google.gson.reflect.TypeToken;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.api.base.RequestCallBack;
@@ -14,10 +12,13 @@ import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.clinic.GetEmployeeScheduleList;
 import com.mdground.yizhida.api.server.global.GetEmployeeList;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.bean.Schedule;
 import com.mdground.yizhida.db.dao.EmployeeDao;
 import com.mdground.yizhida.db.dao.ScheduleDao;
+
+import android.content.Context;
 
 public class ScheduleTablePresenterImp implements ScheduleTablePresenter {
 
@@ -40,6 +41,8 @@ public class ScheduleTablePresenterImp implements ScheduleTablePresenter {
 
 				@Override
 				public void onSuccess(ResponseData response) {
+					L.e(ScheduleTablePresenterImp.this, "getEmployeeList()返回的数据 : " + response.getContent());
+					
 					if (response.getCode() == ResponseCode.Normal.getValue()) {
 						List<Employee> employees = response.getContent(new TypeToken<List<Employee>>() {
 						});
@@ -80,6 +83,8 @@ public class ScheduleTablePresenterImp implements ScheduleTablePresenter {
 
 			@Override
 			public void onSuccess(ResponseData response) {
+				L.e(ScheduleTablePresenterImp.this, "getEmployeeScheduleList()返回的数据 : " + response.getContent());
+				
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
 					List<Schedule> schedules = response.getContent(new TypeToken<List<Schedule>>() {
 					});

@@ -91,10 +91,8 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		L.e(this, "position : " + position);
 		BaseHolder holder = null;
 		int type = getItemViewType(position);
-		L.e(this, "type : " + type);
 		if (convertView == null) {
 			// convertView =
 			// mInflater.inflate(R.layout.item_waitting_patient_list, null);
@@ -201,13 +199,17 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 
 	// 计算时间区间
 	private String calcTime(int datePeriod) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(df.format((datePeriod - 1) * 2));
-		sb.append(":00");
-		sb.append("~");
-		sb.append(df.format((datePeriod) * 2));
-		sb.append(":00");
-		return sb.toString();
+		if (datePeriod == 0) {
+			return mContext.getString(R.string.emergency);
+		} else {
+			StringBuffer sb = new StringBuffer();
+			sb.append(df.format((datePeriod - 1) * 2));
+			sb.append(":00");
+			sb.append("~");
+			sb.append(df.format((datePeriod) * 2));
+			sb.append(":00");
+			return sb.toString();
+		}
 	}
 	
 	private void bindEmptyData(int position, BaseHolder holder) {
@@ -256,8 +258,24 @@ public class AppointmentAdapter2 extends BaseAdapter implements PinnedSectionLis
 			}
 			if (appointment.getOPType() == 1) { // 是微信预约
 				viewHolder.iv_booking_icon.setVisibility(View.VISIBLE);
+				
+				if ((appointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
+					viewHolder.iv_booking_icon.setImageResource(R.drawable.booking2);
+				} else {
+					viewHolder.iv_booking_icon.setImageResource(R.drawable.booking);
+				}
+				
 			} else {
 				viewHolder.iv_booking_icon.setVisibility(View.INVISIBLE);
+			}
+			if (appointment.isEmergency()) {
+				viewHolder.iv_booking_icon.setVisibility(View.VISIBLE);
+				
+				if ((appointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
+					viewHolder.iv_booking_icon.setImageResource(R.drawable.emergency2);
+				} else {	
+					viewHolder.iv_booking_icon.setImageResource(R.drawable.emergency);
+				}
 			}
 		}
 

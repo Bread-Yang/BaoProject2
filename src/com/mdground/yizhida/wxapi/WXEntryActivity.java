@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	
@@ -42,21 +41,21 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	public void onReq(BaseReq arg0) {
 		// TODO Auto-generated method stub
+		L.e(this, "onReq()");
 		finish();
 	}
 
 	@Override
 	public void onResp(BaseResp resp) {
 		// TODO Auto-generated method stub
+		L.e(this, "onResp()");
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == resp.getType()) {
-				Toast.makeText(context, "分享成功", Toast.LENGTH_LONG).show();
 				break;
 			}
 			wechat_code = ((SendAuth.Resp) resp).code;
 			
-			Toast.makeText(context, "微信确认登录返回的code：" + wechat_code, Toast.LENGTH_LONG).show();
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
 			break;

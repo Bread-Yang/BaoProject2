@@ -1,6 +1,7 @@
 package com.mdground.yizhida.activity.home;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,6 +43,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DoctorHomeFragment extends BaseFragment implements SelectListener, OnClickListener, DoctorHomeView,
 		OnRefreshListener<SwipeMenuListView>, OnMenuItemClickListener, OnItemClickListener {
@@ -133,7 +135,7 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 					}
 
 					if (optItem != null) {
-						optItem.setBackground(R.color.bg_item_opt);
+						optItem.setBackground(R.drawable.selector_bg_button_black_dent);
 						optItem.setWidth(Tools.dip2px(getActivity(), 120));
 						optItem.setTitleSize(18);
 						optItem.setTitleColor(Color.WHITE);
@@ -168,7 +170,7 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 		SwipeMenuItem callItem = null;
 
 		callItem = new SwipeMenuItem(getActivity().getApplicationContext());
-		callItem.setBackground(R.drawable.box10);
+		callItem.setBackground(R.drawable.selector_bg_button_blue_dent);
 		callItem.setWidth(Tools.dip2px(getActivity(), 120));
 		callItem.setTitle("叫号");
 		callItem.setTitleSize(18);
@@ -382,7 +384,7 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 			if (position > appointments.size()) {
 				return false;
 			}
-			final AppointmentInfo appintmentInfo = appointments.get(position);
+			final AppointmentInfo appointmentInfo = appointments.get(position);
 			// if ((System.currentTimeMillis() -
 			// appintmentInfo.getCreateTime().getTime()) < (long) 30 * (long) 60
 			// * (long) 1000) {
@@ -390,13 +392,24 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 			// "预约才不到半小时,请手下留情", Toast.LENGTH_SHORT).show();
 			// return false;
 			// }
+			
+			Calendar c = Calendar.getInstance();
+			int currentHour = c.get(Calendar.HOUR_OF_DAY); // 当前时间
 
+			currentHour = currentHour / 2 + 1;
+
+			if (appointmentInfo.getOPDatePeriod() > currentHour) {
+				Toast.makeText(getActivity(), R.string.current_time_no_appointment_time, Toast.LENGTH_SHORT)
+						.show();
+				return false;
+			}
+			
 			final AlertDialog myDialog = new AlertDialog.Builder(getActivity()).setMessage("确定过号？")
 					.setNegativeButton("确定", new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							presenter.updateAppointment(appintmentInfo, AppointmentInfo.STATUS_PASSED);
+							presenter.updateAppointment(appointmentInfo, AppointmentInfo.STATUS_PASSED);
 						}
 					}).setNeutralButton("取消", null).create();
 			myDialog.show();
@@ -431,8 +444,8 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 			}
 			tempList.add(item);
 		}
-		
-		if (appointment.getOPStatus() != AppointmentInfo.STATUS_WATTING) {
+
+		if ((appointment.getOPStatus() & AppointmentInfo.STATUS_WATTING) != AppointmentInfo.STATUS_WATTING) {
 			Collections.reverse(tempList);
 			index = tempList.size() - 1 - index;
 		}

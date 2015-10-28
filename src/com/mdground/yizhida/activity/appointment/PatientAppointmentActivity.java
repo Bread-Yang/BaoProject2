@@ -39,6 +39,7 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private static final int OPT_ASSIGN = 3;
 	private static final int OPT_STOP = 4;
 	private static final int OPT_START = 5;
+	private static final int OPT_CALL = 6;
 
 	private PatientBasicLayout patientBasicLayout;
 	private ArrayList<View> viewContainter;
@@ -81,9 +83,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private int opStatus;
 	private int role;
 
-	private Button btnOpt;
-	private Button btnCall, btn_patient_detail;
-	private RelativeLayout layoutButtons;
+	private Button btn_one;
+	private Button btn_two, btn_patient_detail;
+	private LinearLayout llt_btn;
 
 	private Dialog dialog_patient_detail;
 
@@ -113,10 +115,10 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		circleHeadImage = (CircleImageView) findViewById(R.id.headimg);
 
 		// 操作按钮
-		btnOpt = (Button) findViewById(R.id.btn_opt);
-		btnCall = (Button) findViewById(R.id.btn_call);
+		btn_one = (Button) findViewById(R.id.btn_one);
+		btn_two = (Button) findViewById(R.id.btn_two);
 		btn_patient_detail = (Button) findViewById(R.id.btn_patient_detail);
-		layoutButtons = (RelativeLayout) findViewById(R.id.layout_opt_buttons);
+		llt_btn = (LinearLayout) findViewById(R.id.llt_btn);
 
 	}
 
@@ -168,9 +170,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private void updateInterface() {
 		initTitleBar();
 		initTitleOpt();
-		if ((role & Employee.DOCTOR) != 0) {
+//		if ((role & Employee.DOCTOR) != 0) {
 			initOptButtons();
-		}
+//		}
 	}
 
 	private void initTitleBar() {
@@ -230,13 +232,15 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				tvOpterator.setVisibility(View.GONE);
 			}
 		} else if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0) {
-			if ((role & Employee.DOCTOR) != 0) {
-				tvOpterator.setText("过号");
-				tvOpterator.setTag(OPT_PASS);
-			} else {
-				tvOpterator.setText("分配");
-				tvOpterator.setTag(OPT_ASSIGN);
-			}
+			tvOpterator.setText("过号");
+			tvOpterator.setTag(OPT_PASS);
+			// if ((role & Employee.DOCTOR) != 0) {
+			// tvOpterator.setText("过号");
+			// tvOpterator.setTag(OPT_PASS);
+			// } else {
+			// tvOpterator.setText("分配");
+			// tvOpterator.setTag(OPT_ASSIGN);
+			// }
 		} else if ((opStatus & AppointmentInfo.STATUS_PASSED) != 0) {
 			if ((role & Employee.NURSE) != 0) {
 				tvOpterator.setText("重新排队");
@@ -250,27 +254,44 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	}
 
 	private void initOptButtons() {
-		btnCall.setBackgroundResource(R.drawable.bg_button_registration);
+		btn_two.setBackgroundResource(R.drawable.selector_bg_button_blue_swell);
 		if (presenter.isConnected()) {
-			btnCall.setVisibility(View.VISIBLE);
+			btn_two.setVisibility(View.VISIBLE);
+			btn_two.setTag(OPT_CALL);
 		} else {
-			btnCall.setVisibility(View.GONE);
+			btn_two.setVisibility(View.GONE);
 		}
 
 		if ((role & Employee.DOCTOR) != 0 && (opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
-			btnOpt.setText("结束");
-			btnOpt.setTag(OPT_STOP);
-			btnCall.setVisibility(View.GONE);
-			btnOpt.setBackgroundResource(R.drawable.bg_button_stop);
-			layoutButtons.setVisibility(View.VISIBLE);
+			btn_one.setText("结束");
+			btn_one.setTag(OPT_STOP);
+			btn_two.setVisibility(View.GONE);
+			btn_one.setBackgroundResource(R.drawable.selector_bg_button_red_rectangle);
+			llt_btn.setVisibility(View.VISIBLE);
+		} else if ((role & Employee.NURSE) != 0) {
+			if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0
+					&& (opStatus & AppointmentInfo.STATUS_DIAGNOSING) == 0) {
+				llt_btn.setVisibility(View.VISIBLE);
+
+				btn_one.setBackgroundResource(R.drawable.selector_bg_button_blue_swell);
+				btn_one.setTag(OPT_CALL);
+				btn_one.setText(R.string.opt_call);
+				
+				if (!presenter.isConnected()) {
+					btn_one.setVisibility(View.GONE);
+				}
+
+				btn_two.setVisibility(View.VISIBLE);
+				btn_two.setBackgroundResource(R.drawable.selector_bg_button_black_swell);
+				btn_two.setTag(OPT_ASSIGN);
+				btn_two.setText(R.string.opt_assign);
+			}
 		} else
 			if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0 || (opStatus & AppointmentInfo.STATUS_PASSED) != 0) {
-			btnOpt.setText("开始");
-			btnOpt.setTag(OPT_START);
-			btnOpt.setBackgroundResource(R.drawable.bg_button_start);
-			layoutButtons.setVisibility(View.VISIBLE);
-		} else {
-			layoutButtons.setVisibility(View.GONE);
+			btn_one.setText("开始");
+			btn_one.setTag(OPT_START);
+			btn_one.setBackgroundResource(R.drawable.selector_bg_button_green_rectangle);
+			llt_btn.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -328,8 +349,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		btn_left_arrow.setOnClickListener(this);
 		btn_right_arrow.setOnClickListener(this);
 
-		btnOpt.setOnClickListener(this);
-		btnCall.setOnClickListener(this);
+		btn_one.setOnClickListener(this);
+		btn_two.setOnClickListener(this);
 		btn_patient_detail.setOnClickListener(this);
 
 		TvTabOne.setOnClickListener(this);
@@ -436,9 +457,6 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			headImageIntent.putExtra(MemberConstant.EMPLOYEE_GENDER, mPatient.getGender());
 			startActivity(headImageIntent);
 			break;
-		case R.id.btn_call:
-			presenter.callPatient(appointmentInfo, appointmentInfo.getDoctorName());
-			break;
 		case R.id.btn_patient_detail:
 			dialog_patient_detail.show();
 			break;
@@ -462,6 +480,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			return;
 		}
 		switch (opt) {
+		case OPT_CALL:
+			presenter.callPatient(appointmentInfo, appointmentInfo.getDoctorName());
+			break;
 		case OPT_PASS:
 			passAppointment();
 			break;
@@ -500,7 +521,6 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		if (appointmentInfo.getOPDatePeriod() > currentHour) {
 			Toast.makeText(getApplicationContext(), R.string.current_time_no_appointment_time, Toast.LENGTH_SHORT)
 					.show();
-			;
 			return;
 		}
 
@@ -579,9 +599,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	@Override
 	public void showCallButton(boolean visable) {
 		if (visable && (appointmentInfo.getOPStatus() & AppointmentInfo.STATUS_WATTING) != 0) {
-			btnCall.setVisibility(View.VISIBLE);
+			btn_two.setVisibility(View.VISIBLE);
 		} else {
-			btnCall.setVisibility(View.GONE);
+			btn_two.setVisibility(View.GONE);
 		}
 	}
 

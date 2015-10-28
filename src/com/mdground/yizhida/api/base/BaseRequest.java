@@ -165,7 +165,7 @@ public abstract class BaseRequest {
 		data.setCulture(DeviceUtils.getLanguage(mContext));
 		data.setBusinessCode(getBusinessCode());
 		data.setFunctionName(getFunctionName());
-		data.setActionTimeSpan((int) System.currentTimeMillis());
+		data.setActionTimeSpan(System.currentTimeMillis() / 1000);
 		data.setPlatform(getPlatform());
 
 		String serviceToken = "";
@@ -186,7 +186,7 @@ public abstract class BaseRequest {
 		// 加密RequestData
 		String postString = new Gson().toJson(data);
 		
-		L.e(this, "postString : " + postString);
+		L.e(this, "请求的postString : " + postString);
 		if (hasEncrypt) {
 			try {
 				postString = Encrypt.encrypt(postString);
@@ -337,6 +337,7 @@ public abstract class BaseRequest {
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
 			RequestCallBack callback = getRequestCallBack();
+			
 			if (callback == null) {
 				return;
 			}
@@ -345,11 +346,12 @@ public abstract class BaseRequest {
 				if (encrypt) {
 					responseString = URLDecoder.decode(responseString, "UTF-8");
 					responseString = Encrypt.decrypt(responseString);
-					Log.i(TAG, responseString);
+					L.e(this, "responseString : " + responseString);
 				}
 
 				Gson gson = new GsonBuilder().create();
 				ResponseData mResponseData = gson.fromJson(responseString, ResponseData.class);
+				
 				// 处理token失效问题
 				if (mResponseData.getCode() == ResponseCode.InvalidToken.getValue()) {
 					login(PreferenceUtils.getPrefString(mContext, MemberConstant.USERNAME, ""),

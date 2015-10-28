@@ -51,7 +51,7 @@ public class PatientDetailActivity extends PatientCommonActivity implements OnCl
 	private ArrayList<View> viewContainter;
 	private PatientInfoPageAdapter mPatientInfoPageAdapter;
 	private ImageView mBackImg;
-	private TextView tvOpterator;
+	private TextView tv_emergency;
 	private ListView anamnesisListView;
 	private CircleImageView circleHeadImage;
 	// 操作按钮
@@ -66,6 +66,8 @@ public class PatientDetailActivity extends PatientCommonActivity implements OnCl
 	private Dialog dialog_patient_detail;
 
 	private SymptomDao mSymptomDao;
+	
+	private boolean isEmergency;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class PatientDetailActivity extends PatientCommonActivity implements OnCl
 	@Override
 	public void findView() {
 		super.findView();
-		tvOpterator = (TextView) findViewById(R.id.edit);
+		tv_emergency = (TextView) findViewById(R.id.tv_emergency);
 		circleHeadImage = (CircleImageView) findViewById(R.id.headimg);
 		mBackImg = (ImageView) findViewById(R.id.back);
 
@@ -147,7 +149,7 @@ public class PatientDetailActivity extends PatientCommonActivity implements OnCl
 	@Override
 	public void setListener() {
 		super.setListener();
-		tvOpterator.setOnClickListener(this);
+		tv_emergency.setOnClickListener(this);
 		mBackImg.setOnClickListener(this);
 		circleHeadImage.setOnClickListener(this);
 		btnOpt.setOnClickListener(this);
@@ -182,10 +184,12 @@ public class PatientDetailActivity extends PatientCommonActivity implements OnCl
 		case R.id.back:
 			onBackPressed();
 			break;
-		case R.id.edit: {
-			Intent intent = new Intent(PatientDetailActivity.this, PatientEditActivity.class);
-			intent.putExtra(MemberConstant.PATIENT, mPatient);
-			startActivityForResult(intent, MemberConstant.PATIENT_REQUEST_CODE);
+		case R.id.tv_emergency: {
+			isEmergency = true;
+			createAppointment(mPatient);
+//			Intent intent = new Intent(PatientDetailActivity.this, PatientEditActivity.class);
+//			intent.putExtra(MemberConstant.PATIENT, mPatient);
+//			startActivityForResult(intent, MemberConstant.PATIENT_REQUEST_CODE);
 			break;
 		}
 		case R.id.btn_opt:
@@ -272,6 +276,10 @@ public class PatientDetailActivity extends PatientCommonActivity implements OnCl
 		AppointmentInfo appointmentInfo = new AppointmentInfo();
 		appointmentInfo.setOPDate(new Date());
 		appointmentInfo.setPatientID(patient.getPatientID());
+		
+		if (isEmergency) {
+			appointmentInfo.setEmergency(true);
+		}
 
 		Intent intent = new Intent();
 

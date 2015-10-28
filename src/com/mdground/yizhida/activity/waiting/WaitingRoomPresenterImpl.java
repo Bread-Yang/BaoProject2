@@ -8,6 +8,7 @@ import org.apache.http.Header;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.api.base.RequestCallBack;
@@ -16,6 +17,8 @@ import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.clinic.GetAppointmentInfoListByDoctor;
 import com.mdground.yizhida.api.server.clinic.UpdateAppointment;
 import com.mdground.yizhida.bean.AppointmentInfo;
+import com.mdground.yizhida.screen.Command;
+import com.mdground.yizhida.screen.ScreenManager;
 import com.mdground.yizhida.util.AppointmentHelper;
 
 public class WaitingRoomPresenterImpl implements WaitingRoomPresenter {
@@ -34,11 +37,13 @@ public class WaitingRoomPresenterImpl implements WaitingRoomPresenter {
 			@Override
 			public void onSuccess(ResponseData response) {
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
-					List<AppointmentInfo> appointmentInfos = response.getContent(new TypeToken<List<AppointmentInfo>>() {
+					List<AppointmentInfo> appointmentInfos = response
+							.getContent(new TypeToken<List<AppointmentInfo>>() {
 					});
 					if ((status & AppointmentInfo.STATUS_WATTING) != 0) {
 						appointmentInfos = AppointmentHelper.sortAppoint(appointmentInfos);
-						appointmentInfos = AppointmentHelper.groupAppointment(status, appointmentInfos, new Comparator<Integer>() {
+						appointmentInfos = AppointmentHelper.groupAppointment(status, appointmentInfos,
+								new Comparator<Integer>() {
 
 							@Override
 							public int compare(Integer lhs, Integer rhs) {
@@ -47,7 +52,8 @@ public class WaitingRoomPresenterImpl implements WaitingRoomPresenter {
 						});
 					} else {
 						appointmentInfos = AppointmentHelper.sort2Appoint(appointmentInfos);
-						appointmentInfos = AppointmentHelper.groupAppointment(status, appointmentInfos, new Comparator<Integer>() {
+						appointmentInfos = AppointmentHelper.groupAppointment(status, appointmentInfos,
+								new Comparator<Integer>() {
 
 							@Override
 							public int compare(Integer lhs, Integer rhs) {
@@ -166,5 +172,33 @@ public class WaitingRoomPresenterImpl implements WaitingRoomPresenter {
 			}
 		});
 		return appointments;
+	}
+
+	@Override
+	public void callPatient(AppointmentInfo appointment, String doctorName) {
+		if (!ScreenManager.getInstance().isConnected() || appointment.getOPStatus() != AppointmentInfo.STATUS_WATTING) { // 只有处于"候诊中"的状态才能叫
+			// mView.showToast("请重新连接导诊屏");
+			return;
+		}
+
+		Command command = new Command();
+		command.setAction(Command.ACTION_CALL);
+		command.setClinicID(appointment.getClinicID());
+		command.setDoctorID(appointment.getDoctorID());
+		command.setDoctorName(doctorName);
+		command.setOPID(appointment.getOPID());
+		command.setOPNo(appointment.getOPNo());
+		command.setOPStatus(appointment.getOPStatus());
+		command.setPatientName(appointment.getPatientName());
+
+		Gson gson = new Gson();
+		ScreenManager.getInstance().sendMessage(gson.toJson(command));
+		mView.showToast("正在叫号...");
+
+	}
+
+	@Override
+	public boolean isConnectScreen() {
+		return ScreenManager.getInstance().isConnected();
 	}
 }

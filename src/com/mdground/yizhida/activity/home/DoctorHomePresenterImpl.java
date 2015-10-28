@@ -45,8 +45,7 @@ public class DoctorHomePresenterImpl implements DoctorHomePresenter, ConnectStau
 			@Override
 			public void onSuccess(ResponseData response) {
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
-					// L.e(this, "getAppointmentInfoListByDoctor
-					// response.getContent : " + response.getContent());
+					 L.e(this, "getAppointmentInfoListByDoctor response.getContent : " + response.getContent());
 					List<AppointmentInfo> appointmentInfos = response
 							.getContent(new TypeToken<List<AppointmentInfo>>() {
 					});
@@ -127,7 +126,7 @@ public class DoctorHomePresenterImpl implements DoctorHomePresenter, ConnectStau
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+				
 			}
 		});
 

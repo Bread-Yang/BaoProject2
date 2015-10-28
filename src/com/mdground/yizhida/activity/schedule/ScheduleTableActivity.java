@@ -39,7 +39,8 @@ import com.mdground.yizhida.view.TitleBar;
  * @author Vincent
  * 
  */
-public class ScheduleTableActivity extends TitleBarActivity implements ScheduleTableView, OnRefreshListener2<TableFixHeaders> {
+public class ScheduleTableActivity extends TitleBarActivity
+		implements ScheduleTableView, OnRefreshListener2<TableFixHeaders> {
 
 	private static final int PAGE_SIZE = 14;
 

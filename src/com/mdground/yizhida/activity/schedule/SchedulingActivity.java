@@ -128,7 +128,8 @@ public class SchedulingActivity extends TitleBarActivity implements SchedulingVi
 		mScheduleDao = ScheduleDao.getInstance(this);
 		employees = mEmployeeDao.getAll();
 		presenter = new SchedulingPresenterImp(this);
-		mAdapter = new SchedulingAdapter(this, employeeScheduleList, getMedicalAppliction().getLoginEmployee(), mTimeRangWheelView, mListView);
+		mAdapter = new SchedulingAdapter(this, employeeScheduleList, getMedicalAppliction().getLoginEmployee(),
+				mTimeRangWheelView, mListView);
 
 		getEmployeeSchedules();
 

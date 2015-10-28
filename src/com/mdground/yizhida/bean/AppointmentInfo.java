@@ -109,6 +109,10 @@ public class AppointmentInfo implements Parcelable {
 	@SerializedName("DoctorID")
 	@Expose
 	private int DoctorID;
+	
+	@SerializedName("Emergency")
+	@Expose
+	private boolean Emergency;
 
 	@SerializedName("OPID")
 	@Expose
@@ -189,7 +193,7 @@ public class AppointmentInfo implements Parcelable {
 		} else if (day < 30) {
 			return (day) + "天";
 		} else if (day < 365) {
-			return (day / 30) + "月";
+			return (day / 30) + "个月";
 		} else if (day < 5 * 365) {
 			int mounth = DateUtils.calcAgeMonthByBrithday(PatientDOB);
 			int age = DateUtils.calcAgeByBrithday(PatientDOB);
@@ -262,6 +266,14 @@ public class AppointmentInfo implements Parcelable {
 
 	public void setDoctorID(int doctorID) {
 		DoctorID = doctorID;
+	}
+
+	public boolean isEmergency() {
+		return Emergency;
+	}
+
+	public void setEmergency(boolean emergency) {
+		Emergency = emergency;
 	}
 
 	public int getOPID() {
@@ -404,6 +416,7 @@ public class AppointmentInfo implements Parcelable {
 		this.OPType = source.readInt();
 		this.ClinicID = source.readInt();
 		this.DoctorID = source.readInt();
+		this.Emergency = (source.readInt() == 0) ? false : true;
 		this.OPID = source.readInt();
 		long tmpDOB = source.readLong();
 		this.PatientDOB = tmpDOB == -1 ? null : new Date(tmpDOB);
@@ -428,6 +441,7 @@ public class AppointmentInfo implements Parcelable {
 		dest.writeInt(OPType);
 		dest.writeInt(ClinicID);
 		dest.writeInt(DoctorID);
+		dest.writeInt(Emergency ? 1 : 0);
 		dest.writeInt(OPID);
 		if (PatientDOB == null) {
 			dest.writeLong(0);

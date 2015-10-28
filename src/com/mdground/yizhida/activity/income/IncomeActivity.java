@@ -2,21 +2,26 @@ package com.mdground.yizhida.activity.income;
 
 import java.math.BigDecimal;
 
+import com.mdground.yizhida.MedicalAppliction;
+import com.mdground.yizhida.MedicalConstant;
+import com.mdground.yizhida.R;
+import com.mdground.yizhida.activity.base.BaseActivity;
+import com.mdground.yizhida.activity.wechat.WechatBindUtil;
+import com.mdground.yizhida.activity.wechat.WechatBindUtil.WechatBindSuccessCallBack;
+import com.mdground.yizhida.api.bean.IncomeStatisticInfo;
+import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.view.RiseNumberTextView;
+import com.mdground.yizhida.wxapi.WXEntryActivity;
+
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.mdground.yizhida.MedicalConstant;
-import com.mdground.yizhida.R;
-import com.mdground.yizhida.activity.base.BaseActivity;
-import com.mdground.yizhida.api.bean.IncomeStatisticInfo;
-import com.mdground.yizhida.constant.MemberConstant;
-import com.mdground.yizhida.util.MdgConfig;
-import com.mdground.yizhida.view.RiseNumberTextView;
-
-public class IncomeActivity extends BaseActivity implements OnClickListener, IncomeView {
+public class IncomeActivity extends BaseActivity implements OnClickListener, IncomeView, WechatBindSuccessCallBack {
 
 	private RiseNumberTextView tv_yesterday_income;
 	private RiseNumberTextView tv_total_income;
@@ -27,6 +32,12 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 	private Handler mHandler;
 
 	private IncomePresenter presenter;
+	
+	private Dialog dialog_wechat_tips;
+	
+	private WechatBindUtil wechatBindUtil;
+	
+	private float not_settle_balance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +57,6 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 		tv_month_income = (RiseNumberTextView) findViewById(R.id.tv_month_income);
 		tv_total_withdraw = (RiseNumberTextView) findViewById(R.id.tv_total_withdraw);
 		tv_not_settle_balance = (RiseNumberTextView) findViewById(R.id.tv_not_settle_balance);
-		findViewById(R.id.roll_out).setVisibility(View.GONE);
 	}
 
 	@Override
@@ -63,17 +73,44 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 	public void initMemberData() {
 		mHandler = new Handler();
 		presenter = new IncomePresenterImpl(this);
+		
+		 dialog_wechat_tips = new Dialog(this, R.style.custom_dialog);
+		dialog_wechat_tips.setContentView(R.layout.dialog_wechat_bind_tips);
+//		dialog_easylink.setCancelable(false);
+//		dialog_easylink.setCanceledOnTouchOutside(false);
+		dialog_wechat_tips.findViewById(R.id.btn_cancle).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog_wechat_tips.dismiss();
+			}
+		});
+		
+		dialog_wechat_tips.findViewById(R.id.btn_bind).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				wechatBindUtil.bindWechat();
+			}
+		});
+		
+		wechatBindUtil = new WechatBindUtil(this, this);
 	}
 
 	@Override
 	public void setListener() {
 		findViewById(R.id.back).setOnClickListener(this);
+		findViewById(R.id.tv_settlement).setOnClickListener(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		presenter.getEmployeeIncomeStatisticInfo();
+		
+		if (WXEntryActivity.wechat_code != null) {
+			wechatBindUtil.getWechatOpenIdAndUnionIdAndNickname();
+		}
 	}
 
 	@Override
@@ -83,9 +120,14 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 		case R.id.back:
 			onBackPressed();
 			break;
-		case R.id.roll_out: {
-			// Intent intent = new Intent(this, TurnOutActivity.class);
-			// startActivity(intent);
+		case R.id.tv_settlement: {
+			if(((MedicalAppliction)getApplication()).getLoginEmployee().getOpenID() != null) {
+				Intent intent = new Intent(this, TurnOutActivity.class);
+				intent.putExtra("not_settle_balance", not_settle_balance);
+				startActivity(intent);
+			} else {
+				dialog_wechat_tips.show();
+			}
 			break;
 		}
 		case R.id.tv_yesterday_income:
@@ -132,11 +174,26 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 		tv_total_withdraw.setText(String.valueOf(
 				new BigDecimal(incomeStatisticInfo.getTotalWithdrawal()).divide(new BigDecimal(100)).floatValue()),
 				TextView.BufferType.NORMAL, mHandler);
-		float not_settle_balance = (new BigDecimal(incomeStatisticInfo.getTotalIncome())
+		not_settle_balance = (new BigDecimal(incomeStatisticInfo.getTotalIncome())
 				.subtract(new BigDecimal(incomeStatisticInfo.getTotalWithdrawal()))).divide(new BigDecimal(100))
 						.floatValue();
 		tv_not_settle_balance.setText(String.valueOf(not_settle_balance), TextView.BufferType.NORMAL, mHandler);
 
+	}
+
+	@Override
+	public void bindSuccess(String wechat_nickName) {
+		dialog_wechat_tips.dismiss();
+	}
+
+	@Override
+	public void bindFail() {
+		
+	}
+
+	@Override
+	public void unBindSuccess() {
+		
 	}
 
 }

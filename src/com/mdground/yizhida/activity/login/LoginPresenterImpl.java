@@ -10,6 +10,7 @@ import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.global.LoginEmployee;
 import com.mdground.yizhida.api.utils.DeviceUtils;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.db.dao.EmployeeDao;
@@ -28,6 +29,7 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 	LoginView mLoginView;
 	Context context;
 	EmployeeDao mEmployeeDao;
+	private String userName, password;
 
 	public LoginPresenterImpl(LoginView view) {
 		this.mLoginView = view;
@@ -49,6 +51,9 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 			mLoginView.passwordNull();
 			return;
 		}
+		
+		this.userName = username;
+		this.password = password;
 
 		LoginEmployee loginEmployee = new LoginEmployee(context);
 		loginEmployee.loginEmployee(username, MD5Util.MD5(password), DeviceUtils.getDeviceInfo(context), this);
@@ -72,6 +77,7 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 	@Override
 	public void onSuccess(ResponseData response) {
 		if (response.getCode() == ResponseCode.Normal.getValue()) {
+
 			Employee employee = response.getContent(Employee.class);
 			if ((employee.getEmployeeRole() & Employee.SCREEN) != 0
 					|| ((employee.getEmployeeRole() & Employee.DOCTOR) != 0
@@ -83,20 +89,6 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 			Activity activity = (Activity) mLoginView;
 			((MedicalAppliction) activity.getApplication()).setLoginEmployee(employee);
 
-			// 第一次登陆需要修改密码
-			if (employee.isNeedResetPwd()) {
-				mLoginView.navigateToWelcome();
-				((EditText) ((Activity) mLoginView).findViewById(R.id.login_password)).setText("");
-				return;
-			}
-			
-			// 没有绑定微信
-			if (employee.getOpenID() == null || "".equals(employee.getOpenID())) {
-				Intent intent = new Intent(context, WechatBindActivity.class);
-				context.startActivity(intent);
-				return;
-			}
-
 			// 保存数据库
 			PreferenceUtils.setPrefLong(context, MemberConstant.LOGIN_EMPLOYEE, employee.getEmployeeID());
 			PreferenceUtils.setPrefInt(context, MemberConstant.LOGIN_STATUS, MemberConstant.LOGIN_IN);
@@ -106,7 +98,33 @@ public class LoginPresenterImpl implements LoginPresenter, RequestCallBack {
 			// employee.getDeviceID());
 			MdgConfig.setDeviceId(employee.getDeviceID());
 
+			// 第一次登陆需要修改密码
+			if (employee.isNeedResetPwd()) {
+				mLoginView.navigateToWelcome();
+				((EditText) ((Activity) mLoginView).findViewById(R.id.login_password)).setText("");
+				return;
+			}
+
+			// 没有绑定微信
+			if (employee.isNeedBindWechat()) {
+				Intent intent = new Intent(context, WechatBindActivity.class);
+				intent.putExtra("isFromLoginActivity", true);
+				context.startActivity(intent);
+				return;
+			}
+
+			// if (employee.getOpenID() == null ||
+			// "".equals(employee.getOpenID())) {
+			// Intent intent = new Intent(context, WechatBindActivity.class);
+			// intent.putExtra("isFromLoginActivity", true);
+			// context.startActivity(intent);
+			// return;
+			// }
+
 			mLoginView.navigateToHome(employee.getEmployeeRole());
+		} else if (response.getCode() == ResponseCode.InvalidDevice.getValue()) {  // deviceId无效,清空deviceid再重新登录一次
+			MdgConfig.setDeviceId(0);
+			validateCredentials(this.userName, this.password);
 		} else {
 			mLoginView.requestError(response.getCode(), response.getMessage());
 		}

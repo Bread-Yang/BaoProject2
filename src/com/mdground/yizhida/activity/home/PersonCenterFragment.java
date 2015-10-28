@@ -24,6 +24,7 @@ import com.mdground.yizhida.activity.personedit.PersonEditActivity;
 import com.mdground.yizhida.activity.rota.RotaActivity;
 import com.mdground.yizhida.activity.schedule.ScheduleTableActivity;
 import com.mdground.yizhida.activity.screen.ConnectScreenActivity;
+import com.mdground.yizhida.activity.wechat.WechatBindActivity;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.util.PreferenceUtils;
@@ -40,6 +41,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 	private TextView TvDuty;
 	private TextView tvScheduling;
 	private TextView tvConnectScreen;
+	private TextView tv_bind_wechat;
 	private TextView TvContactUs;
 	private TextView TvServiceProtocol;
 	private TextView TvUpdateVersion;
@@ -69,9 +71,9 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 			return;
 		}
 		
-		if ((loginEmployee.getEmployeeRole() & Employee.DOCTOR) != 0) {
-			tvConnectScreen.setVisibility(View.VISIBLE);
-		}
+//		if ((loginEmployee.getEmployeeRole() & Employee.DOCTOR) != 0) {  
+//			tvConnectScreen.setVisibility(View.VISIBLE);
+//		}
 		
 		if ((loginEmployee.getEmployeeRole() & Employee.Scheduling) != 0) {
 			tvScheduling.setVisibility(View.VISIBLE);
@@ -102,6 +104,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		TvIncome = (TextView) mainView.findViewById(R.id.income_title);
 		tvScheduling = (TextView) mainView.findViewById(R.id.tv_schedule);
 		tvConnectScreen = (TextView) mainView.findViewById(R.id.connect_screen_title);
+		tv_bind_wechat = (TextView) mainView.findViewById(R.id.tv_bind_wechat);
 	}
 
 	private void setListener() {
@@ -116,6 +119,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		TvIncome.setOnClickListener(this);
 		tvScheduling.setOnClickListener(this);
 		tvConnectScreen.setOnClickListener(this);
+		tv_bind_wechat.setOnClickListener(this);
 	}
 
 	@Override
@@ -152,6 +156,10 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 			break;
 		case R.id.connect_screen_title:
 			intent.setClass(getActivity(), ConnectScreenActivity.class);
+			this.getActivity().startActivity(intent);
+			break;
+		case R.id.tv_bind_wechat:
+			intent.setClass(getActivity(), WechatBindActivity.class);
 			this.getActivity().startActivity(intent);
 			break;
 		case R.id.income_title:
