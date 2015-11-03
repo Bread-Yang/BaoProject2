@@ -173,7 +173,7 @@ public class TimeRangWheelView extends FrameLayout implements OnWheelChangedList
 			this.mTimeChangeListener.onFinishInput();
 		}
 		this.mTimeChangeListener = mTimeChangeListener;
-	}
+	} 
 
 	public void show() {
 		if (mView.getVisibility() == View.VISIBLE) {
