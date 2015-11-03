@@ -12,6 +12,7 @@ import com.mdground.yizhida.R;
 import com.mdground.yizhida.api.base.RequestCallBack;
 import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
+import com.mdground.yizhida.api.server.clinic.GetOfficeVisitInfo;
 import com.mdground.yizhida.api.server.clinic.GetOfficeVisitList;
 import com.mdground.yizhida.api.server.clinic.GetPatient;
 import com.mdground.yizhida.api.server.clinic.SaveAppointment;
@@ -75,7 +76,6 @@ public class PatientAppointmentPresenterImpl implements PatientAppointmentPresen
 
 			@Override
 			public void onSuccess(ResponseData response) {
-				L.e(PatientAppointmentPresenterImpl.this, "patient content : " + response.getContent());
 				if (response.getCode() == ResponseCode.Normal.getValue()) {
 					Patient patient = response.getContent(Patient.class);
 					mView.updateViewData(patient);
@@ -110,12 +110,11 @@ public class PatientAppointmentPresenterImpl implements PatientAppointmentPresen
 
 			@Override
 			public void onSuccess(ResponseData response) {
-				L.e(PatientAppointmentPresenterImpl.this, "既往史的message : " + response.getContent());
 				List<Anamnesis> list = response.getContent(new TypeToken<List<Anamnesis>>() {
 				});
-				
+
 				Collections.sort(list);
-				
+
 				mView.updateAnamnesisData(list);
 			}
 
@@ -132,6 +131,37 @@ public class PatientAppointmentPresenterImpl implements PatientAppointmentPresen
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 				mView.showToast(R.string.request_error);
+			}
+		});
+	}
+
+	@Override
+	public void getPatientAppointmentDetail(int opID) {
+		GetOfficeVisitInfo request = new GetOfficeVisitInfo(context);
+		
+		request.getOfficeVisitInfo(opID, new RequestCallBack() {
+			
+			@Override
+			public void onSuccess(ResponseData response) {
+				mView.updateAppointmentDetail(response.getContent());
+			}
+			
+			@Override
+			public void onStart() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFinish() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
@@ -186,6 +216,7 @@ public class PatientAppointmentPresenterImpl implements PatientAppointmentPresen
 		command.setPatientName(appointment.getPatientName());
 
 		Gson gson = new Gson();
+
 		ScreenManager.getInstance().sendMessage(gson.toJson(command));
 		mView.showToast("正在叫号...");
 	}

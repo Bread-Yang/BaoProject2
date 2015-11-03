@@ -91,7 +91,7 @@ public class AddressActivity extends BaseActivity implements OnClickListener {
 		EtStreet = (EditText) this.findViewById(R.id.street);
 
 		mPopuView = LayoutInflater.from(this).inflate(
-				R.layout.popoup_location_window_layout, null);
+				R.layout.layout_popoup_location_window, null);
 
 		mLocationListView = (ListView) mPopuView
 				.findViewById(R.id.location_listview);

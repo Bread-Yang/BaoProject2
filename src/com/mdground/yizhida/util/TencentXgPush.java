@@ -88,7 +88,7 @@ public class TencentXgPush {
 		build.setDefaults(Notification.DEFAULT_VIBRATE); // 振动
 		build.setFlags(Notification.FLAG_NO_CLEAR); // 是否可清除
 		// 设置自定义通知layout,通知背景等可以在layout里设置
-		build.setLayoutId(R.layout.common_push_notification);
+		build.setLayoutId(R.layout.layout_common_push_notification);
 		// 设置自定义通知内容id
 		build.setLayoutTextId(R.id.content);
 		// 设置自定义通知标题id

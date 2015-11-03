@@ -11,7 +11,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
         android:text="就诊时间："
-        android:textSize="@dimen/basic_info_text_size"/>
+        android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/diagnosis_value"
@@ -22,7 +22,7 @@
         android:layout_alignTop="@id/diagnosis_title"
         android:layout_marginLeft="12dp"
         android:text="无"
-         android:textSize="@dimen/basic_info_text_size"/>
+         android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/waiting_title"
@@ -33,7 +33,7 @@
         android:layout_below="@id/diagnosis_title"
         android:layout_alignLeft="@id/diagnosis_title"
         android:text="候诊时间："
-         android:textSize="@dimen/basic_info_text_size"/>
+         android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/waiting_value"
@@ -44,7 +44,7 @@
         android:layout_alignTop="@id/waiting_title"
         android:layout_marginLeft="12dp"
         android:text="慢性咽喉"
-        android:textSize="@dimen/basic_info_text_size"/>
+        android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/register_title"
@@ -55,7 +55,7 @@
         android:layout_below="@id/waiting_title"
         android:layout_alignLeft="@id/waiting_title"
         android:text="挂号时间："
-         android:textSize="@dimen/basic_info_text_size"/>
+         android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/register_value"
@@ -66,7 +66,7 @@
         android:layout_alignTop="@id/register_title"
         android:layout_marginLeft="12dp"
         android:text="日夜白肤宁"
-        android:textSize="@dimen/basic_info_text_size"/>
+        android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/register_source_title"
@@ -77,7 +77,7 @@
         android:layout_below="@id/register_title"
         android:layout_alignLeft="@id/register_title"
         android:text="挂号来源:"
-         android:textSize="@dimen/basic_info_text_size"/>
+         android:textSize="@dimen/basic_info_text_size_20sp"/>
     
     <TextView 
         android:id="@+id/register_source_value"
@@ -88,7 +88,7 @@
         android:layout_alignTop="@id/register_source_title"
         android:layout_marginLeft="12dp"
         android:text="日夜白肤宁"
-        android:textSize="@dimen/basic_info_text_size"/>
+        android:textSize="@dimen/basic_info_text_size_20sp"/>
     
    
     

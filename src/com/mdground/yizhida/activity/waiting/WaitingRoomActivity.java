@@ -108,7 +108,7 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		IvSearch = (ImageView) findViewById(R.id.search);
 		radioView = (RadioView) this.findViewById(R.id.radio_group);
 		TvdoctorName = (TextView) this.findViewById(R.id.doctor_room_name);
-		mPopuView = LayoutInflater.from(this).inflate(R.layout.popoupwindow_layout, null);
+		mPopuView = LayoutInflater.from(this).inflate(R.layout.layout_popoupwindow, null);
 		doctorListView = (ListView) mPopuView.findViewById(R.id.doctor_listview);
 		TvNoBody = (TextView) findViewById(R.id.no_body_text);
 		TvNoBody.setText(R.string.query_ing);
@@ -354,14 +354,15 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		} else if (requestCode == MemberConstant.APPIONTMENT_REQUEST_CODE
 				&& resultCode == MemberConstant.APPIONTMENT_NEXT_RESOULT_CODE) {
 			AppointmentInfo appointmentInfo = data.getParcelableExtra(MemberConstant.APPOINTMENT);
-			nextAppiontment(appointmentInfo.getOPID());
+			nextAppiontment(appointmentInfo.getOPID(),
+					data.getBooleanExtra(MemberConstant.APPOINTMENT_CALL_NEXT, false));
 		}
 	}
 
 	/**
 	 * 显示下一个
 	 */
-	public void nextAppiontment(int appiontmentId) {
+	public void nextAppiontment(int appiontmentId, boolean isCallNext) {
 		if (appiontmentId <= 0) {
 			return;
 		}
@@ -385,14 +386,19 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 						|| DateUtils.compareToCurrentPeriod(appointment.getOPDatePeriod()) == 1) {
 					continue;
 				}
-				tmpOffset = appointment.getOPID() - appiontmentId;
-				if (offset == -1 && tmpOffset > 0) {
-					offset = tmpOffset;
+				if (appointment.isEmergency()) {   // 如果是急诊,立刻返回
 					index = i;
+					break;
 				} else {
-					if (tmpOffset > 0 && tmpOffset < offset) {
+					tmpOffset = appointment.getOPID() - appiontmentId;
+					if (offset == -1 && tmpOffset > 0) {
 						offset = tmpOffset;
 						index = i;
+					} else {
+						if (tmpOffset > 0 && tmpOffset < offset) {
+							offset = tmpOffset;
+							index = i;
+						}
 					}
 				}
 			}
@@ -418,12 +424,34 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 		if (nextAppointment == null) {
 			return;
 		}
+		
+		ArrayList<AppointmentInfo> tempList = new ArrayList<AppointmentInfo>();
+		
+		int tempIndex = index;
+		for (int i = 0; i < appointments.size(); i++) {
+			AppointmentInfo item = appointments.get(i);
+			if (item.getType() == AppointmentInfo.GROUP || item.getType() == AppointmentInfo.EMPTY) {
+				if (index > i) {
+					L.e(this, "position--");
+					tempIndex--;
+				}
+				continue;
+			}
+			tempList.add(item);
+		}
+		
 		// appointments.remove(nextAppiontment);
-		// nextAppointment.setDoctorName(employee.getEmployeeName());
+		appointments.get(index).setDoctorName(currentDoctor.getEmployeeName());
+		nextAppointment.setDoctorName(currentDoctor.getEmployeeName());
 		Intent intent = new Intent(this, PatientAppointmentActivity.class);
 		intent.putExtra(MemberConstant.APPOINTMENT, nextAppointment);
-		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
-		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
+		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, tempList);
+		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, tempIndex);
+		
+		if (isCallNext) {
+			presenter.callPatient(nextAppointment, currentDoctor.getEmployeeName());
+		}
+		
 		startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 	}
 
@@ -439,6 +467,9 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 			this.pullToRefreshSwipeListView.setEmptyView(emptyPromptLayout);
 			TvNoBody.setText(Tools.getFormat(this, R.string.no_body, radioView.getSelectText()));
 			return;
+		}
+		for (AppointmentInfo item : appointmentInfos) {
+			item.setDoctorName(currentDoctor.getEmployeeName());
 		}
 		this.appointments.addAll(appointmentInfos);
 
@@ -479,6 +510,8 @@ public class WaitingRoomActivity extends BaseActivity implements WaitingRoomView
 			}
 			tempList.add(item);
 		}
+
+		tempList.get(index).setDoctorName(currentDoctor.getEmployeeName());
 
 		Intent intent = new Intent(WaitingRoomActivity.this, PatientAppointmentActivity.class);
 		appointment.setOPEMR(currentDoctor.getEMRType());

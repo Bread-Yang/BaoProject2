@@ -26,21 +26,21 @@ public class AreadyDiagonsisLayout extends RelativeLayout{
 	public AreadyDiagonsisLayout(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
-		view = LayoutInflater.from(context).inflate(R.layout.aready_diagnosis_info_layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_aready_diagnosis_info, null);
 	    this.addView(view);
 	    findView();
 	}
 
 	public AreadyDiagonsisLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		view = LayoutInflater.from(context).inflate(R.layout.aready_diagnosis_info_layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_aready_diagnosis_info, null);
 		this.addView(view);
 		findView();
 	}
 
 	public AreadyDiagonsisLayout(Context context) {
 		super(context);
-		view = LayoutInflater.from(context).inflate(R.layout.aready_diagnosis_info_layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_aready_diagnosis_info, null);
 		this.addView(view);
 		findView();
 	}

@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -108,7 +109,7 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 		super.onResume();
 		presenter.getEmployeeIncomeStatisticInfo();
 		
-		if (WXEntryActivity.wechat_code != null) {
+		if (!TextUtils.isEmpty(WXEntryActivity.wechat_code)) {
 			wechatBindUtil.getWechatOpenIdAndUnionIdAndNickname();
 		}
 	}
@@ -121,7 +122,8 @@ public class IncomeActivity extends BaseActivity implements OnClickListener, Inc
 			onBackPressed();
 			break;
 		case R.id.tv_settlement: {
-			if(((MedicalAppliction)getApplication()).getLoginEmployee().getOpenID() != null) {
+			String openID = ((MedicalAppliction)getApplication()).getLoginEmployee().getOpenID();
+			if(!TextUtils.isEmpty(openID)) {
 				Intent intent = new Intent(this, TurnOutActivity.class);
 				intent.putExtra("not_settle_balance", not_settle_balance);
 				startActivity(intent);

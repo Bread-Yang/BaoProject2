@@ -27,34 +27,35 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		handleIntent(getIntent());
+		
+//		handleIntent(getIntent());
+		MedicalAppliction.api.handleIntent(getIntent(), this);
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
+		
 		setIntent(intent);
 		handleIntent(intent);
 	}
 
 	@Override
 	public void onReq(BaseReq arg0) {
-		// TODO Auto-generated method stub
-		L.e(this, "onReq()");
-		finish();
+//		finish();
 	}
 
 	@Override
 	public void onResp(BaseResp resp) {
-		// TODO Auto-generated method stub
-		L.e(this, "onResp()");
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == resp.getType()) {
 				break;
 			}
+			
 			wechat_code = ((SendAuth.Resp) resp).code;
+			
+			L.e(this, "返回的wechat_code : " + wechat_code);
 			
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:

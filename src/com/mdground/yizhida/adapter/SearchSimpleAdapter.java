@@ -48,7 +48,7 @@ public class SearchSimpleAdapter extends SimpleAdapter<Patient> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.search_simple_item;
+		return R.layout.item_search_simple;
 	}
 
 }

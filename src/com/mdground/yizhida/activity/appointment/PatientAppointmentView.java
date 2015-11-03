@@ -14,4 +14,5 @@ public interface PatientAppointmentView extends BaseView {
 	void updateViewData(Patient patient);
 	void showCallButton(boolean visable);
 	void updateAnamnesisData(List<Anamnesis> anamnesisList);
+	void updateAppointmentDetail(String jsonString);
 }

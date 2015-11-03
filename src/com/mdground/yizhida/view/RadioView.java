@@ -70,7 +70,7 @@ public class RadioView extends LinearLayout implements OnClickListener{
 
 	public android.view.View initView() {
 		LayoutInflater layoutInflater = (LayoutInflater.from(context));
-		mainView = layoutInflater.inflate(R.layout.radio_group_layout, null);
+		mainView = layoutInflater.inflate(R.layout.layout_radio_group, null);
 		radio1 = (LinearLayout) mainView.findViewById(R.id.radio1);
 		radiotext1 = (TextView) mainView.findViewById(R.id.passed_title);
 		radioline1 = (View) mainView.findViewById(R.id.radioline1);

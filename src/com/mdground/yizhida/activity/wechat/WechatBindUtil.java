@@ -22,6 +22,7 @@ import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.MedicalConstant;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.api.base.RequestCallBack;
+import com.mdground.yizhida.api.base.ResponseCode;
 import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.global.SaveEmployee;
 import com.mdground.yizhida.api.server.global.UpdateEmployeeWeChat;
@@ -30,6 +31,7 @@ import com.mdground.yizhida.api.utils.PxUtil;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.wxapi.WXEntryActivity;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -53,9 +55,11 @@ public class WechatBindUtil {
 	Context mContext;
 
 	// 获取第一步的code后，请求以下链接获取access_token
-	public static String accessTokenRequestURL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+	public static final String ACCESS_TOKEN_REQUEST_TEMPLATE_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 
-	public static String GetUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
+	public static final String GET_USER_INFO_TEMPLATE_URL = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
+
+	private String accessTokenRequestURL;
 
 	private String openid = "";
 	private String unionid = "";
@@ -77,6 +81,10 @@ public class WechatBindUtil {
 		if (!MedicalAppliction.api.isWXAppInstalled()) {
 			Toast.makeText(mContext, R.string.please_install_wechat, Toast.LENGTH_LONG).show();
 		} else {
+			WXEntryActivity.wechat_code = null;
+
+			L.e(this, "绑定之前,wechat_code : " + WXEntryActivity.wechat_code);
+
 			final SendAuth.Req req = new SendAuth.Req();
 			req.scope = "snsapi_userinfo";
 			req.state = "carjob_wx_login";
@@ -85,19 +93,26 @@ public class WechatBindUtil {
 	}
 
 	public void unBindWechat() {
-		new UpdateEmployeeWeChat(mContext).updateEmployeeWeChat(null, null, null, new RequestCallBack() {
+		new UpdateEmployeeWeChat(mContext).updateEmployeeWeChat("", "", "", new RequestCallBack() {
 
 			@Override
 			public void onSuccess(ResponseData response) {
-				
-				if (callBack != null) {
-					callBack.unBindSuccess();
+
+				if (response.getCode() == ResponseCode.Normal.getValue()) {
+					if (callBack != null) {
+						callBack.unBindSuccess();
+					}
+
+					Employee employee = ((MedicalAppliction) mContext.getApplicationContext()).getLoginEmployee();
+					employee.setOpenID(null);
+					employee.setUnionID(null);
+					employee.setWeChatName(null);
+				} else if (response.getCode() == ResponseCode.AppCustom0.getValue()) {
+					Toast.makeText(mContext, response.getMessage(), Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(mContext, R.string.unbind_fail, Toast.LENGTH_LONG).show();
 				}
 
-				Employee employee = ((MedicalAppliction) mContext.getApplicationContext()).getLoginEmployee();
-				employee.setOpenID(null);
-				employee.setUnionID(null);
-				employee.setWeChatName(null);
 			}
 
 			@Override
@@ -132,14 +147,12 @@ public class WechatBindUtil {
 	 * @return URL
 	 */
 	public static String getAccessTokenRequestURL(String code) {
-		String result = null;
-		accessTokenRequestURL = accessTokenRequestURL.replace("APPID",
-				urlEnodeUTF8(MedicalConstant.WECHAT_MOBILE_APP_ID));
-		accessTokenRequestURL = accessTokenRequestURL.replace("SECRET",
-				urlEnodeUTF8(MedicalConstant.WECHAT_MOBILE_APP_SECRET));
-		accessTokenRequestURL = accessTokenRequestURL.replace("CODE", urlEnodeUTF8(code));
-		result = accessTokenRequestURL;
-		return result;
+		String url = ACCESS_TOKEN_REQUEST_TEMPLATE_URL;
+		url = url.replace("APPID", urlEnodeUTF8(MedicalConstant.WECHAT_MOBILE_APP_ID));
+		url = url.replace("SECRET", urlEnodeUTF8(MedicalConstant.WECHAT_MOBILE_APP_SECRET));
+		L.e(WechatBindUtil.class, "urlEnodeUTF8(code)前的code : " + code);
+		url = url.replace("CODE", urlEnodeUTF8(code));
+		return url;
 	}
 
 	/**
@@ -151,12 +164,11 @@ public class WechatBindUtil {
 	 *            获取access_token时给的
 	 * @return URL
 	 */
-	public static String getUserInfo(String access_token, String openid) {
-		String result = null;
-		GetUserInfo = GetUserInfo.replace("ACCESS_TOKEN", urlEnodeUTF8(access_token));
-		GetUserInfo = GetUserInfo.replace("OPENID", urlEnodeUTF8(openid));
-		result = GetUserInfo;
-		return result;
+	private String getUserInfo(String access_token, String openid) {
+		String url = GET_USER_INFO_TEMPLATE_URL;
+		url = url.replace("ACCESS_TOKEN", urlEnodeUTF8(access_token));
+		url = url.replace("OPENID", urlEnodeUTF8(openid));
+		return url;
 	}
 
 	public static String urlEnodeUTF8(String str) {
@@ -179,10 +191,11 @@ public class WechatBindUtil {
 	 * "unionid":"o6_bmasdasdsad6_2sgVt7hMZOPfL" }
 	 */
 	private void WXGetAccessToken() {
+		L.e(WechatBindUtil.class, "WXGetAccessToken()");
 		HttpClient get_access_token_httpClient = new DefaultHttpClient();
-		HttpClient get_user_info_httpClient = new DefaultHttpClient();
 		String access_token = "";
 		try {
+			L.e(this, "accessTokenRequestURL : " + accessTokenRequestURL);
 			HttpPost postMethod = new HttpPost(accessTokenRequestURL);
 			HttpResponse response = get_access_token_httpClient.execute(postMethod); // 执行POST方法
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -203,6 +216,8 @@ public class WechatBindUtil {
 				openid = (String) json.get("openid");
 				unionid = json.getString("unionid");
 
+				String get_user_info_url = getUserInfo(access_token, openid);
+				WXGetUserInfo(get_user_info_url);
 			} else {
 
 			}
@@ -214,10 +229,16 @@ public class WechatBindUtil {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}
 
-		String get_user_info_url = getUserInfo(access_token, openid);
-		WXGetUserInfo(get_user_info_url);
+			((Activity) mContext).runOnUiThread(new Runnable() {
+				public void run() {
+					Toast.makeText(mContext, "请求微信access_token出错", Toast.LENGTH_LONG).show();
+				}
+			});
+
+			openid = null;
+			unionid = null;
+		}
 	}
 
 	/**
@@ -246,26 +267,34 @@ public class WechatBindUtil {
 
 				JSONObject json = new JSONObject(jsonString);
 
-				openid = (String) json.get("openid");
 				final String nickname = (String) json.get("nickname");
-//				final String headimgurl = (String) json.get("headimgurl");
-				
-				((Activity)mContext).runOnUiThread(new Runnable() {
+				openid = (String) json.get("openid");
+				unionid = json.getString("unionid");
+				// final String headimgurl = (String) json.get("headimgurl");
+
+				((Activity) mContext).runOnUiThread(new Runnable() {
 					public void run() {
-						new UpdateEmployeeWeChat(mContext).updateEmployeeWeChat(openid, unionid, nickname, new RequestCallBack() {
+						new UpdateEmployeeWeChat(mContext).updateEmployeeWeChat(openid, unionid, nickname,
+								new RequestCallBack() {
 
 							@Override
 							public void onSuccess(ResponseData response) {
 
-								Employee employee = ((MedicalAppliction) mContext.getApplicationContext()).getLoginEmployee();
-								employee.setOpenID(openid);
-								employee.setUnionID(unionid);
-								employee.setWeChatName(nickname);
+								if (response.getCode() == ResponseCode.Normal.getValue()) {
+									Employee employee = ((MedicalAppliction) mContext.getApplicationContext())
+											.getLoginEmployee();
+									employee.setOpenID(openid);
+									employee.setUnionID(unionid);
+									employee.setWeChatName(nickname);
 
-								if (callBack != null) {
-									callBack.bindSuccess(employee.getWeChatName());
+									if (callBack != null) {
+										callBack.bindSuccess(employee.getWeChatName());
+									}
+								} else if (response.getCode() == ResponseCode.AppCustom0.getValue()) {
+									Toast.makeText(mContext, response.getMessage(), Toast.LENGTH_LONG).show();
+								} else {
+									Toast.makeText(mContext, R.string.bind_fail, Toast.LENGTH_LONG).show();
 								}
-
 								WXEntryActivity.wechat_code = null;
 							}
 
@@ -280,10 +309,12 @@ public class WechatBindUtil {
 							}
 
 							@Override
-							public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+							public void onFailure(int statusCode, Header[] headers, String responseString,
+									Throwable throwable) {
 								if (callBack != null) {
 									callBack.bindFail();
 								}
+								WXEntryActivity.wechat_code = null;
 							}
 						});
 					}

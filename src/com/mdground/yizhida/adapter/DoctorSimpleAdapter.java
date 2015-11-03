@@ -47,7 +47,7 @@ public class DoctorSimpleAdapter extends SimpleAdapter<Doctor> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.simple_doctor_item;
+		return R.layout.item_simple_doctor;
 	}
 
 	public void setSelectItem(int nCurrentDoctorIndex) {

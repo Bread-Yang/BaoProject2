@@ -14,7 +14,7 @@ import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.base.BaseActivity;
 import com.mdground.yizhida.bean.Employee;
 
-public class ContartActivity extends BaseActivity {
+public class ContactActivity extends BaseActivity {
 
 	private LinearLayout mobilphoneLayout;
 	private Employee employe;
@@ -24,7 +24,7 @@ public class ContartActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.contart_main_layout);
+		setContentView(R.layout.activity_contact);
 		employe = ((MedicalAppliction) getApplication()).getLoginEmployee();
 		if ((employe.getSupportName() == null || employe.getSupportName().equals(""))
 				&& (employe.getSupportPhone() == null || employe.getSupportPhone().equals(""))) {

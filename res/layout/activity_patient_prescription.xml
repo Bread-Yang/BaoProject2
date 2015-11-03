@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/box12"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout_title"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        layout="@layout/layout_title" />
+
+    <RelativeLayout
+        android:id="@+id/rlt_consultation_fee"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/layout_title"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_bg_doctor_item"
+        android:onClick="onClick"
+        android:paddingLeft="15dp"
+        android:paddingRight="3dp" >
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/v2add2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/iv_add"
+            android:text="@string/add_diagnosis"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llt_other_fee"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlt_consultation_fee"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llt_btn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_button_orange_rectangle"
+            android:gravity="center"
+            android:onClick="onClick" >
+
+            <ImageView
+                android:id="@+id/iv_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/add2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_plus"
+                android:text="@string/fee"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_button_blue_swell"
+            android:gravity="center"
+            android:onClick="onClick" >
+
+            <ImageView
+                android:id="@+id/iv_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/add2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_plus"
+                android:text="@string/drug"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

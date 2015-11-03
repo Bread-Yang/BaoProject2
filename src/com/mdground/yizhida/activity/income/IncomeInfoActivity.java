@@ -67,7 +67,7 @@ public class IncomeInfoActivity extends TitleBarActivity {
 
 	@Override
 	public int getContentLayout() {
-		return R.layout.income_info_detial;
+		return R.layout.activity_income_info;
 	}
 
 	@Override

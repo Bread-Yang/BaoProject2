@@ -54,7 +54,7 @@ public class MedicalAppliction extends MdgAppliction {
 		// CalligraphyConfig.initDefault("fonts/boby.ttf", R.attr.fontPath);
 
 		// 注册微信
-		api = WXAPIFactory.createWXAPI(this, MedicalConstant.WECHAT_MOBILE_APP_ID, true);
+		api = WXAPIFactory.createWXAPI(this, MedicalConstant.WECHAT_MOBILE_APP_ID, false);
 		api.registerApp(MedicalConstant.WECHAT_MOBILE_APP_ID);
 
 		MedicalConstant.NotoSans_Regular = Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf");

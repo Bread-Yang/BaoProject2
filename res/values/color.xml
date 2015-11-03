@@ -70,4 +70,6 @@
     <color name="shedule_table_today_item_bg">#D1EDFF</color>
     <color name="shedule_table_passed_item_bg">#EAEBEC</color>
     <color name="bg_item_opt">#222222</color>
+    
+    
 </resources>

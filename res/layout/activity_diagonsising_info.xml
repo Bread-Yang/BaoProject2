@@ -49,7 +49,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="10dp"
-        layout="@layout/common_patient_info" />
+        layout="@layout/layout_common_patient_info" />
 
     <include
         android:id="@+id/page_layout"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/common_info"
         android:layout_marginTop="10dp"
-        layout="@layout/common_patient_detail_layout" />
+        layout="@layout/layout_common_patient_detail" />
 
     <com.mdground.yizhida.view.DragView
         android:id="@+id/drag_view"

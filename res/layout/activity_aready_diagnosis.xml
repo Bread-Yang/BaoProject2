@@ -52,7 +52,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="10dp"
-        layout="@layout/common_patient_info" />
+        layout="@layout/layout_common_patient_info" />
 
       <include 
           android:id="@+id/page_layout"
@@ -60,6 +60,6 @@
           android:layout_width="match_parent"
           android:layout_below="@id/common_info"
            android:layout_marginTop="10dp"
-          layout="@layout/common_patient_detail_layout"/>
+          layout="@layout/layout_common_patient_detail"/>
 
 </RelativeLayout>

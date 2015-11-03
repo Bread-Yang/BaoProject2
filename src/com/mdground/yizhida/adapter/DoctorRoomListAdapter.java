@@ -55,7 +55,7 @@ public class DoctorRoomListAdapter extends SimpleAdapter<Doctor> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.doctor_list_item_layout;
+		return R.layout.item_doctor_list;
 	}
 
 }

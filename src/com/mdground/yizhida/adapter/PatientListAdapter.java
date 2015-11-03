@@ -44,6 +44,6 @@ public class PatientListAdapter extends SimpleAdapter<Patient> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.patient_item_layout;
+		return R.layout.item_patient;
 	}
 }

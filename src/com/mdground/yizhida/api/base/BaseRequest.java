@@ -44,6 +44,7 @@ import com.google.gson.JsonObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.mdground.yizhida.BuildConfig;
+import com.mdground.yizhida.activity.appointment.PatientAppointmentPresenterImpl;
 import com.mdground.yizhida.api.MdgAppliction;
 import com.mdground.yizhida.api.server.global.LoginEmployee;
 import com.mdground.yizhida.api.utils.DeviceUtils;
@@ -186,7 +187,7 @@ public abstract class BaseRequest {
 		// 加密RequestData
 		String postString = new Gson().toJson(data);
 		
-		L.e(this, "请求的postString : " + postString);
+		L.e(this, "请求接口 : " + getFunctionName() + " 的postString : " + postString);
 		if (hasEncrypt) {
 			try {
 				postString = Encrypt.encrypt(postString);
@@ -346,11 +347,14 @@ public abstract class BaseRequest {
 				if (encrypt) {
 					responseString = URLDecoder.decode(responseString, "UTF-8");
 					responseString = Encrypt.decrypt(responseString);
-					L.e(this, "responseString : " + responseString);
 				}
 
 				Gson gson = new GsonBuilder().create();
 				ResponseData mResponseData = gson.fromJson(responseString, ResponseData.class);
+				
+				L.e(this, "请求 " + getFunctionName() + " 返回的code : " + mResponseData.getCode());
+				L.e(this, "请求 " + getFunctionName() + " 返回的message : " + mResponseData.getMessage());
+				L.e(this, "请求 " + getFunctionName() + " 返回的content : " + mResponseData.getContent());
 				
 				// 处理token失效问题
 				if (mResponseData.getCode() == ResponseCode.InvalidToken.getValue()) {

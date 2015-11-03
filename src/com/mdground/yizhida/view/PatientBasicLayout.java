@@ -47,7 +47,7 @@ public class PatientBasicLayout extends RelativeLayout {
 
 	public PatientBasicLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		view = LayoutInflater.from(context).inflate(R.layout.patient_basic_info__layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_patient_basic_info, null);
 		
 		this.addView(view);
 		findView();
@@ -55,14 +55,14 @@ public class PatientBasicLayout extends RelativeLayout {
 
 	public PatientBasicLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		view = LayoutInflater.from(context).inflate(R.layout.patient_basic_info__layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_patient_basic_info, null);
 		this.addView(view);
 		findView();
 	}
 
 	public PatientBasicLayout(Context context) {
 		super(context);
-		view = LayoutInflater.from(context).inflate(R.layout.patient_basic_info__layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_patient_basic_info, null);
 		
 		ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollview);
 

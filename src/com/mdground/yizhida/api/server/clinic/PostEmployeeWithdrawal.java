@@ -22,7 +22,7 @@ public class PostEmployeeWithdrawal extends ClinicRequest  {
 		return FUNCTION_NAME;
 	}
 	
-	public void postEmployeeWithDraw(float withDraw, RequestCallBack callBack) {
+	public void postEmployeeWithDraw(int withDraw, RequestCallBack callBack) {
 		setRequestCallBack(callBack);
 
 		RequestData data = getData();

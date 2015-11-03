@@ -20,7 +20,7 @@ public class ProtocolActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.protocol_main_layout);
+		setContentView(R.layout.activity_protocol);
 
 		WebView wv = (WebView) findViewById(R.id.wv_protocol);
 		WebSettings settings = wv.getSettings();

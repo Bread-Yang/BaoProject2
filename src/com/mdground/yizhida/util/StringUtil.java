@@ -11,7 +11,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+import android.text.TextUtils;
+
 public class StringUtil {
+
+	public static boolean isEmpty(String string) {
+		if (TextUtils.isEmpty(string) || "[]".equals(string) || "null".equals(string)) {
+			return true;
+		}
+		return false;
+	}
+
 	public static String getAge(String dob) {
 		Calendar calendar = Calendar.getInstance();
 		try {

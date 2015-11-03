@@ -55,7 +55,6 @@ public class ScreenManager {
 		@Override
 		public void run() {
 			try {
-				L.e(ScreenManager.class, "不断地执行");
 				socket = new Socket(ip, port);
 				dis = new DataInputStream(socket.getInputStream());
 				dos = new DataOutputStream(socket.getOutputStream());

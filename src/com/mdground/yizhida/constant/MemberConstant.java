@@ -63,8 +63,14 @@ public class MemberConstant {
 	public static final String APPOINTMENT_NO = "appointment_no";
 	public static final String APPOINTMENT_ID = "appointment_id";
 	public static final String APPOINTMENT = "appointment";
+	public static final String APPOINTMENT_CALL_NEXT = "appointment_call_next";
 	public static final String APPOINTMENT_LIST = "appointment_list";
 	public static final String APPOINTMENT_LIST_INDEX = "appointment_list_index";
+	
+	public static final String APPOINTMENT_CHIEF_COMPLAINT = "appointment_chief_complaint";
+	public static final String APPOINTMENT_VITAL_SIGNS = "appointment_vital_signs";
+	public static final String APPOINTMENT_DIAGNOSIS_TEMPLATE = "appointment_diagnosis_template";
+	public static final String APPOINTMENT_DIAGNOSIS_LIST = "appointment_diagnosis_list";
 
 	// 登陆状态
 	public static final String LOGIN_STATUS = "loginStatus";

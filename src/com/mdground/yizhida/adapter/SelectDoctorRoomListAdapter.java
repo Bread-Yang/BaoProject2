@@ -77,7 +77,7 @@ public class SelectDoctorRoomListAdapter extends SimpleAdapter<Doctor> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.select_doctor_item_layout;
+		return R.layout.item_select_doctor;
 	}
 
 }

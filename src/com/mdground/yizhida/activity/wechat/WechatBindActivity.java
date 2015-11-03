@@ -36,6 +36,7 @@ import com.mdground.yizhida.wxapi.WXEntryActivity;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -131,7 +132,7 @@ public class WechatBindActivity extends TitleBarActivity implements OnClickListe
 	protected void onResume() {
 		super.onResume();
 
-		if (WXEntryActivity.wechat_code != null) {
+		if (!TextUtils.isEmpty(WXEntryActivity.wechat_code)) {
 
 			wechatBindUtil.getWechatOpenIdAndUnionIdAndNickname();
 		}
@@ -141,30 +142,29 @@ public class WechatBindActivity extends TitleBarActivity implements OnClickListe
 
 		Employee loginEmployee = ((MedicalAppliction) getApplicationContext()).getLoginEmployee();
 
-		new UpdateEmployeeWeChat(getApplicationContext()).updateEmployeeWeChat(loginEmployee.getOpenID(),
-				loginEmployee.getUnionID(), loginEmployee.getWeChatName(), new RequestCallBack() {
+		// 三个值都传空过去,表明下次不需要再跳到关注界面了
+		new UpdateEmployeeWeChat(getApplicationContext()).updateEmployeeWeChat("", "", "", new RequestCallBack() {
 
-					@Override
-					public void onSuccess(ResponseData response) {
+			@Override
+			public void onSuccess(ResponseData response) {
 
-					}
+			}
 
-					@Override
-					public void onStart() {
+			@Override
+			public void onStart() {
 
-					}
+			}
 
-					@Override
-					public void onFinish() {
+			@Override
+			public void onFinish() {
 
-					}
+			}
 
-					@Override
-					public void onFailure(int statusCode, Header[] headers, String responseString,
-							Throwable throwable) {
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 
-					}
-				});
+			}
+		});
 
 		Intent intent = new Intent(this, WechatBindSuccessfullyActivity.class);
 
@@ -181,7 +181,8 @@ public class WechatBindActivity extends TitleBarActivity implements OnClickListe
 			wechatBindUtil.bindWechat();
 			break;
 		case R.id.btn_operation:
-			if (((MedicalAppliction) getApplicationContext()).getLoginEmployee().getOpenID() == null) {
+			String openID = ((MedicalAppliction) getApplicationContext()).getLoginEmployee().getOpenID();
+			if (TextUtils.isEmpty(openID)) {
 				wechatBindUtil.bindWechat();
 			} else {
 				wechatBindUtil.unBindWechat();
@@ -196,8 +197,6 @@ public class WechatBindActivity extends TitleBarActivity implements OnClickListe
 		if (isFromLoginActivity) {
 			Intent intent = new Intent(WechatBindActivity.this, WechatBindSuccessfullyActivity.class);
 			startActivity(intent);
-
-			WXEntryActivity.wechat_code = null;
 
 			finish();
 		} else {

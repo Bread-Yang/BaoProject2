@@ -26,21 +26,21 @@ public class AreadyPassLayout extends RelativeLayout{
 	public AreadyPassLayout(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
-		view = LayoutInflater.from(context).inflate(R.layout.aready_pass_info_layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_aready_pass_info, null);
 	    this.addView(view);
 	    findView();
 	}
 
 	public AreadyPassLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		view = LayoutInflater.from(context).inflate(R.layout.aready_pass_info_layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_aready_pass_info, null);
 		this.addView(view);
 		findView();
 	}
 
 	public AreadyPassLayout(Context context) {
 		super(context);
-		view = LayoutInflater.from(context).inflate(R.layout.aready_pass_info_layout, null);
+		view = LayoutInflater.from(context).inflate(R.layout.layout_aready_pass_info, null);
 		this.addView(view);
 		findView();
 	}

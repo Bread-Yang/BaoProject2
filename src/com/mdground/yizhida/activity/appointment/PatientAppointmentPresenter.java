@@ -12,6 +12,8 @@ public interface PatientAppointmentPresenter {
 	public void getPatientDetail(int patientId);
 	
 	public void getPatientMedicalHistory(int patientId);
+	
+	public void getPatientAppointmentDetail(int opID);
 
 	// 叫号
 	public void callPatient(AppointmentInfo appointment, String doctorName);

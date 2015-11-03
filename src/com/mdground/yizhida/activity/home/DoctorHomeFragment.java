@@ -292,14 +292,20 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 						|| DateUtils.compareToCurrentPeriod(appointment.getOPDatePeriod()) == 1) {
 					continue;
 				}
-				tmpOffset = appointment.getOPID() - appiontmentId;
-				if (offset == -1 && tmpOffset > 0) {
-					offset = tmpOffset;
+				
+				if (appointment.isEmergency()) {   // 如果是急诊,立刻返回
 					index = i;
+					break;
 				} else {
-					if (tmpOffset > 0 && tmpOffset < offset) {
+					tmpOffset = appointment.getOPID() - appiontmentId;
+					if (offset == -1 && tmpOffset > 0) {
 						offset = tmpOffset;
 						index = i;
+					} else {
+						if (tmpOffset > 0 && tmpOffset < offset) {
+							offset = tmpOffset;
+							index = i;
+						}
 					}
 				}
 			}
@@ -325,12 +331,28 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 		if (nextAppointment == null) {
 			return;
 		}
+		
+		ArrayList<AppointmentInfo> tempList = new ArrayList<AppointmentInfo>();
+		
+		int tempIndex = index;
+		for (int i = 0; i < appointments.size(); i++) {
+			AppointmentInfo item = appointments.get(i);
+			if (item.getType() == AppointmentInfo.GROUP || item.getType() == AppointmentInfo.EMPTY) {
+				if (index > i) {
+					L.e(this, "position--");
+					tempIndex--;
+				}
+				continue;
+			}
+			tempList.add(item);
+		}
+		
 		// appointments.remove(nextAppiontment);
 		nextAppointment.setDoctorName(employee.getEmployeeName());
 		Intent intent = new Intent(getActivity(), PatientAppointmentActivity.class);
 		intent.putExtra(MemberConstant.APPOINTMENT, nextAppointment);
-		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, appointments);
-		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
+		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, tempList);
+		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, tempIndex);
 		presenter.callPatient(nextAppointment, employee.getEmployeeName());
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 	}
@@ -349,6 +371,9 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 			pullToRefreshSwipeMenuListView.setEmptyView(emptyPromptLayout);
 			TvNoBody.setText(Tools.getFormat(getActivity(), R.string.no_body, radioView.getSelectText()));
 			return;
+		}
+		for (AppointmentInfo item : appointmentInfos) {
+			item.setDoctorName(employee.getEmployeeName());
 		}
 		appointments.addAll(appointmentInfos);
 
@@ -432,13 +457,13 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 
 		ArrayList<AppointmentInfo> tempList = new ArrayList<AppointmentInfo>();
 
-		int index = position;
+		int tempIndex = position;
 		for (int i = 0; i < appointments.size(); i++) {
 			AppointmentInfo item = appointments.get(i);
 			if (item.getType() == AppointmentInfo.GROUP || item.getType() == AppointmentInfo.EMPTY) {
 				if (position > i) {
 					L.e(this, "position--");
-					index--;
+					tempIndex--;
 				}
 				continue;
 			}
@@ -447,12 +472,12 @@ public class DoctorHomeFragment extends BaseFragment implements SelectListener, 
 
 		if ((appointment.getOPStatus() & AppointmentInfo.STATUS_WATTING) != AppointmentInfo.STATUS_WATTING) {
 			Collections.reverse(tempList);
-			index = tempList.size() - 1 - index;
+			tempIndex = tempList.size() - 1 - tempIndex;
 		}
 
 		Intent intent = new Intent(getActivity(), PatientAppointmentActivity.class);
 		intent.putParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST, tempList);
-		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, index);
+		intent.putExtra(MemberConstant.APPOINTMENT_LIST_INDEX, tempIndex);
 		getActivity().startActivityForResult(intent, MemberConstant.APPIONTMENT_REQUEST_CODE);
 
 	}

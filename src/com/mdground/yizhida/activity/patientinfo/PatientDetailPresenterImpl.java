@@ -142,7 +142,6 @@ public class PatientDetailPresenterImpl implements PatientDetailPresenter {
 
 			@Override
 			public void onSuccess(ResponseData response) {
-				L.e(PatientDetailPresenterImpl.this, "既往史的message : " + response.getContent());
 				List<Anamnesis> list = response.getContent(new TypeToken<List<Anamnesis>>() {
 				});
 				

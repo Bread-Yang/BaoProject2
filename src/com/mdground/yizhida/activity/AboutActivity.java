@@ -37,8 +37,9 @@ public class AboutActivity extends BaseActivity {
 			PackageManager manager = this.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
 			String version = info.versionName;
-			int versionCode = info.versionCode;
-			return version + "." + versionCode;
+//			int versionCode = info.versionCode;
+//			return version + "." + versionCode;
+			return version;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";

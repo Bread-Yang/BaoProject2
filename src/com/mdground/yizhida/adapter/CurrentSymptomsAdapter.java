@@ -57,7 +57,7 @@ public class CurrentSymptomsAdapter extends SimpleAdapter<Symptom> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.current_symptoms_gird_item;
+		return R.layout.item_current_symptoms_gird;
 	}
 
 }

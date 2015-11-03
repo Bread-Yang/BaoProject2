@@ -42,7 +42,7 @@ public class LocationAdapter extends SimpleAdapter<Location> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.location_item_layout;
+		return R.layout.item_location;
 	}
 
 }

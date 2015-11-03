@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mdground.yizhida"
     android:versionCode="12"
-    android:versionName="1.0.10.28" >
+    android:versionName="1.0.10.29" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -142,7 +142,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.mdground.yizhida.activity.ContartActivity"
+            android:name="com.mdground.yizhida.activity.ContactActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
@@ -174,6 +174,30 @@
         </activity>
         <activity
             android:name="com.mdground.yizhida.activity.appointment.PatientAppointmentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mdground.yizhida.activity.appointment.PatientChiefComplaintActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mdground.yizhida.activity.appointment.PatientVitalSignsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mdground.yizhida.activity.appointment.PatientDiagnosisActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mdground.yizhida.activity.appointment.PatientPrescriptionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >

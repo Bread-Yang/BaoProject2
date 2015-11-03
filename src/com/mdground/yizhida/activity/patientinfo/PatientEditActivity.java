@@ -39,21 +39,22 @@ import com.mdground.yizhida.util.Tools;
 import com.mdground.yizhida.view.CircleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.Selection;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -68,15 +69,15 @@ import android.widget.Toast;
 
 public class PatientEditActivity extends BaseActivity implements OnClickListener, OnDateSetListener, PatientEditView {
 	// private static final String TAG = "PatientEditActivity";
-	
+
 	private LinearLayout llt_section2, llt_section3, llt_section4, llt_btn;
-	
+
 	private RelativeLayout rlt_emergency;
-	
+
 	private SwitchButton btn_switch_emergency;
 	private Button btn_save;
 	private Button btn_save_and_register;
-	
+
 	private EditText EtPositionValue;
 	private EditText EtCompanyValue;
 	private EditText EtMzValue;
@@ -129,7 +130,7 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 	private SymptomDao mSymptomDao;
 
 	private boolean isCreate = false;
-	
+
 	private boolean isOnlySave = false;
 
 	@Override
@@ -152,16 +153,14 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 
 	@Override
 	public void findView() {
-		
-		((TextView) findViewById(R.id.tv_title)).setText(R.string.new_account);
-		
+
 		llt_section2 = (LinearLayout) findViewById(R.id.llt_section2);
 		llt_section3 = (LinearLayout) findViewById(R.id.llt_section3);
 		llt_section4 = (LinearLayout) findViewById(R.id.llt_section4);
 		llt_btn = (LinearLayout) findViewById(R.id.llt_btn);
-		
+
 		rlt_emergency = (RelativeLayout) findViewById(R.id.rlt_emergency);
-		
+
 		btn_switch_emergency = (SwitchButton) findViewById(R.id.btn_switch_emergency);
 		btn_save = (Button) findViewById(R.id.btn_save);
 		btn_save_and_register = (Button) findViewById(R.id.btn_save_and_register);
@@ -176,11 +175,11 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 		headLayout = (RelativeLayout) this.findViewById(R.id.headlayout);
 		mainLayout = (LinearLayout) this.findViewById(R.id.add_person_main_layout);
 
-		sexView = LayoutInflater.from(this).inflate(R.layout.select_sex_layout, null);
+		sexView = LayoutInflater.from(this).inflate(R.layout.layout_select_sex, null);
 		TvManText = (TextView) sexView.findViewById(R.id.man_text);
 		TvGrilText = (TextView) sexView.findViewById(R.id.girl_text);
 
-		marrayView = LayoutInflater.from(this).inflate(R.layout.select_marry_layout, null);
+		marrayView = LayoutInflater.from(this).inflate(R.layout.layout_select_marry, null);
 		TvMarrayText = (TextView) marrayView.findViewById(R.id.marry_text);
 		TvUnMarrayText = (TextView) marrayView.findViewById(R.id.unmarry_text);
 		TvBreakMarrayText = (TextView) marrayView.findViewById(R.id.break_marry_text);
@@ -222,6 +221,10 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 		IvHeadImage.loadImage(mPatient.getPhotoUrl());
 
 		EtNameValue.setText(mPatient.getPatientName());
+		int position = EtNameValue.length();
+		Editable etext = EtNameValue.getText();
+		Selection.setSelection(etext, position);
+
 		EtEnglishValue.setText(mPatient.getForeignName());
 		TvSexValue.setText(mPatient.getGenderStr());
 		TvBirthdayValue
@@ -258,18 +261,20 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 		Intent intent = getIntent();
 		if (intent != null) {
 			mPatient = intent.getParcelableExtra(MemberConstant.PATIENT);
-			
+
 			if (intent.getBooleanExtra("isAdd", false)) {
 				llt_section2.setVisibility(View.GONE);
 				llt_section3.setVisibility(View.GONE);
 				llt_section4.setVisibility(View.GONE);
 				TvFinish.setVisibility(View.GONE);
+				
+				((TextView) findViewById(R.id.tv_title)).setText(R.string.new_account);
 			} else {
 				llt_btn.setVisibility(View.GONE);
 				rlt_emergency.setVisibility(View.GONE);
 			}
 		}
-		
+
 		if (mPatient.getPatientID() == 0) {
 			isCreate = true;
 		}
@@ -621,10 +626,10 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 				presenter.savePatient(patientDetail);
 			}
 			break;
-			
+
 		case R.id.btn_save:
 			isOnlySave = true;
-			
+
 			final Patient patient = productPatientDetail();
 			if (patient == null) {
 				return;
@@ -637,7 +642,7 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 			break;
 		case R.id.btn_save_and_register:
 			isOnlySave = false;
-			
+
 			final Patient patient2 = productPatientDetail();
 			if (patient2 == null) {
 				return;
@@ -684,7 +689,7 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 		AppointmentInfo appointmentInfo = new AppointmentInfo();
 		appointmentInfo.setOPDate(new Date());
 		appointmentInfo.setPatientID(patient.getPatientID());
-		
+
 		if (btn_switch_emergency.isChecked()) {
 			appointmentInfo.setEmergency(true);
 		}
@@ -726,12 +731,12 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 
 		Calendar targetCalendar = Calendar.getInstance();
 		targetCalendar.set(year, monthOfYear, dayOfMonth);
-		
+
 		long currentMillis = currentCalendar.getTimeInMillis();
 		long targetMillis = targetCalendar.getTimeInMillis();
 
 		long interval = currentMillis - targetMillis;
-		
+
 		long minimumInterval = 30L * 24 * 3600 * 1000;
 
 		if (interval > minimumInterval) { // 大于30天
@@ -752,25 +757,27 @@ public class PatientEditActivity extends BaseActivity implements OnClickListener
 	@Override
 	public void finishSave(final Patient patient) {
 		if (isCreate) {
-//			Dialog dialog = new AlertDialog.Builder(PatientEditActivity.this).setMessage("保存成功，是否需要为此用户挂号")
-//					.setNegativeButton("挂号", new DialogInterface.OnClickListener() {
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							createAppointment(patient);
-//						}
-//					}).setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							setResult(MemberConstant.APPIONTMENT_RESOULT_CODE);
-//							finish();
-//						}
-//					}).create();
-//			dialog.setCanceledOnTouchOutside(false);
-//			dialog.show();
-			
+			// Dialog dialog = new
+			// AlertDialog.Builder(PatientEditActivity.this).setMessage("保存成功，是否需要为此用户挂号")
+			// .setNegativeButton("挂号", new DialogInterface.OnClickListener() {
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// createAppointment(patient);
+			// }
+			// }).setPositiveButton("取消", new DialogInterface.OnClickListener()
+			// {
+			//
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// setResult(MemberConstant.APPIONTMENT_RESOULT_CODE);
+			// finish();
+			// }
+			// }).create();
+			// dialog.setCanceledOnTouchOutside(false);
+			// dialog.show();
+
 			if (isOnlySave) {
-//				setResult(MemberConstant.APPIONTMENT_RESOULT_CODE);
+				// setResult(MemberConstant.APPIONTMENT_RESOULT_CODE);
 				finish();
 			} else {
 				createAppointment(patient);

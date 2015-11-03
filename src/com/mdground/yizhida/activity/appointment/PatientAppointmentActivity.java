@@ -1,11 +1,17 @@
 package com.mdground.yizhida.activity.appointment;
 
+import java.lang.reflect.Member;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.ImageActivity;
@@ -13,16 +19,24 @@ import com.mdground.yizhida.activity.doctorlist.DoctorSelectListActivity;
 import com.mdground.yizhida.activity.patientinfo.PatientCommonActivity;
 import com.mdground.yizhida.activity.patientinfo.PatientEditActivity;
 import com.mdground.yizhida.adapter.PatientInfoPageAdapter;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Anamnesis;
 import com.mdground.yizhida.bean.AppointmentInfo;
+import com.mdground.yizhida.bean.ChiefComplaint;
+import com.mdground.yizhida.bean.Diagnosis;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.bean.Patient;
+import com.mdground.yizhida.bean.VitalSigns;
 import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.db.dao.SymptomDao;
 import com.mdground.yizhida.util.DateUtils;
+import com.mdground.yizhida.util.StringUtil;
+import com.mdground.yizhida.util.Tools;
 import com.mdground.yizhida.view.CircleImageView;
 import com.mdground.yizhida.view.PatientBasicLayout;
 
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -36,12 +50,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,39 +77,58 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private static final int OPT_START = 5;
 	private static final int OPT_CALL = 6;
 
-	private PatientBasicLayout patientBasicLayout;
-	private ArrayList<View> viewContainter;
-	private PatientInfoPageAdapter mPatientInfoPageAdapter;
-	private ImageView mBackImg;
-	private RelativeLayout rlt_title;
-	private TextView tvTitle;
-	private TextView tvOpterator;
+	private final int ANIMATION_DURATION = 100;
+
+	private LinearLayout llt_btn, llt_signs, llt_chief_complaint, llt_diagnosis;
+
+	private RelativeLayout rlt_title, rlt_signs, rlt_chief_complaint, rlt_diagnosis, rlt_prescription,
+			rlt_common_patient_layout;
+
+	private ScrollView sc_treating_patient_layout;
+
+	private ImageView mBackImg, iv_collapse, iv_open;
+
+	private Button btn_one, btn_two, btn_patient_detail;
+
+	private TextView tvTitle, tvOpterator, tv_temperature, tv_height, tv_weight, tv_bmi, tv_heartbeat, tv_breath,
+			tv_blood_pressure, tv_blood_glucose, tv_chief_complaint, tv_diagnosis;
+
 	private ListView anamnesisListView;
-	private Employee loginEmployee;
-	private ArrayList<AppointmentInfo> appointmentList;
-	private int appointment_index;
-	private AppointmentInfo appointmentInfo;
-	private Patient mPatient;
 
 	private CircleImageView circleHeadImage;
 
+	private Dialog dialog_patient_detail;
+
+	private PatientBasicLayout patientBasicLayout;
+	private ArrayList<View> viewContainter;
+	private PatientInfoPageAdapter mPatientInfoPageAdapter;
+
+	private Employee loginEmployee;
+	private ArrayList<AppointmentInfo> appointmentList;
+	private int appointment_index;
+	private AppointmentInfo mAppointment;
+	private Patient mPatient;
 	private PatientAppointmentPresenter presenter;
 
 	// 预约状态
 	private int opStatus;
 	private int role;
 
-	private Button btn_one;
-	private Button btn_two, btn_patient_detail;
-	private LinearLayout llt_btn;
-
-	private Dialog dialog_patient_detail;
-
 	// dao
 	SymptomDao mSymptomDao;
 
 	// 控制屏幕是否常亮
 	PowerManager.WakeLock wl;
+
+	private int height_of_llt_btn;
+
+	private VitalSigns mVitalSigns;
+
+	private ChiefComplaint mChiefComplaint;
+	
+	private ArrayList<Diagnosis> mDiagnosisList;
+	
+	private Diagnosis mDiagnosisTemplate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,17 +144,43 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	@Override
 	public void findView() {
 		super.findView();
+
+		llt_btn = (LinearLayout) findViewById(R.id.llt_btn);
+		llt_signs = (LinearLayout) findViewById(R.id.llt_signs);
+		llt_chief_complaint = (LinearLayout) findViewById(R.id.llt_chief_complaint);
+		llt_diagnosis = (LinearLayout) findViewById(R.id.llt_diagnosis);
+
 		rlt_title = (RelativeLayout) findViewById(R.id.rlt_title);
+		rlt_signs = (RelativeLayout) findViewById(R.id.rlt_signs);
+		rlt_chief_complaint = (RelativeLayout) findViewById(R.id.rlt_chief_complaint);
+		rlt_diagnosis = (RelativeLayout) findViewById(R.id.rlt_diagnosis);
+		rlt_prescription = (RelativeLayout) findViewById(R.id.rlt_prescription);
+		rlt_common_patient_layout = (RelativeLayout) findViewById(R.id.rlt_common_patient_layout);
+
+		sc_treating_patient_layout = (ScrollView) findViewById(R.id.sc_treating_patient_layout);
+
 		tvTitle = (TextView) findViewById(R.id.title);
 		tvOpterator = (TextView) findViewById(R.id.opterator);
+		tv_temperature = (TextView) findViewById(R.id.tv_temperature);
+		tv_height = (TextView) findViewById(R.id.tv_height);
+		tv_weight = (TextView) findViewById(R.id.tv_weight);
+		tv_bmi = (TextView) findViewById(R.id.tv_bmi);
+		tv_heartbeat = (TextView) findViewById(R.id.tv_heartbeat);
+		tv_breath = (TextView) findViewById(R.id.tv_breath);
+		tv_blood_pressure = (TextView) findViewById(R.id.tv_blood_pressure);
+		tv_blood_glucose = (TextView) findViewById(R.id.tv_blood_glucose);
+		tv_chief_complaint = (TextView) findViewById(R.id.tv_chief_complaint);
+		tv_diagnosis = (TextView) findViewById(R.id.tv_diagnosis);
+
+		iv_collapse = (ImageView) findViewById(R.id.iv_collapse);
+		iv_open = (ImageView) findViewById(R.id.iv_open);
+
 		circleHeadImage = (CircleImageView) findViewById(R.id.headimg);
 
 		// 操作按钮
 		btn_one = (Button) findViewById(R.id.btn_one);
 		btn_two = (Button) findViewById(R.id.btn_two);
 		btn_patient_detail = (Button) findViewById(R.id.btn_patient_detail);
-		llt_btn = (LinearLayout) findViewById(R.id.llt_btn);
-
 	}
 
 	@Override
@@ -170,9 +231,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private void updateInterface() {
 		initTitleBar();
 		initTitleOpt();
-//		if ((role & Employee.DOCTOR) != 0) {
-			initOptButtons();
-//		}
+		// if ((role & Employee.DOCTOR) != 0) {
+		initOptButtons();
+		// }
 	}
 
 	private void initTitleBar() {
@@ -181,13 +242,20 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		} else if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
 			rlt_title.setBackgroundResource(R.drawable.top_bg2);
 			tvTitle.setText("就诊中");
+
 			TvAppionmentNo.setBackgroundResource(R.drawable.shape_patient_num_green_bg);
 			btn_left_arrow.setCompoundDrawablesWithIntrinsicBounds(
 					getResources().getDrawable(R.drawable.left_arrow_green), null, null, null);
 			btn_right_arrow.setCompoundDrawablesWithIntrinsicBounds(null, null,
 					getResources().getDrawable(R.drawable.right_arrow_green), null);
-			// btn_left_arrow.setBackgroundResource(R.drawable.left_arrow_green);
-			// btn_right_arrow.setBackgroundResource(R.drawable.right_arrow_green);
+					// btn_left_arrow.setBackgroundResource(R.drawable.left_arrow_green);
+					// btn_right_arrow.setBackgroundResource(R.drawable.right_arrow_green);
+
+			// 二期
+			iv_collapse.setVisibility(View.VISIBLE);
+			sc_treating_patient_layout.setVisibility(View.VISIBLE);
+			rlt_common_patient_layout.setVisibility(View.GONE);
+
 		} else if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0) {
 			rlt_title.setBackgroundResource(R.drawable.top_bg1);
 			tvTitle.setText("候诊中");
@@ -276,7 +344,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				btn_one.setBackgroundResource(R.drawable.selector_bg_button_blue_swell);
 				btn_one.setTag(OPT_CALL);
 				btn_one.setText(R.string.opt_call);
-				
+
 				if (!presenter.isConnected()) {
 					btn_one.setVisibility(View.GONE);
 				}
@@ -286,8 +354,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				btn_two.setTag(OPT_ASSIGN);
 				btn_two.setText(R.string.opt_assign);
 			}
-		} else
-			if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0 || (opStatus & AppointmentInfo.STATUS_PASSED) != 0) {
+		} else if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0
+				|| (opStatus & AppointmentInfo.STATUS_PASSED) != 0) {
 			btn_one.setText("开始");
 			btn_one.setTag(OPT_START);
 			btn_one.setBackgroundResource(R.drawable.selector_bg_button_green_rectangle);
@@ -300,13 +368,11 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		super.initMemberData();
 		Intent intent = getIntent();
 		if (intent != null) {
-			// this.appointmentInfo =
-			// intent.getParcelableExtra(MemberConstant.APPOINTMENT);
 			intent.setExtrasClassLoader(AppointmentInfo.class.getClassLoader());
 			this.appointmentList = intent.getParcelableArrayListExtra(MemberConstant.APPOINTMENT_LIST);
 			appointment_index = intent.getIntExtra(MemberConstant.APPOINTMENT_LIST_INDEX, 0);
-			this.appointmentInfo = this.appointmentList.get(appointment_index);
-			opStatus = this.appointmentInfo.getOPStatus();
+			this.mAppointment = this.appointmentList.get(appointment_index);
+			opStatus = this.mAppointment.getOPStatus();
 		}
 
 		loginEmployee = ((MedicalAppliction) getApplicationContext()).getLoginEmployee();
@@ -323,7 +389,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		presenter.getPatientDetail(appointmentInfo.getPatientID());
+		presenter.getPatientDetail(mAppointment.getPatientID());
 		presenter.addScreenCallBack();
 	}
 
@@ -365,8 +431,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		}
 
 		long appointmentNo = 0;
-		if (appointmentInfo != null) {
-			appointmentNo = appointmentInfo.getOPNo();
+		if (mAppointment != null) {
+			appointmentNo = mAppointment.getOPNo();
 		}
 
 		if (patient.getGender() == 1) {// 1代表男
@@ -382,15 +448,22 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		super.updateView(patient, appointmentNo);
 		patientBasicLayout.initData(patient);
 
-		presenter.getPatientMedicalHistory(appointmentInfo.getPatientID());
+		// 既往史
+		presenter.getPatientMedicalHistory(mAppointment.getPatientID());
+
+		// 处于开始状态,则获取主诉,诊断,体征等信息
+		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
+			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
+		}
 	}
 
 	/**
 	 * 下一个预约
 	 */
-	private void nextAppiontment(AppointmentInfo appointmentInfo) {
+	private void nextAppiontment(AppointmentInfo appointmentInfo, boolean isCallNext) {
 		Intent intent = new Intent();
 		intent.putExtra(MemberConstant.APPOINTMENT, appointmentInfo);
+		intent.putExtra(MemberConstant.APPOINTMENT_CALL_NEXT, isCallNext);
 		this.setResult(MemberConstant.APPIONTMENT_NEXT_RESOULT_CODE, intent);
 		finish();
 	}
@@ -399,12 +472,55 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+		case R.id.llt_signs: {
+			Intent intent = new Intent(this, PatientVitalSignsActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_VITAL_SIGNS, mVitalSigns);
+			startActivity(intent);
+			break;
+		}
+		case R.id.llt_chief_complaint: {
+			Intent intent = new Intent(this, PatientChiefComplaintActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_CHIEF_COMPLAINT, mChiefComplaint);
+			startActivity(intent);
+			break;
+		}
+		case R.id.llt_diagnosis: {
+			Intent intent = new Intent(this, PatientDiagnosisActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
+			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_TEMPLATE, mDiagnosisTemplate);
+			startActivity(intent);
+			break;
+		}
+		case R.id.rlt_signs: {
+			Intent intent = new Intent(this, PatientVitalSignsActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_VITAL_SIGNS, mVitalSigns);
+			startActivity(intent);
+			break;
+		}
+		case R.id.rlt_chief_complaint: {
+			Intent intent = new Intent(this, PatientChiefComplaintActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_CHIEF_COMPLAINT, mChiefComplaint);
+			startActivity(intent);
+			break;
+		}
+		case R.id.rlt_diagnosis: {
+			Intent intent = new Intent(this, PatientDiagnosisActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
+			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_TEMPLATE, mDiagnosisTemplate);
+			startActivity(intent);
+			break;
+		}
+		case R.id.rlt_prescription: {
+			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
+			startActivity(intent);
+			break;
+		}
 		case R.id.btn_left_arrow:
-			int index = appointmentList.indexOf(appointmentInfo);
+			int index = appointmentList.indexOf(mAppointment);
 			if (index != -1 && index != 0) {
-				appointmentInfo = appointmentList.get(index - 1);
-				opStatus = this.appointmentInfo.getOPStatus();
-				presenter.getPatientDetail(appointmentInfo.getPatientID());
+				mAppointment = appointmentList.get(index - 1);
+				opStatus = this.mAppointment.getOPStatus();
+				presenter.getPatientDetail(mAppointment.getPatientID());
 			}
 			if (index - 1 == 0) {
 				btn_left_arrow.setVisibility(View.INVISIBLE);
@@ -415,11 +531,11 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			updateInterface();
 			break;
 		case R.id.btn_right_arrow:
-			int curerntIndex = appointmentList.indexOf(appointmentInfo);
+			int curerntIndex = appointmentList.indexOf(mAppointment);
 			if (curerntIndex != -1 && curerntIndex != appointmentList.size() - 1) {
-				appointmentInfo = appointmentList.get(curerntIndex + 1);
-				opStatus = this.appointmentInfo.getOPStatus();
-				presenter.getPatientDetail(appointmentInfo.getPatientID());
+				mAppointment = appointmentList.get(curerntIndex + 1);
+				opStatus = this.mAppointment.getOPStatus();
+				presenter.getPatientDetail(mAppointment.getPatientID());
 			}
 			if (curerntIndex + 1 == appointmentList.size() - 1) {
 				btn_right_arrow.setVisibility(View.INVISIBLE);
@@ -466,6 +582,48 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			intent.putExtra(MemberConstant.PATIENT, mPatient);
 			startActivityForResult(intent, MemberConstant.PATIENT_REQUEST_CODE);
 			break;
+		case R.id.iv_collapse: {
+			rlt_common_patient_layout.setVisibility(View.VISIBLE);
+
+			final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) llt_btn.getLayoutParams();
+
+			height_of_llt_btn = llt_btn.getHeight();
+			ValueAnimator animator = ValueAnimator.ofInt(height_of_llt_btn, 0).setDuration(ANIMATION_DURATION);
+			animator.addUpdateListener(new AnimatorUpdateListener() {
+
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation) {
+					lp.height = (Integer) animation.getAnimatedValue();
+					llt_btn.setLayoutParams(lp);
+				}
+			});
+			animator.start();
+
+			translateLayout(sc_treating_patient_layout, false);
+
+			iv_collapse.setVisibility(View.INVISIBLE);
+			iv_open.setVisibility(View.VISIBLE);
+			break;
+		}
+		case R.id.iv_open: {
+			final LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) llt_btn.getLayoutParams();
+
+			ValueAnimator animator = ValueAnimator.ofInt(0, height_of_llt_btn).setDuration(ANIMATION_DURATION);
+			animator.addUpdateListener(new AnimatorUpdateListener() {
+
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation) {
+					lp.height = (Integer) animation.getAnimatedValue();
+					llt_btn.setLayoutParams(lp);
+				}
+			});
+			animator.start();
+			translateLayout(sc_treating_patient_layout, true);
+
+			iv_collapse.setVisibility(View.VISIBLE);
+			iv_open.setVisibility(View.GONE);
+			break;
+		}
 		default:
 			Object obj = v.getTag();
 			if (obj instanceof Integer) {
@@ -474,33 +632,48 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			break;
 		}
 	}
-
+	
 	private void dealOpt(Integer opt) {
 		if (opt == null) {
 			return;
 		}
 		switch (opt) {
 		case OPT_CALL:
-			presenter.callPatient(appointmentInfo, appointmentInfo.getDoctorName());
+			presenter.callPatient(mAppointment, mAppointment.getDoctorName());
 			break;
 		case OPT_PASS:
 			passAppointment();
 			break;
 		case OPT_ASSIGN:
-			assignAppointment(appointmentInfo);
+			assignAppointment(mAppointment);
 			break;
 		case OPT_REQUEUE:
-			presenter.updateAppointment(appointmentInfo, AppointmentInfo.STATUS_REAPPOINT);
+			presenter.updateAppointment(mAppointment, AppointmentInfo.STATUS_REAPPOINT);
 			break;
 		case OPT_START:
-			presenter.updateAppointment(appointmentInfo, AppointmentInfo.STATUS_DIAGNOSING);
+			presenter.updateAppointment(mAppointment, AppointmentInfo.STATUS_DIAGNOSING);
 			break;
 		case OPT_STOP:
-			presenter.updateAppointment(appointmentInfo, AppointmentInfo.STATUS_FINISH);
+			presenter.updateAppointment(mAppointment, AppointmentInfo.STATUS_FINISH);
 			break;
 
 		default:
 			break;
+		}
+	}
+
+	private void translateLayout(View layout, boolean isShow) {
+		TranslateAnimation animation;
+		if (isShow) {
+			layout.setVisibility(View.VISIBLE);
+			animation = new TranslateAnimation(0, 0, layout.getHeight(), 0);
+			animation.setDuration(ANIMATION_DURATION);
+			layout.setAnimation(animation);
+		} else {
+			animation = new TranslateAnimation(0, 0, 0, layout.getHeight());
+			animation.setDuration(ANIMATION_DURATION);
+			layout.setAnimation(animation);
+			layout.setVisibility(View.GONE);
 		}
 	}
 
@@ -518,7 +691,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 		currentHour = currentHour / 2 + 1;
 
-		if (appointmentInfo.getOPDatePeriod() > currentHour) {
+		if (mAppointment.getOPDatePeriod() > currentHour) {
 			Toast.makeText(getApplicationContext(), R.string.current_time_no_appointment_time, Toast.LENGTH_SHORT)
 					.show();
 			return;
@@ -529,7 +702,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						presenter.updateAppointment(appointmentInfo, AppointmentInfo.STATUS_PASSED);
+						presenter.updateAppointment(mAppointment, AppointmentInfo.STATUS_PASSED);
 					}
 				}).setNeutralButton("取消", null).create();
 		myDialog.show();
@@ -553,7 +726,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				finish();// 只传递结果不处理结果值
 				break;
 			case MemberConstant.APPIONTMENT_RESOULT_ASSIGN:
-				nextAppiontment(appointmentInfo);
+				nextAppiontment(mAppointment, false);
 				break;
 			default:
 				break;
@@ -564,11 +737,11 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	@Override
 	public void updateViewSatus(int status) {
 		// 上报状态
-		appointmentInfo.setOPStatus(status);
-		presenter.reportOpStatus(appointmentInfo, appointmentInfo.getDoctorName());
+		mAppointment.setOPStatus(status);
+		presenter.reportOpStatus(mAppointment, mAppointment.getDoctorName());
 		if ((status & AppointmentInfo.STATUS_REAPPOINT) != 0 || (status & AppointmentInfo.STATUS_PASSED) != 0
 				|| (status & AppointmentInfo.STATUS_FINISH) != 0) {
-			nextAppiontment(appointmentInfo);
+			nextAppiontment(mAppointment, true);
 			return;
 		}
 
@@ -597,8 +770,109 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	}
 
 	@Override
+	public void updateAppointmentDetail(String jsonString) {
+		try {
+			JSONObject content = new JSONObject(jsonString);
+			
+			int clinicID = content.getInt("ClinicID");
+			int doctorID = content.getInt("DoctorID");
+			int patientID = content.getInt("PatientID");
+			int visitID = content.getInt("VisitID");
+			
+			// 体征
+			String vitalSign = content.getString("VitalSign");
+
+			if (!StringUtil.isEmpty(vitalSign)) {
+				mVitalSigns = new Gson().fromJson(vitalSign, VitalSigns.class);
+
+				rlt_signs.setVisibility(View.GONE);
+				llt_signs.setVisibility(View.VISIBLE);
+
+				tv_temperature.setText(Tools.getFormat(getApplicationContext(), R.string.temperature_unit,
+						mVitalSigns.getBodyTemperature()));
+				tv_height.setText(
+						Tools.getFormat(getApplicationContext(), R.string.height_unit, mVitalSigns.getHeight()));
+				tv_weight.setText(
+						Tools.getFormat(getApplicationContext(), R.string.weight_unit, mVitalSigns.getWeight()));
+				tv_bmi.setText(String.valueOf(mVitalSigns.getBMI()));
+				tv_heartbeat.setText(
+						Tools.getFormat(getApplicationContext(), R.string.heartbeat_unit, mVitalSigns.getHeartbeat()));
+				tv_breath.setText(
+						Tools.getFormat(getApplicationContext(), R.string.breath_unit, mVitalSigns.getBreathing()));
+				tv_blood_pressure.setText(Tools.getFormat(getApplicationContext(), R.string.blood_pressure_unit,
+						mVitalSigns.getSystolicPressure(), mVitalSigns.getDiastolicBloodPressure()));
+				tv_blood_glucose.setText(Tools.getFormat(getApplicationContext(), R.string.blood_glucose_unit,
+						mVitalSigns.getBloodGlucose()));
+			} else {
+				rlt_signs.setVisibility(View.VISIBLE);
+				llt_signs.setVisibility(View.GONE);
+			}
+
+			// 主诉
+			String chiefComplaint = content.getString("ChiefComplaint");
+
+			if (!StringUtil.isEmpty(chiefComplaint)) {
+				mChiefComplaint = new Gson().fromJson(chiefComplaint, ChiefComplaint.class);
+
+				if (!StringUtil.isEmpty(mChiefComplaint.getDescription())) {
+					rlt_chief_complaint.setVisibility(View.GONE);
+					llt_chief_complaint.setVisibility(View.VISIBLE);
+
+					tv_chief_complaint.setText(mChiefComplaint.getDescription());
+				}
+			} else {
+				rlt_chief_complaint.setVisibility(View.VISIBLE);
+				llt_chief_complaint.setVisibility(View.GONE);
+				
+				mChiefComplaint = new ChiefComplaint();
+				
+				mChiefComplaint.setClinicID(clinicID);
+				mChiefComplaint.setPatientID(patientID);
+				mChiefComplaint.setVisitID(visitID);
+			} 
+			
+			// 新增诊断的模版
+			mDiagnosisTemplate = new Diagnosis();
+			mDiagnosisTemplate.setClinicID(clinicID);
+			mDiagnosisTemplate.setDoctorID(doctorID);
+			mDiagnosisTemplate.setPatientID(patientID);
+			mDiagnosisTemplate.setVisitID(visitID);
+
+			// 诊断
+			String diagnosis = content.getString("Diagnosis");
+
+			if (!StringUtil.isEmpty(diagnosis)) {
+				mDiagnosisList = new Gson().fromJson(diagnosis,
+						new TypeToken<ArrayList<Diagnosis>>() {
+						}.getType());
+				rlt_diagnosis.setVisibility(View.GONE);
+				llt_diagnosis.setVisibility(View.VISIBLE);
+				
+				String allDiagnosis = "";
+				for (int i = 0; i < mDiagnosisList.size(); i++) {
+					allDiagnosis += mDiagnosisList.get(i).getDiagnosisName();
+					if (i != mDiagnosisList.size() - 1) {
+						allDiagnosis += "\n";
+					}
+				}
+				tv_diagnosis.setText(allDiagnosis);
+			} else {
+				rlt_diagnosis.setVisibility(View.VISIBLE);
+				llt_diagnosis.setVisibility(View.GONE);
+			}
+
+			// 处方
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+
+			L.e(PatientAppointmentActivity.this, "出错了");
+		}
+	}
+
+	@Override
 	public void showCallButton(boolean visable) {
-		if (visable && (appointmentInfo.getOPStatus() & AppointmentInfo.STATUS_WATTING) != 0) {
+		if (visable && (mAppointment.getOPStatus() & AppointmentInfo.STATUS_WATTING) != 0) {
 			btn_two.setVisibility(View.VISIBLE);
 		} else {
 			btn_two.setVisibility(View.GONE);

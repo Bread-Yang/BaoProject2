@@ -60,7 +60,7 @@ public class PersonEditInfoActivity extends BaseActivity implements OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.person_info_edit_layout);
+		setContentView(R.layout.activity_person_info_edit);
 		findView();
 		handIntent();
 		initMemberData();

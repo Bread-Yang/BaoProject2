@@ -43,7 +43,7 @@ public class GetPhotoPop extends PopupWindow implements OnTouchListener, OnClick
 	public GetPhotoPop(Activity activity) {
 		this.activity = activity;
 
-		View view = View.inflate(activity, R.layout.editicon_pop, null);
+		View view = View.inflate(activity, R.layout.layout_editicon_pop, null);
 		setContentView(view);
 		setWidth(ViewGroup.LayoutParams.FILL_PARENT);
 		setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);

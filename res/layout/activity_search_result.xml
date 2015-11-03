@@ -10,7 +10,7 @@
         android:id="@+id/search_head"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        layout="@layout/search_head_layout" />
+        layout="@layout/layout_search_head" />
 
     <RelativeLayout
         android:id="@+id/add_person_layout"
@@ -55,6 +55,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="30dp"
         android:visibility="gone"
-        layout="@layout/search_prompt_layout" />
+        layout="@layout/layout_search_prompt" />
 
 </com.mdground.yizhida.view.ResizeLinearLayout>

@@ -182,7 +182,7 @@ public class PullToRefreshView extends LinearLayout {
 
 	private void addHeaderView() {
 		// header view
-		mHeaderView = mInflater.inflate(R.layout.refresh_header, this, false);
+		mHeaderView = mInflater.inflate(R.layout.header_refresh, this, false);
 
 		mHeaderImageView = (ImageView) mHeaderView.findViewById(R.id.pull_to_refresh_image);
 		mHeaderTextView = (TextView) mHeaderView.findViewById(R.id.pull_to_refresh_text);
@@ -201,7 +201,7 @@ public class PullToRefreshView extends LinearLayout {
 
 	private void addFooterView() {
 		// footer view
-		mFooterView = mInflater.inflate(R.layout.refresh_footer, this, false);
+		mFooterView = mInflater.inflate(R.layout.footer_refresh, this, false);
 		mFooterImageView = (ImageView) mFooterView.findViewById(R.id.pull_to_load_image);
 		mFooterTextView = (TextView) mFooterView.findViewById(R.id.pull_to_load_text);
 		mFooterProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pull_to_load_progress);

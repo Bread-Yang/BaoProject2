@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.AboutActivity;
-import com.mdground.yizhida.activity.ContartActivity;
+import com.mdground.yizhida.activity.ContactActivity;
 import com.mdground.yizhida.activity.ProtocolActivity;
 import com.mdground.yizhida.activity.base.BaseFragment;
 import com.mdground.yizhida.activity.income.IncomeActivity;
@@ -167,7 +167,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 			getActivity().startActivity(intent);
 			break;
 		case R.id.contact_us:
-			intent.setClass(this.getActivity(), ContartActivity.class);
+			intent.setClass(this.getActivity(), ContactActivity.class);
 			this.getActivity().startActivity(intent);
 			break;
 		case R.id.service_protocol:
