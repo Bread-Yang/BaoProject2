@@ -9,6 +9,7 @@
     
     <dimen name="basic_info_margin_top">15dp</dimen>
     <dimen name="basic_info_text_size_16sp">16sp</dimen>
+    <dimen name="prescription_text_size_15sp">15sp</dimen>
     <dimen name="basic_info_text_size_20sp">20sp</dimen>
     <dimen name="tab_line_margin_top">8dp</dimen>
     

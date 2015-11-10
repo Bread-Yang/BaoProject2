@@ -16,9 +16,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.util.SparseArray;
 
 public class Tools {
-
+	
 	/**
 	 * 获取设备唯一标识
 	 * 

@@ -192,6 +192,8 @@ public abstract class BaseRequest {
 			try {
 				postString = Encrypt.encrypt(postString);
 				postString = URLEncoder.encode(postString, HTTP.UTF_8);
+				
+//				L.e(this, "加密后的postString : " + postString);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.i(TAG, "encrypt exception", e);

@@ -18,13 +18,16 @@ import com.mdground.yizhida.activity.ImageActivity;
 import com.mdground.yizhida.activity.doctorlist.DoctorSelectListActivity;
 import com.mdground.yizhida.activity.patientinfo.PatientCommonActivity;
 import com.mdground.yizhida.activity.patientinfo.PatientEditActivity;
+import com.mdground.yizhida.activity.prescription.PatientPrescriptionActivity;
 import com.mdground.yizhida.adapter.PatientInfoPageAdapter;
 import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Anamnesis;
 import com.mdground.yizhida.bean.AppointmentInfo;
 import com.mdground.yizhida.bean.ChiefComplaint;
 import com.mdground.yizhida.bean.Diagnosis;
+import com.mdground.yizhida.bean.DrugUse;
 import com.mdground.yizhida.bean.Employee;
+import com.mdground.yizhida.bean.OfficeVisitFee;
 import com.mdground.yizhida.bean.Patient;
 import com.mdground.yizhida.bean.VitalSigns;
 import com.mdground.yizhida.constant.MemberConstant;
@@ -79,7 +82,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 	private final int ANIMATION_DURATION = 100;
 
-	private LinearLayout llt_btn, llt_signs, llt_chief_complaint, llt_diagnosis;
+	private LinearLayout llt_btn, llt_signs, llt_chief_complaint, llt_diagnosis, llt_prescription, llt_amount;
 
 	private RelativeLayout rlt_title, rlt_signs, rlt_chief_complaint, rlt_diagnosis, rlt_prescription,
 			rlt_common_patient_layout;
@@ -91,7 +94,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private Button btn_one, btn_two, btn_patient_detail;
 
 	private TextView tvTitle, tvOpterator, tv_temperature, tv_height, tv_weight, tv_bmi, tv_heartbeat, tv_breath,
-			tv_blood_pressure, tv_blood_glucose, tv_chief_complaint, tv_diagnosis;
+			tv_blood_pressure, tv_blood_glucose, tv_chief_complaint, tv_diagnosis, tv_amount;
 
 	private ListView anamnesisListView;
 
@@ -125,10 +128,16 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private VitalSigns mVitalSigns;
 
 	private ChiefComplaint mChiefComplaint;
-	
+
 	private ArrayList<Diagnosis> mDiagnosisList;
-	
-	private Diagnosis mDiagnosisTemplate;
+
+	private ArrayList<DrugUse> mDrugUseList = new ArrayList<DrugUse>();
+ 
+	private ArrayList<OfficeVisitFee> mOfficeVisitFeeList = new ArrayList<OfficeVisitFee>();;
+
+	private Diagnosis mDiagnosisAddTemplate;
+
+	private DrugUse mDrugUseAddTemplate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +158,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		llt_signs = (LinearLayout) findViewById(R.id.llt_signs);
 		llt_chief_complaint = (LinearLayout) findViewById(R.id.llt_chief_complaint);
 		llt_diagnosis = (LinearLayout) findViewById(R.id.llt_diagnosis);
+		llt_prescription = (LinearLayout) findViewById(R.id.llt_prescription);
+		llt_amount = (LinearLayout) findViewById(R.id.llt_amount);
 
 		rlt_title = (RelativeLayout) findViewById(R.id.rlt_title);
 		rlt_signs = (RelativeLayout) findViewById(R.id.rlt_signs);
@@ -171,6 +182,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		tv_blood_glucose = (TextView) findViewById(R.id.tv_blood_glucose);
 		tv_chief_complaint = (TextView) findViewById(R.id.tv_chief_complaint);
 		tv_diagnosis = (TextView) findViewById(R.id.tv_diagnosis);
+		tv_amount = (TextView) findViewById(R.id.tv_amount);
 
 		iv_collapse = (ImageView) findViewById(R.id.iv_collapse);
 		iv_open = (ImageView) findViewById(R.id.iv_open);
@@ -454,6 +466,10 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		// 处于开始状态,则获取主诉,诊断,体征等信息
 		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
 			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
+			
+			llt_amount.setVisibility(View.VISIBLE);
+		} else {
+			llt_amount.setVisibility(View.GONE);
 		}
 	}
 
@@ -487,7 +503,14 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		case R.id.llt_diagnosis: {
 			Intent intent = new Intent(this, PatientDiagnosisActivity.class);
 			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
-			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_TEMPLATE, mDiagnosisTemplate);
+			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE, mDiagnosisAddTemplate);
+			startActivity(intent);
+			break;
+		}
+		case R.id.llt_prescription: {
+			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST, mDrugUseList);
+			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE, mDrugUseAddTemplate);
 			startActivity(intent);
 			break;
 		}
@@ -506,12 +529,14 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		case R.id.rlt_diagnosis: {
 			Intent intent = new Intent(this, PatientDiagnosisActivity.class);
 			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
-			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_TEMPLATE, mDiagnosisTemplate);
+			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE, mDiagnosisAddTemplate);
 			startActivity(intent);
 			break;
 		}
 		case R.id.rlt_prescription: {
 			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
+			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST, mDrugUseList);
+			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE, mDrugUseAddTemplate);
 			startActivity(intent);
 			break;
 		}
@@ -632,7 +657,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			break;
 		}
 	}
-	
+
 	private void dealOpt(Integer opt) {
 		if (opt == null) {
 			return;
@@ -773,12 +798,12 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	public void updateAppointmentDetail(String jsonString) {
 		try {
 			JSONObject content = new JSONObject(jsonString);
-			
+
 			int clinicID = content.getInt("ClinicID");
 			int doctorID = content.getInt("DoctorID");
 			int patientID = content.getInt("PatientID");
 			int visitID = content.getInt("VisitID");
-			
+
 			// 体征
 			String vitalSign = content.getString("VitalSign");
 
@@ -806,6 +831,23 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			} else {
 				rlt_signs.setVisibility(View.VISIBLE);
 				llt_signs.setVisibility(View.GONE);
+
+				mVitalSigns = new VitalSigns();
+				mVitalSigns.setClinicID(clinicID);
+				mVitalSigns.setDoctorID(doctorID);
+				mVitalSigns.setPatientID(patientID);
+				mVitalSigns.setVisitID(visitID);
+
+				mVitalSigns.setBodyTemperature(37.0f);
+				mVitalSigns.setHeight(100);
+				mVitalSigns.setWeight(50);
+				mVitalSigns.setBMI(50.0f);
+
+				mVitalSigns.setHeartbeat(70);
+				mVitalSigns.setBreathing(15);
+				mVitalSigns.setSystolicPressure(140);
+				mVitalSigns.setDiastolicBloodPressure(70);
+				mVitalSigns.setBloodGlucose(110);
 			}
 
 			// 主诉
@@ -823,31 +865,30 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			} else {
 				rlt_chief_complaint.setVisibility(View.VISIBLE);
 				llt_chief_complaint.setVisibility(View.GONE);
-				
+
 				mChiefComplaint = new ChiefComplaint();
-				
+
 				mChiefComplaint.setClinicID(clinicID);
 				mChiefComplaint.setPatientID(patientID);
 				mChiefComplaint.setVisitID(visitID);
-			} 
-			
+			}
+
 			// 新增诊断的模版
-			mDiagnosisTemplate = new Diagnosis();
-			mDiagnosisTemplate.setClinicID(clinicID);
-			mDiagnosisTemplate.setDoctorID(doctorID);
-			mDiagnosisTemplate.setPatientID(patientID);
-			mDiagnosisTemplate.setVisitID(visitID);
+			mDiagnosisAddTemplate = new Diagnosis();
+			mDiagnosisAddTemplate.setClinicID(clinicID);
+			mDiagnosisAddTemplate.setDoctorID(doctorID);
+			mDiagnosisAddTemplate.setPatientID(patientID);
+			mDiagnosisAddTemplate.setVisitID(visitID);
 
 			// 诊断
 			String diagnosis = content.getString("Diagnosis");
 
 			if (!StringUtil.isEmpty(diagnosis)) {
-				mDiagnosisList = new Gson().fromJson(diagnosis,
-						new TypeToken<ArrayList<Diagnosis>>() {
-						}.getType());
+				mDiagnosisList = new Gson().fromJson(diagnosis, new TypeToken<ArrayList<Diagnosis>>() {
+				}.getType());
 				rlt_diagnosis.setVisibility(View.GONE);
 				llt_diagnosis.setVisibility(View.VISIBLE);
-				
+
 				String allDiagnosis = "";
 				for (int i = 0; i < mDiagnosisList.size(); i++) {
 					allDiagnosis += mDiagnosisList.get(i).getDiagnosisName();
@@ -861,13 +902,64 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				llt_diagnosis.setVisibility(View.GONE);
 			}
 
+			// 新增处方用法的模版
+			mDrugUseAddTemplate = new DrugUse();
+			mDrugUseAddTemplate.setClinicID(clinicID);
+			mDrugUseAddTemplate.setDoctorID(doctorID);
+			mDrugUseAddTemplate.setPatientID(patientID);
+			mDrugUseAddTemplate.setVisitID(visitID);
+			mDrugUseAddTemplate.setDays(1);
+
 			// 处方
+			String drugUseList = content.getString("DrugUseList");
+
+			if (!StringUtil.isEmpty(drugUseList)) {
+				mDrugUseList = new Gson().fromJson(drugUseList, new TypeToken<ArrayList<DrugUse>>() {
+				}.getType());
+			}
+
+			// 费用
+			String feeList = content.getString("FeeList");
+
+			if (!StringUtil.isEmpty(feeList)) {
+				mOfficeVisitFeeList = new Gson().fromJson(feeList, new TypeToken<ArrayList<OfficeVisitFee>>() {
+				}.getType());
+
+			}
+
+			if (!StringUtil.isEmpty(drugUseList) || !StringUtil.isEmpty(feeList)) {
+				rlt_prescription.setVisibility(View.GONE);
+				llt_prescription.setVisibility(View.VISIBLE);
+				
+				calculateAmount();
+			} else {
+				rlt_prescription.setVisibility(View.VISIBLE);
+				llt_prescription.setVisibility(View.GONE);
+			}
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 
 			L.e(PatientAppointmentActivity.this, "出错了");
 		}
+	}
+
+	private void calculateAmount() {
+		float amount = 0;
+
+		// 费用
+		for (int i = 0; i < mOfficeVisitFeeList.size(); i++) {
+			amount += mOfficeVisitFeeList.get(i).getTotalFee() / 100f;
+		}
+
+		// 药物
+		for (int i = 0; i < mDrugUseList.size(); i++) {
+			DrugUse drugUse = mDrugUseList.get(i);
+
+			amount += drugUse.getSaleQuantity() * drugUse.getSalePrice() / 100f;
+		}
+
+		tv_amount.setText(String.valueOf(amount));
 	}
 
 	@Override

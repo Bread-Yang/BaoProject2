@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
@@ -23,27 +24,32 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
-            <com.mdground.yizhida.view.wheel.WheelView
+            <com.vanward.ehheater.view.wheelview.WheelView
                 android:id="@+id/wheelview1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                app:wheelBackground="@drawable/layerlist_appointment_time_wheel_bg_without_left_top_right_border"
+                app:wheelForeground="@drawable/layerlist_appointment_time_wheel_fg_without_left_right_border" />
 
-            <com.mdground.yizhida.view.wheel.WheelView
+            <com.vanward.ehheater.view.wheelview.WheelView
                 android:id="@+id/wheelview2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
+                android:visibility="gone"
+                android:layout_weight="1"
+                app:wheelBackground="@drawable/layerlist_appointment_time_wheel_bg_without_left_top_right_border"
+                app:wheelForeground="@drawable/layerlist_appointment_time_wheel_fg_without_left_right_border" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_centerInParent="true"
-            android:text="/" />
+            android:text="/"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

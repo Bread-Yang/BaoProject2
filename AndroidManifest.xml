@@ -187,6 +187,7 @@
         <activity
             android:name="com.mdground.yizhida.activity.appointment.PatientVitalSignsActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
@@ -197,7 +198,19 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.mdground.yizhida.activity.appointment.PatientPrescriptionActivity"
+            android:name="com.mdground.yizhida.activity.prescription.PatientPrescriptionActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mdground.yizhida.activity.prescription.PatientDrugDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mdground.yizhida.activity.searchdrug.SearchDrugActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >

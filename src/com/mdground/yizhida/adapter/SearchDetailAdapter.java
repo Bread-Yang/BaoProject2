@@ -77,7 +77,7 @@ public class SearchDetailAdapter<T> extends SimpleAdapter<T> {
 
 	@Override
 	protected int getViewResource() {
-		return R.layout.item_search_detail;
+		return R.layout.item_search_detail; 
 	}
 
 }

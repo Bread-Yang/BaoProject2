@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/v2add2" />
+
+    <TextView
+        android:id="@+id/tv_drug_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/iv_add"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+    
+     <ImageView
+         android:id="@+id/iv_medical_insurance_icon"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="6dp"
+         android:layout_marginTop="7dp"
+         android:layout_toRightOf="@+id/tv_drug_name"
+         android:src="@drawable/v2icon" />
+
+    <TextView
+        android:id="@+id/tv_drug_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_drug_name"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/iv_add"
+        android:textColor="#818081"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_already_add"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/v2box4"
+        android:text="@string/already_add"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/iv_add"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/box3_nor" />
+
+</RelativeLayout>

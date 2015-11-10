@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mdground.yizhida.view.ToggleableRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_bg_search_drug_category"
+    android:button="@null"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:paddingTop="10dp"
+    android:text="西药"
+    android:textColor="@drawable/selector_text_color_search_drug_category"
+    android:textSize="15sp" />

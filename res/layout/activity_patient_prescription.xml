@@ -11,42 +11,48 @@
         android:layout_height="50dp"
         layout="@layout/layout_title" />
 
-    <RelativeLayout
-        android:id="@+id/rlt_consultation_fee"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
+    <LinearLayout
+        android:id="@+id/llt_fee_display"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/layout_title"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/selector_bg_doctor_item"
-        android:onClick="onClick"
-        android:paddingLeft="15dp"
-        android:paddingRight="3dp" >
+        android:orientation="vertical" >
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/v2add2" />
+    <ListView
+        android:id="@+id/lv_drug"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/llt_amount"
+        android:layout_below="@+id/llt_fee_display" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/llt_amount"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_above="@+id/llt_btn"
+        android:background="@drawable/v2m_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/iv_add"
-            android:text="@string/add_diagnosis"
-            android:textSize="20sp" />
-    </RelativeLayout>
+            android:text="@string/total_sum"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-    <LinearLayout
-        android:id="@+id/llt_other_fee"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlt_consultation_fee"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="0元"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,6 +63,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
+            android:id="@+id/rlt_fee"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -82,6 +89,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rlt_drug"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

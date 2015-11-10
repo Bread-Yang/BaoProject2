@@ -69,8 +69,14 @@ public class MemberConstant {
 	
 	public static final String APPOINTMENT_CHIEF_COMPLAINT = "appointment_chief_complaint";
 	public static final String APPOINTMENT_VITAL_SIGNS = "appointment_vital_signs";
-	public static final String APPOINTMENT_DIAGNOSIS_TEMPLATE = "appointment_diagnosis_template";
+	public static final String APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE = "appointment_diagnosis_add_template";
 	public static final String APPOINTMENT_DIAGNOSIS_LIST = "appointment_diagnosis_list";
+	public static final String APPOINTMENT_DRUG_USE_ADD_TEMPLATE = "appointment_drug_use_add_template";
+	public static final String APPOINTMENT_DRUG_USE_EDIT = "appointment_drug_use_edit";
+	public static final String APPOINTMENT_DRUG_USE_LIST = "appointment_drug_use_list";
+	public static final String PRESCRIPTION_DRUG_USE = "prescription_drug_use";
+	public static final String PRESCRIPTION_NEW_ADD_DRUG = "prescription_new_add_drug";
+	public static final String PRESCRIPTION_ALREADY_ADD_DRUG_SET = "prescription_already_add_drug_set";
 
 	// 登陆状态
 	public static final String LOGIN_STATUS = "loginStatus";

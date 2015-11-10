@@ -9,5 +9,31 @@
         <item>已转出</item>
         <item>剩余金额</item>
     </string-array>
+    
+    <string-array name="drug_take_type_map">
+        <item>Drip|滴(Drip)</item> 
+        <item>PO|口服(PO)</item> 
+        <item>AST|皮试(AST)</item> 
+        <item>ID|皮内注射(ID)</item> 
+        <item>H|皮下注射(H)</item> 
+        <item>IM|肌肉注射(IM)</item> 
+        <item>IV|静脉注射(IV)</item> 
+        <item>VD|静脉滴注(VD)</item> 
+    </string-array>
+    
+    <string-array name="drug_frequency_map">
+        <item>QD|一天一次(QD)</item> 
+        <item>BID|一天二次(BID)</item> 
+        <item>TID|一天三次(TID)</item> 
+        <item>QID|一天四次(QID)</item> 
+        <item>QH|每小时一次(QH)</item> 
+        <item>Q2H|每二小时一次(Q2H)</item> 
+        <item>Q4H|每四小时一次(Q4H)</item> 
+        <item>Q6H|每六小时一次(Q6H)</item> 
+        <item>Q8H|每八小时一次(Q8H)</item> 
+        <item>QOD|隔天一次(QOD)</item> 
+        <item>Q3D|隔三日一次(Q3D)</item> 
+        <item>QN|每晚一次(QN)</item> 
+    </string-array>
 
 </resources>

@@ -71,5 +71,18 @@
     <color name="shedule_table_passed_item_bg">#EAEBEC</color>
     <color name="bg_item_opt">#222222</color>
     
+    <color name="wheelview_grey_label">#C3C3C3</color>
+    <color name="wheelview_border">#A9A9A9</color>
+    <color name="black">#000000</color>
+    <color name="wheelview_disable_item">#D4D4D4</color>
+    <color name="appointment_wheelview_color">#EEF2F3</color>
+    
+    <color name="prescription_grey_color">#818081</color>
+    <color name="prescription_orange_color">#FF6A15</color>
+    
+    <color name="search_drug_category_highlight_color">#2580F2</color>
+    
+    
+    
     
 </resources>

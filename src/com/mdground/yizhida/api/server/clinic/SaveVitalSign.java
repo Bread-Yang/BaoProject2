@@ -36,13 +36,13 @@ public class SaveVitalSign extends ClinicRequest {
 		if (vitalSigns == null) {
 			return;
 		}
-		
+
 		setRequestCallBack(callBack);
-		
+
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("VitalSign",new Gson().toJson(vitalSigns)); 
-			
+			obj.put("VitalSign", new JSONObject(new Gson().toJson(vitalSigns)));
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -53,4 +53,3 @@ public class SaveVitalSign extends ClinicRequest {
 		pocess();
 	}
 }
-

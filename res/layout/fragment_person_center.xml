@@ -116,12 +116,13 @@
                 style="@style/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
                 android:background="@drawable/selector_bg_doctor_item"
                 android:clickable="true"
                 android:drawableRight="@drawable/in_button"
                 android:text="连接导诊屏"
                 android:visibility="visible" />
-            
+
             <TextView
                 android:id="@+id/tv_bind_wechat"
                 style="@style/edit_title"
@@ -132,6 +133,17 @@
                 android:clickable="true"
                 android:drawableRight="@drawable/in_button"
                 android:text="绑定账号" />
+
+            <TextView
+                android:id="@+id/tv_sync_data"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
+                android:background="@drawable/selector_bg_doctor_item"
+                android:clickable="true"
+                android:drawableRight="@drawable/in_button"
+                android:text="@string/sync_data" />
 
             <TextView
                 android:id="@+id/contact_us"

@@ -1,16 +1,10 @@
 package com.mdground.yizhida.activity.home;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import java.util.List;
 
+import org.apache.http.Header;
+
+import com.google.gson.reflect.TypeToken;
 import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.activity.AboutActivity;
@@ -25,10 +19,32 @@ import com.mdground.yizhida.activity.rota.RotaActivity;
 import com.mdground.yizhida.activity.schedule.ScheduleTableActivity;
 import com.mdground.yizhida.activity.screen.ConnectScreenActivity;
 import com.mdground.yizhida.activity.wechat.WechatBindActivity;
+import com.mdground.yizhida.api.base.RequestCallBack;
+import com.mdground.yizhida.api.base.ResponseData;
+import com.mdground.yizhida.api.server.clinic.GetDrugListByClinic;
+import com.mdground.yizhida.api.server.clinic.GetDrugTypeList;
+import com.mdground.yizhida.api.server.clinic.GetFeeTemplateList;
+import com.mdground.yizhida.bean.Drug;
+import com.mdground.yizhida.bean.DrugCategory;
 import com.mdground.yizhida.bean.Employee;
+import com.mdground.yizhida.bean.Fee;
 import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.db.dao.DrugCategoryDao;
+import com.mdground.yizhida.db.dao.DrugDao;
+import com.mdground.yizhida.db.dao.FeeDao;
 import com.mdground.yizhida.util.PreferenceUtils;
 import com.mdground.yizhida.view.CircleImageView;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class PersonCenterFragment extends BaseFragment implements OnClickListener, PersonCenterView {
 	private static final String TAG = PersonCenterFragment.class.getSimpleName();
@@ -49,6 +65,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 	private TextView TvChangePassword;
 	private TextView TvExit;
 	private TextView TvIncome;
+	private TextView tv_sync_data;
 
 	private Employee loginEmployee;
 
@@ -70,15 +87,21 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		if (loginEmployee == null) {
 			return;
 		}
-		
-//		if ((loginEmployee.getEmployeeRole() & Employee.DOCTOR) != 0) {  
-//			tvConnectScreen.setVisibility(View.VISIBLE);
-//		}
-		
+
+		// if ((loginEmployee.getEmployeeRole() & Employee.DOCTOR) != 0) {
+		// tvConnectScreen.setVisibility(View.VISIBLE);
+		// }
+
 		if ((loginEmployee.getEmployeeRole() & Employee.Scheduling) != 0) {
 			tvScheduling.setVisibility(View.VISIBLE);
 		}
-		
+
+		if ((loginEmployee.getEmployeeRole() & Employee.DOCTOR) != 0) {
+			tv_sync_data.setVisibility(View.VISIBLE);
+		} else {
+			tv_sync_data.setVisibility(View.GONE);
+		}
+
 		TvPersonName.setText(loginEmployee.getEmployeeName());
 		TvHospital.setText(loginEmployee.getClinicName());
 		if (loginEmployee.getGender() == 1) {
@@ -105,6 +128,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		tvScheduling = (TextView) mainView.findViewById(R.id.tv_schedule);
 		tvConnectScreen = (TextView) mainView.findViewById(R.id.connect_screen_title);
 		tv_bind_wechat = (TextView) mainView.findViewById(R.id.tv_bind_wechat);
+		tv_sync_data = (TextView) mainView.findViewById(R.id.tv_sync_data);
 	}
 
 	private void setListener() {
@@ -120,6 +144,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		tvScheduling.setOnClickListener(this);
 		tvConnectScreen.setOnClickListener(this);
 		tv_bind_wechat.setOnClickListener(this);
+		tv_sync_data.setOnClickListener(this);
 	}
 
 	@Override
@@ -166,6 +191,94 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 			intent.setClass(getActivity(), IncomeActivity.class);
 			getActivity().startActivity(intent);
 			break;
+		case R.id.tv_sync_data:
+			new GetDrugListByClinic(getActivity()).getDrugListByClinic(new RequestCallBack() {
+
+				@Override
+				public void onSuccess(ResponseData response) {
+					List<Drug> list = response.getContent(new TypeToken<List<Drug>>() {
+					});
+					
+					DrugDao drugDao = DrugDao.getInstance(getActivity());
+					
+					drugDao.deleteAllDrugByClinicID(loginEmployee.getClinicID());
+					drugDao.saveDrugs(list);
+				}
+
+				@Override
+				public void onStart() {
+					showProgress();
+				}
+
+				@Override
+				public void onFinish() {
+					hidProgress();
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+					hidProgress();
+				}
+			});
+			
+			new GetDrugTypeList(getActivity()).getDrugTypeList(new RequestCallBack() {
+
+				@Override
+				public void onSuccess(ResponseData response) {
+					List<DrugCategory> list = response.getContent(new TypeToken<List<DrugCategory>>() {
+					});
+					
+					DrugCategoryDao drugCagegoryDao = DrugCategoryDao.getInstance(getActivity());
+					
+					drugCagegoryDao.deleteAllDrugCagegoriesByClinicID(loginEmployee.getClinicID());
+					drugCagegoryDao.saveDrugCategories(list);
+				}
+
+				@Override
+				public void onStart() {
+					showProgress();
+				}
+
+				@Override
+				public void onFinish() {
+					hidProgress();
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+					hidProgress();
+				}
+			});
+			
+			new GetFeeTemplateList(getActivity()).getFeeTemplateList(new RequestCallBack() {
+
+				@Override
+				public void onSuccess(ResponseData response) {
+					List<Fee> list = response.getContent(new TypeToken<List<Fee>>() {
+					});
+					
+					FeeDao feeDao = FeeDao.getInstance(getActivity());
+					
+					feeDao.deleteAllFeesByClinicID(loginEmployee.getClinicID());
+					feeDao.saveFees(list);
+				}
+
+				@Override
+				public void onStart() {
+					showProgress();
+				}
+
+				@Override
+				public void onFinish() {
+					hidProgress();
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+					hidProgress();
+				}
+			});
+			break;
 		case R.id.contact_us:
 			intent.setClass(this.getActivity(), ContactActivity.class);
 			this.getActivity().startActivity(intent);
@@ -191,7 +304,8 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							PreferenceUtils.setPrefInt(getActivity(), MemberConstant.LOGIN_STATUS, MemberConstant.LOGIN_OUT);
+							PreferenceUtils.setPrefInt(getActivity(), MemberConstant.LOGIN_STATUS,
+									MemberConstant.LOGIN_OUT);
 							PreferenceUtils.setPrefString(getActivity(), MemberConstant.PASSWORD, "");
 							Intent intent = new Intent();
 							intent.setClass(getActivity(), LoginActivity.class);

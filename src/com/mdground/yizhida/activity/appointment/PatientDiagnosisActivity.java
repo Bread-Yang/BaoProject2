@@ -62,7 +62,7 @@ public class PatientDiagnosisActivity extends Activity implements OnClickListene
 		tv_top_right.setOnClickListener(this);
 
 		mDiagnosisList = getIntent().getParcelableArrayListExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST);
-		mDiagnosisTemplate = getIntent().getParcelableExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_TEMPLATE);
+		mDiagnosisTemplate = getIntent().getParcelableExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE);
 
 		if (mDiagnosisList != null) {
 			for (Diagnosis item : mDiagnosisList) {
