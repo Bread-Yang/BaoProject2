@@ -68,19 +68,19 @@ public class SearchDrugActivity extends BaseActivity
 
 	private ResizeLinearLayout searchRootLayout;
 
-	private DrugAdapter drugAdapter;
-	private Employee loginEmployee;
-	private List<Drug> drugs = new ArrayList<Drug>();// 搜索结果保存
+	private DrugAdapter mDrugAdapter;
+	private Employee mLoginEmployee;
+	private List<Drug> mDrugsList = new ArrayList<Drug>();// 搜索结果保存
 
 	List<DrugCategory> drugCategories;
 
 	private DrugDao drugDao;
 	private DrugCategoryDao drugCategoryDao;
 
-	private String searchDrugName;
-	private int searchDrugTypeID;
+	private String mSearchDrugName;
+	private int mSearchDrugTypeID;
 
-	private HashSet<Integer> alreadyAddDrugSet;
+	private HashSet<Integer> mAlreadyAddDrugSet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,19 +114,19 @@ public class SearchDrugActivity extends BaseActivity
 		EtSearchKey.setHint(R.string.search_drug_hint);
 
 		MedicalAppliction app = (MedicalAppliction) getApplication();
-		this.loginEmployee = app.getLoginEmployee();
+		this.mLoginEmployee = app.getLoginEmployee();
 		// 请求症状列表
 		// searchDrugAdapter = new SearchDetailAdapter<Patient>(this,
 		// mAppiontmentCallBack);
 		// searchDrugAdapter.setDataList(patients);
 
-		alreadyAddDrugSet = (HashSet<Integer>) getIntent()
+		mAlreadyAddDrugSet = (HashSet<Integer>) getIntent()
 				.getSerializableExtra(MemberConstant.PRESCRIPTION_ALREADY_ADD_DRUG_SET);
 
 		drugDao = DrugDao.getInstance(getApplicationContext());
 		drugCategoryDao = drugCategoryDao.getInstance(getApplicationContext());
 
-		drugCategories = drugCategoryDao.getDrugCateogriesByClinicID(loginEmployee.getClinicID());
+		drugCategories = drugCategoryDao.getDrugCateogriesByClinicID(mLoginEmployee.getClinicID());
 
 		for (DrugCategory item : drugCategories) {
 			RadioButton radioButton = (RadioButton) getLayoutInflater().inflate(R.layout.radiobutton_drug_category,
@@ -141,10 +141,10 @@ public class SearchDrugActivity extends BaseActivity
 			radioButton.setLayoutParams(params);
 		}
 
-		drugs = drugDao.getAllDrug();
+		mDrugsList = drugDao.getAllDrug();
 
-		drugAdapter = new DrugAdapter();
-		LvSearchResult.setAdapter(drugAdapter);
+		mDrugAdapter = new DrugAdapter();
+		LvSearchResult.setAdapter(mDrugAdapter);
 
 	}
 
@@ -160,9 +160,9 @@ public class SearchDrugActivity extends BaseActivity
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-				searchDrugName = EtSearchKey.getText().toString();
+				mSearchDrugName = EtSearchKey.getText().toString();
 
-				if (TextUtils.isEmpty(searchDrugName)) {
+				if (TextUtils.isEmpty(mSearchDrugName)) {
 					IvClearSearchKey.setVisibility(View.INVISIBLE);
 				} else {
 					IvClearSearchKey.setVisibility(View.VISIBLE);
@@ -187,12 +187,12 @@ public class SearchDrugActivity extends BaseActivity
 				L.e(SearchDrugActivity.this, "checkedId : " + checkedId);
 				if (checkedId != -1) {
 					int newTypeID = drugCategories.get(checkedId - 1).getTypeID();
-					if (searchDrugTypeID == newTypeID) {
+					if (mSearchDrugTypeID == newTypeID) {
 						return;
 					}
-					searchDrugTypeID = newTypeID;
+					mSearchDrugTypeID = newTypeID;
 				} else {
-					searchDrugTypeID = -1;
+					mSearchDrugTypeID = -1;
 				}
 				refreshDrugListView();
 			}
@@ -200,32 +200,32 @@ public class SearchDrugActivity extends BaseActivity
 	}
 
 	private void refreshDrugListView() {
-		drugs.clear();
+		mDrugsList.clear();
 
-		int clinicID = loginEmployee.getClinicID();
+		int clinicID = mLoginEmployee.getClinicID();
 
-		if (searchDrugTypeID != -1) {
-			if (!TextUtils.isEmpty(searchDrugName)) {
-				drugs = drugDao.getDrugByDrugNameAndClinicIDAndTypeID(searchDrugName, clinicID, searchDrugTypeID);
+		if (mSearchDrugTypeID != -1) {
+			if (!TextUtils.isEmpty(mSearchDrugName)) {
+				mDrugsList = drugDao.getDrugByDrugNameAndClinicIDAndTypeID(mSearchDrugName, clinicID, mSearchDrugTypeID);
 			} else {
-				drugs = drugDao.getDrugByClinicIDAndTypeID(clinicID, searchDrugTypeID);
+				mDrugsList = drugDao.getDrugByClinicIDAndTypeID(clinicID, mSearchDrugTypeID);
 			}
 		} else {
-			if (!TextUtils.isEmpty(searchDrugName)) {
-				drugs = drugDao.getDrugByDrugNameAndClinicID(searchDrugName, clinicID);
+			if (!TextUtils.isEmpty(mSearchDrugName)) {
+				mDrugsList = drugDao.getDrugByDrugNameAndClinicID(mSearchDrugName, clinicID);
 			} else {
-				drugs = drugDao.getDrugByClinicID(clinicID);
+				mDrugsList = drugDao.getDrugByClinicID(clinicID);
 			}
 		}
 
-		drugAdapter.notifyDataSetChanged();
+		mDrugAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		final Drug drug = drugs.get(position);
+		final Drug drug = mDrugsList.get(position);
 
-		if (!alreadyAddDrugSet.contains(drug.getDrugID())) {
+		if (!mAlreadyAddDrugSet.contains(drug.getDrugID())) {
 			new GetDurgInfoByID(getApplicationContext()).getDurgInfoByID(drug.getDrugID(), new RequestCallBack() {
 
 				@Override
@@ -233,12 +233,12 @@ public class SearchDrugActivity extends BaseActivity
 					if (response.getCode() == ResponseCode.Normal.getValue()) {
 						Drug drugDetail = response.getContent(Drug.class);
 
-						alreadyAddDrugSet.add(drug.getDrugID());
-						drugAdapter.notifyDataSetChanged();
+						mAlreadyAddDrugSet.add(drug.getDrugID());
+						mDrugAdapter.notifyDataSetChanged();
 
 						Intent intent = new Intent();
 						intent.putExtra(MemberConstant.PRESCRIPTION_NEW_ADD_DRUG, drugDetail);
-						intent.putExtra(MemberConstant.PRESCRIPTION_ALREADY_ADD_DRUG_SET, alreadyAddDrugSet);
+						intent.putExtra(MemberConstant.PRESCRIPTION_ALREADY_ADD_DRUG_SET, mAlreadyAddDrugSet);
 						setResult(RESULT_OK, intent);
 					}
 				}
@@ -259,8 +259,8 @@ public class SearchDrugActivity extends BaseActivity
 				}
 			});
 		} else {
-			alreadyAddDrugSet.remove(drug.getDrugID());
-			drugAdapter.notifyDataSetChanged();
+			mAlreadyAddDrugSet.remove(drug.getDrugID());
+			mDrugAdapter.notifyDataSetChanged();
 		}
 
 		// InputMethodManager im = (InputMethodManager)
@@ -313,7 +313,7 @@ public class SearchDrugActivity extends BaseActivity
 		} else {
 		}
 
-		if (this.drugs.size() == 0) {
+		if (this.mDrugsList.size() == 0) {
 			return;
 		}
 
@@ -323,12 +323,12 @@ public class SearchDrugActivity extends BaseActivity
 
 		@Override
 		public int getCount() {
-			return drugs.size();
+			return mDrugsList.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return drugs.get(position);
+			return mDrugsList.get(position);
 		}
 
 		@Override
@@ -353,12 +353,12 @@ public class SearchDrugActivity extends BaseActivity
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			Drug drug = drugs.get(position);
+			Drug drug = mDrugsList.get(position);
 
 			holder.tv_drug_name.setText(drug.getDrugName());
 			holder.tv_drug_description.setText(drug.getSpecification());
 
-			if (alreadyAddDrugSet.contains(drug.getDrugID())) {
+			if (mAlreadyAddDrugSet.contains(drug.getDrugID())) {
 				holder.tv_already_add.setVisibility(View.VISIBLE);
 			} else {
 				holder.tv_already_add.setVisibility(View.INVISIBLE);

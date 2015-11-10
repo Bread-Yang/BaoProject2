@@ -476,11 +476,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp" />
         </LinearLayout>
-        
-        <LinearLayout
+
+        <com.mdground.yizhida.view.InterceptLinearLayout
             android:id="@+id/llt_prescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_marginTop="10dp"
             android:background="@drawable/selector_bg_doctor_item"
             android:onClick="onClick"
@@ -489,7 +489,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="3dp"
             android:paddingTop="10dp"
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -512,7 +512,12 @@
                     android:src="@drawable/in_button" />
             </RelativeLayout>
 
-        </LinearLayout>
+            <ListView
+                android:id="@+id/lv_drug_use"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+            </ListView>
+        </com.mdground.yizhida.view.InterceptLinearLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -71,7 +71,7 @@ public final class R {
 		public static final int choice = 0x7f0a0014;
 		public static final int disabled = 0x7f0a0009;
 		public static final int dismiss = 0x7f0a0015;
-		public static final int fl_inner = 0x7f0a0249;
+		public static final int fl_inner = 0x7f0a024a;
 		public static final int flip = 0x7f0a000f;
 		public static final int gridview = 0x7f0a0000;
 		public static final int left = 0x7f0a0011;
@@ -83,7 +83,7 @@ public final class R {
 		public static final int pullUpFromBottom = 0x7f0a000e;
 		public static final int pull_to_refresh_image = 0x7f0a0195;
 		public static final int pull_to_refresh_progress = 0x7f0a0194;
-		public static final int pull_to_refresh_sub_text = 0x7f0a024a;
+		public static final int pull_to_refresh_sub_text = 0x7f0a024b;
 		public static final int pull_to_refresh_text = 0x7f0a0193;
 		public static final int reveal = 0x7f0a0016;
 		public static final int right = 0x7f0a0013;

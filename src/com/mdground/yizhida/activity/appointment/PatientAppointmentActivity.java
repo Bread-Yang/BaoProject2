@@ -1,6 +1,5 @@
 package com.mdground.yizhida.activity.appointment;
 
-import java.lang.reflect.Member;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,16 +24,19 @@ import com.mdground.yizhida.bean.Anamnesis;
 import com.mdground.yizhida.bean.AppointmentInfo;
 import com.mdground.yizhida.bean.ChiefComplaint;
 import com.mdground.yizhida.bean.Diagnosis;
+import com.mdground.yizhida.bean.Drug;
 import com.mdground.yizhida.bean.DrugUse;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.bean.OfficeVisitFee;
 import com.mdground.yizhida.bean.Patient;
 import com.mdground.yizhida.bean.VitalSigns;
 import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.db.dao.DrugDao;
 import com.mdground.yizhida.db.dao.SymptomDao;
 import com.mdground.yizhida.util.DateUtils;
 import com.mdground.yizhida.util.StringUtil;
 import com.mdground.yizhida.util.Tools;
+import com.mdground.yizhida.util.ViewUtil;
 import com.mdground.yizhida.view.CircleImageView;
 import com.mdground.yizhida.view.PatientBasicLayout;
 
@@ -58,6 +60,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -96,7 +99,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private TextView tvTitle, tvOpterator, tv_temperature, tv_height, tv_weight, tv_bmi, tv_heartbeat, tv_breath,
 			tv_blood_pressure, tv_blood_glucose, tv_chief_complaint, tv_diagnosis, tv_amount;
 
-	private ListView anamnesisListView;
+	private ListView anamnesisListView, lv_drug_use;
 
 	private CircleImageView circleHeadImage;
 
@@ -132,7 +135,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	private ArrayList<Diagnosis> mDiagnosisList;
 
 	private ArrayList<DrugUse> mDrugUseList = new ArrayList<DrugUse>();
- 
+
+	private DrugDao mDrugDao;
+
 	private ArrayList<OfficeVisitFee> mOfficeVisitFeeList = new ArrayList<OfficeVisitFee>();;
 
 	private Diagnosis mDiagnosisAddTemplate;
@@ -184,6 +189,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		tv_diagnosis = (TextView) findViewById(R.id.tv_diagnosis);
 		tv_amount = (TextView) findViewById(R.id.tv_amount);
 
+		lv_drug_use = (ListView) findViewById(R.id.lv_drug_use);
+
 		iv_collapse = (ImageView) findViewById(R.id.iv_collapse);
 		iv_open = (ImageView) findViewById(R.id.iv_open);
 
@@ -198,6 +205,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	@Override
 	public void initView() {
 		super.initView();
+		mDrugDao = DrugDao.getInstance(getApplicationContext());
+
 		viewContainter = new ArrayList<View>();
 		patientBasicLayout = new PatientBasicLayout(this);
 		// 初始化dialog及dialog里面的控件
@@ -466,7 +475,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		// 处于开始状态,则获取主诉,诊断,体征等信息
 		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
 			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
-			
+
 			llt_amount.setVisibility(View.VISIBLE);
 		} else {
 			llt_amount.setVisibility(View.GONE);
@@ -510,6 +519,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		case R.id.llt_prescription: {
 			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
 			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST, mDrugUseList);
+			intent.putExtra(MemberConstant.APPOINTMENT_OFFICE_VISIT_FEE_LIST, mOfficeVisitFeeList);
 			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE, mDrugUseAddTemplate);
 			startActivity(intent);
 			break;
@@ -536,6 +546,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		case R.id.rlt_prescription: {
 			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
 			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST, mDrugUseList);
+			intent.putExtra(MemberConstant.APPOINTMENT_OFFICE_VISIT_FEE_LIST, mOfficeVisitFeeList);
 			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE, mDrugUseAddTemplate);
 			startActivity(intent);
 			break;
@@ -650,11 +661,15 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			break;
 		}
 		default:
+
 			Object obj = v.getTag();
-			if (obj instanceof Integer) {
+			if (obj instanceof Integer)
+
+			{
 				dealOpt((Integer) obj);
 			}
 			break;
+
 		}
 	}
 
@@ -768,6 +783,15 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				|| (status & AppointmentInfo.STATUS_FINISH) != 0) {
 			nextAppiontment(mAppointment, true);
 			return;
+		}
+
+		// 处于开始状态,则获取主诉,诊断,体征等信息
+		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
+			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
+
+			llt_amount.setVisibility(View.VISIBLE);
+		} else {
+			llt_amount.setVisibility(View.GONE);
 		}
 
 		setScreenOn();
@@ -930,18 +954,29 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			if (!StringUtil.isEmpty(drugUseList) || !StringUtil.isEmpty(feeList)) {
 				rlt_prescription.setVisibility(View.GONE);
 				llt_prescription.setVisibility(View.VISIBLE);
-				
+
+				if (!StringUtil.isEmpty(drugUseList)) {
+					lv_drug_use.setAdapter(new DrugUseAdapter());
+
+					ViewUtil.setListViewHeightBasedOnChildren(lv_drug_use);
+				}
+
 				calculateAmount();
 			} else {
 				rlt_prescription.setVisibility(View.VISIBLE);
 				llt_prescription.setVisibility(View.GONE);
 			}
 
-		} catch (JSONException e) {
+		} catch (
+
+		JSONException e)
+
+		{
 			e.printStackTrace();
 
 			L.e(PatientAppointmentActivity.this, "出错了");
 		}
+
 	}
 
 	private void calculateAmount() {
@@ -1030,5 +1065,83 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			TextView tv_symptom;
 		}
 
+	}
+
+	private class DrugUseAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return mDrugUseList.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return mDrugUseList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		// @Override
+		// public boolean isEnabled(int position) {
+		// return false;
+		// }
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = null;
+			if (convertView == null) {
+				holder = new ViewHolder();
+				convertView = getLayoutInflater().inflate(R.layout.item_patient_appointment_prescription_drug, null);
+
+				holder.tv_group_name = (TextView) convertView.findViewById(R.id.tv_group_name);
+				holder.tv_drug_name = (TextView) convertView.findViewById(R.id.tv_drug_name);
+				holder.tv_specification = (TextView) convertView.findViewById(R.id.tv_specification);
+				holder.tv_unit_price = (TextView) convertView.findViewById(R.id.tv_unit_price);
+				holder.tv_single_dosage = (TextView) convertView.findViewById(R.id.tv_single_dosage);
+				holder.tv_direction = (TextView) convertView.findViewById(R.id.tv_direction);
+				holder.tv_frequency = (TextView) convertView.findViewById(R.id.tv_frequency);
+				holder.tv_comment = (TextView) convertView.findViewById(R.id.tv_comment);
+
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+
+			DrugUse drugUse = mDrugUseList.get(position);
+
+			if (drugUse.getGroupNo() == 0) {
+				holder.tv_group_name.setText(R.string.not_yet_group);
+			} else {
+				holder.tv_group_name.setText(getResources().getString(R.string.group) + drugUse.getGroupNo());
+			}
+
+			holder.tv_drug_name.setText(drugUse.getDrugName());
+
+			Drug drug = mDrugDao.getDrugByDrugID(drugUse.getDrugID());
+			if (drug != null) {
+				holder.tv_specification.setText(drug.getSpecification());
+			} else {
+				holder.tv_specification.setText("");
+			}
+			holder.tv_unit_price.setText(drugUse.getSalePrice() / 100f + getResources().getString(R.string.yuan));
+
+			holder.tv_single_dosage.setText(drugUse.getTake() + drugUse.getTakeUnit());
+
+			holder.tv_direction.setText(drugUse.getTakeType());
+
+			holder.tv_frequency.setText(drugUse.getFrequency());
+
+			holder.tv_comment.setText(drugUse.getRemark());
+
+			return convertView;
+		}
+
+		class ViewHolder {
+			TextView tv_group_name, tv_drug_name, tv_specification, tv_unit_price, tv_single_dosage, tv_direction,
+					tv_frequency, tv_comment;
+		}
 	}
 }

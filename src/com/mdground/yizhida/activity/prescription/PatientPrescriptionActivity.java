@@ -72,8 +72,6 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 
 	private Button btn_cancel;
 
-	private List<Fee> mFeeList;
-
 	private List<OfficeVisitFee> mOfficeVisitFeeList = new ArrayList<OfficeVisitFee>();
 
 	private PrescriptionAdapter mAdapter;
@@ -81,6 +79,8 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 	private DrugUse mDrugUseAddTemplate;
 
 	private DrugDao mDrugDao;
+
+	private HashSet<String> mAlreadyAddFeeSet = new HashSet<String>();
 
 	private HashSet<Integer> mAlreadyAddDrugIDSet = new HashSet<Integer>();
 
@@ -127,11 +127,29 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 
 	private void init() {
 		mDrugDao = DrugDao.getInstance(getApplicationContext());
+		
+		mDrugUseAddTemplate = getIntent().getParcelableExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE);
 
 		List<DrugUse> drugUseList = getIntent().getParcelableArrayListExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST);
 		if (drugUseList != null) {
 			for (DrugUse item : drugUseList) {
 				mDrugUseSparseArray.append(item.getDrugID(), item);
+				
+				mAlreadyAddDrugIDSet.add(item.getDrugID());
+			}
+		}
+
+		ArrayList<OfficeVisitFee> officeFeeList = getIntent()
+				.getParcelableArrayListExtra(MemberConstant.APPOINTMENT_OFFICE_VISIT_FEE_LIST);
+		if (officeFeeList != null) {
+			for (OfficeVisitFee item : officeFeeList) {
+				Fee convertObject = new Fee();
+				convertObject.setClinicID(item.getClinicID());
+				convertObject.setDoctorID(item.getDoctorID());
+				convertObject.setFeeType(item.getFeeType());
+				convertObject.setTotalFee(item.getTotalFee());
+				
+				addFeeLayout(convertObject);
 			}
 		}
 
@@ -140,7 +158,7 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 
 		FeeDao feeDao = FeeDao.getInstance(this);
 
-		mFeeList = feeDao.getFeesByClinicID(((MedicalAppliction) getApplication()).getLoginEmployee().getClinicID());
+		List<Fee> mFeeList = feeDao.getFeesByClinicID(((MedicalAppliction) getApplication()).getLoginEmployee().getClinicID());
 
 		for (int i = 0; i < mFeeList.size(); i++) {
 			Button button = (Button) getLayoutInflater().inflate(R.layout.button_prescription_fee, null);
@@ -162,96 +180,100 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 
 				@Override
 				public void onClick(View v) {
-
-					if (llt_fee_display.findViewById(item.getFTID()) == null) {
-						final RelativeLayout rlt_prescription_fee = (RelativeLayout) getLayoutInflater()
-								.inflate(R.layout.layout_prescription_fee, null);
-
-						rlt_prescription_fee.setId(item.getFTID());
-
-						llt_fee_display.addView(rlt_prescription_fee);
-
-						LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rlt_prescription_fee
-								.getLayoutParams();
-						params.height = PxUtil.dip2px(getApplicationContext(), 50);
-						params.topMargin = PxUtil.dip2px(getApplicationContext(), 10);
-						rlt_prescription_fee.setLayoutParams(params);
-
-						TextView tv_fee_name = (TextView) rlt_prescription_fee.findViewById(R.id.tv_fee_name);
-						tv_fee_name.setText(item.getFeeType());
-
-						EditText et_fee = (EditText) rlt_prescription_fee.findViewById(R.id.et_fee);
-						et_fee.setText(String.valueOf(item.getTotalFee() / 100f));
-						int position = et_fee.length();
-						Editable etext = et_fee.getText();
-						Selection.setSelection(etext, position);
-
-						// 只能输入两位小数
-						et_fee.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(2) });
-
-						final OfficeVisitFee officeFee = new OfficeVisitFee();
-
-						officeFee.setClinicID(item.getClinicID());
-						officeFee.setVisitID(mDrugUseAddTemplate.getVisitID());
-						officeFee.setDoctorID(item.getDoctorID());
-						officeFee.setPatientID(mDrugUseAddTemplate.getPatientID());
-						officeFee.setFeeType(item.getFeeType());
-						officeFee.setTotalFee(item.getTotalFee());
-
-						mOfficeVisitFeeList.add(officeFee);
-						
-						calculateAmount();
-
-						et_fee.addTextChangedListener(new TextWatcher() {
-
-							@Override
-							public void onTextChanged(CharSequence s, int start, int before, int count) {
-								if (!TextUtils.isEmpty(s)) {
-									officeFee.setTotalFee((int) (Float.valueOf(s.toString()) * 100));
-								} else {
-									officeFee.setTotalFee(0);
-								}
-
-								calculateAmount();
-							}
-
-							@Override
-							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-							}
-
-							@Override
-							public void afterTextChanged(Editable s) {
-
-							}
-						});
-
-						ImageView iv_delete = (ImageView) rlt_prescription_fee.findViewById(R.id.iv_delete);
-
-						iv_delete.setOnClickListener(new OnClickListener() {
-
-							@Override
-							public void onClick(View v) {
-								llt_fee_display.removeView(rlt_prescription_fee);
-
-								mOfficeVisitFeeList.remove(officeFee);
-
-								calculateAmount();
-							}
-						});
-					}
-
-					dialog_menu.dismiss();
+					addFeeLayout(item);
 				}
 			});
 		}
-
-		mDrugUseAddTemplate = getIntent().getParcelableExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE);
 
 		mAdapter = new PrescriptionAdapter();
 		lv_drug.setAdapter(mAdapter);
 
 		calculateAmount();
+	}
+	
+	private void addFeeLayout(Fee item) {
+		if (!mAlreadyAddFeeSet.contains(item.getFeeType())) {
+			mAlreadyAddFeeSet.add(item.getFeeType());
+
+			final RelativeLayout rlt_prescription_fee = (RelativeLayout) getLayoutInflater()
+					.inflate(R.layout.layout_prescription_fee, null);
+
+			llt_fee_display.addView(rlt_prescription_fee);
+
+			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rlt_prescription_fee
+					.getLayoutParams();
+			params.height = PxUtil.dip2px(getApplicationContext(), 50);
+			params.topMargin = PxUtil.dip2px(getApplicationContext(), 10);
+			rlt_prescription_fee.setLayoutParams(params);
+
+			TextView tv_fee_name = (TextView) rlt_prescription_fee.findViewById(R.id.tv_fee_name);
+			tv_fee_name.setText(item.getFeeType());
+
+			EditText et_fee = (EditText) rlt_prescription_fee.findViewById(R.id.et_fee);
+			et_fee.setText(String.valueOf(item.getTotalFee() / 100f));
+			int position = et_fee.length();
+			Editable etext = et_fee.getText();
+			Selection.setSelection(etext, position);
+
+			// 只能输入两位小数
+			et_fee.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(2) });
+
+			final OfficeVisitFee officeFee = new OfficeVisitFee();
+
+			officeFee.setClinicID(item.getClinicID());
+			officeFee.setVisitID(mDrugUseAddTemplate.getVisitID());
+			officeFee.setDoctorID(item.getDoctorID());
+			officeFee.setPatientID(mDrugUseAddTemplate.getPatientID());
+			officeFee.setFeeType(item.getFeeType());
+			officeFee.setTotalFee(item.getTotalFee());
+
+			mOfficeVisitFeeList.add(officeFee);
+
+			calculateAmount();
+
+			et_fee.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					if (!TextUtils.isEmpty(s)) {
+						officeFee.setTotalFee((int) (Float.valueOf(s.toString()) * 100));
+					} else {
+						officeFee.setTotalFee(0);
+					}
+
+					calculateAmount();
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+
+				}
+			});
+
+			ImageView iv_delete = (ImageView) rlt_prescription_fee.findViewById(R.id.iv_delete);
+
+			iv_delete.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					llt_fee_display.removeView(rlt_prescription_fee);
+
+					mOfficeVisitFeeList.remove(officeFee);
+					
+					mAlreadyAddFeeSet.remove(officeFee.getFeeType());
+
+					calculateAmount();
+				}
+			});
+		}
+
+		dialog_menu.dismiss();
+	
 	}
 
 	private void setListener() {
@@ -297,7 +319,7 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 			break;
 
 		case R.id.tv_top_right:
-			if (mFeeList.size() == 0 && mDrugUseSparseArray.size() == 0) {
+			if (mOfficeVisitFeeList.size() == 0 && mDrugUseSparseArray.size() == 0) {
 				Toast.makeText(getApplicationContext(), R.string.no_fee, Toast.LENGTH_SHORT);
 				return;
 			}
@@ -414,7 +436,7 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 		public long getItemId(int position) {
 			return position;
 		}
-
+		
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
@@ -449,7 +471,7 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 
 			holder.et_quantity.setText(String.valueOf(drugUse.getSaleQuantity()));
 
-			Drug drug = mDrugDao.getDrugByDrugID(drugUse.getDrugID());
+			final Drug drug = mDrugDao.getDrugByDrugID(drugUse.getDrugID());
 			if (drug != null) {
 				holder.tv_specification.setText(drug.getSpecification());
 			} else {
@@ -477,6 +499,7 @@ public class PatientPrescriptionActivity extends Activity implements OnClickList
 				@Override
 				public void onClick(View v) {
 					mDrugUseSparseArray.removeAt(position);
+					mAlreadyAddDrugIDSet.remove(drug.getDrugID());
 					mAdapter.notifyDataSetChanged();
 
 					calculateAmount();

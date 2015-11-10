@@ -21,7 +21,6 @@
 
     <ListView
         android:id="@+id/lv_drug"
-        android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/llt_amount"
