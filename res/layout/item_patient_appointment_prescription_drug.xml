@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="10dp" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/tv_group_name"
@@ -18,8 +17,8 @@
         android:layout_height="1dp"
         android:layout_marginTop="9dp"
         android:background="#C4C4C4" />
-    
-     <TextView
+
+    <TextView
         android:id="@+id/tv_drug_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -29,9 +28,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingRight="3dp"
+        android:paddingBottom="5dp"
         android:paddingTop="10dp"
         android:visibility="visible" >
 
@@ -83,6 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:ellipsize="end"
+                    android:singleLine="true"
                     android:textColor="@color/prescription_orange_color"
                     android:textSize="@dimen/prescription_text_size_15sp" />
             </LinearLayout>

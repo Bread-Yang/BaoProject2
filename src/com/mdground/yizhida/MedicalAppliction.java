@@ -2,9 +2,12 @@ package com.mdground.yizhida;
 
 import java.io.File;
 import java.util.List;
+import java.util.TreeMap;
 
 import com.mdground.yizhida.api.MdgAppliction;
+import com.mdground.yizhida.bean.DrugUse;
 import com.mdground.yizhida.bean.Employee;
+import com.mdground.yizhida.bean.OfficeVisitFee;
 import com.mdground.yizhida.db.Basedao;
 import com.mdground.yizhida.util.MdgConfig;
 import com.mdground.yizhida.util.MedicalImageDownload;
@@ -21,6 +24,10 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 public class MedicalAppliction extends MdgAppliction {
+	
+	public static TreeMap<String, DrugUse> mDrugUseMap = new TreeMap<String, DrugUse>();
+	public static TreeMap<String, OfficeVisitFee> mOfficeVisitFeeMap = new TreeMap<String, OfficeVisitFee>();
+	public static DrugUse mDrugUseAddTemplate;
 
 	private Employee employee;// 登陆用户
 	

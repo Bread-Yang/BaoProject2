@@ -34,6 +34,7 @@ import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.db.dao.DrugDao;
 import com.mdground.yizhida.db.dao.SymptomDao;
 import com.mdground.yizhida.util.DateUtils;
+import com.mdground.yizhida.util.FeeUtil;
 import com.mdground.yizhida.util.StringUtil;
 import com.mdground.yizhida.util.Tools;
 import com.mdground.yizhida.util.ViewUtil;
@@ -60,7 +61,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -134,15 +134,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 	private ArrayList<Diagnosis> mDiagnosisList;
 
-	private ArrayList<DrugUse> mDrugUseList = new ArrayList<DrugUse>();
-
 	private DrugDao mDrugDao;
 
-	private ArrayList<OfficeVisitFee> mOfficeVisitFeeList = new ArrayList<OfficeVisitFee>();;
-
 	private Diagnosis mDiagnosisAddTemplate;
-
-	private DrugUse mDrugUseAddTemplate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -235,8 +229,6 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		mPatientInfoPageAdapter = new PatientInfoPageAdapter(viewContainter);
 		viewpager.setAdapter(mPatientInfoPageAdapter);
 
-		updateInterface();
-
 		if (appointmentList.size() == 1) {
 			btn_left_arrow.setVisibility(View.INVISIBLE);
 			btn_right_arrow.setVisibility(View.INVISIBLE);
@@ -246,6 +238,37 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			} else if (appointment_index == appointmentList.size() - 1) {
 				btn_right_arrow.setVisibility(View.INVISIBLE);
 			}
+		}
+
+		// 开始或者结束之后,显示体征,主诉,诊断等信息
+		if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0 || (opStatus & AppointmentInfo.STATUS_FINISH) != 0) {
+			iv_collapse.setVisibility(View.VISIBLE);
+			sc_treating_patient_layout.setVisibility(View.VISIBLE);
+			rlt_common_patient_layout.setVisibility(View.GONE);
+
+			if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0 && (role & Employee.DOCTOR) != 0) {
+				setImageViewVisibility(rlt_signs, true);
+				setImageViewVisibility(rlt_chief_complaint, true);
+				setImageViewVisibility(rlt_diagnosis, true);
+				setImageViewVisibility(rlt_prescription, true);
+				setImageViewVisibility(llt_signs, true);
+				setImageViewVisibility(llt_chief_complaint, true);
+				setImageViewVisibility(llt_diagnosis, true);
+				setImageViewVisibility(llt_prescription, true);
+			} else {
+				setImageViewVisibility(rlt_signs, false);
+				setImageViewVisibility(rlt_chief_complaint, false);
+				setImageViewVisibility(rlt_diagnosis, false);
+				setImageViewVisibility(rlt_prescription, false);
+				setImageViewVisibility(llt_signs, false);
+				setImageViewVisibility(llt_chief_complaint, false);
+				setImageViewVisibility(llt_diagnosis, false);
+				setImageViewVisibility(llt_prescription, false);
+			}
+		} else {
+			iv_collapse.setVisibility(View.INVISIBLE);
+			sc_treating_patient_layout.setVisibility(View.GONE);
+			rlt_common_patient_layout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -269,13 +292,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 					getResources().getDrawable(R.drawable.left_arrow_green), null, null, null);
 			btn_right_arrow.setCompoundDrawablesWithIntrinsicBounds(null, null,
 					getResources().getDrawable(R.drawable.right_arrow_green), null);
-					// btn_left_arrow.setBackgroundResource(R.drawable.left_arrow_green);
-					// btn_right_arrow.setBackgroundResource(R.drawable.right_arrow_green);
-
-			// 二期
-			iv_collapse.setVisibility(View.VISIBLE);
-			sc_treating_patient_layout.setVisibility(View.VISIBLE);
-			rlt_common_patient_layout.setVisibility(View.GONE);
+			// btn_left_arrow.setBackgroundResource(R.drawable.left_arrow_green);
+			// btn_right_arrow.setBackgroundResource(R.drawable.right_arrow_green);
 
 		} else if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0) {
 			rlt_title.setBackgroundResource(R.drawable.top_bg1);
@@ -308,6 +326,23 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			// btn_left_arrow.setBackgroundResource(R.drawable.left_arrow_black);
 			// btn_right_arrow.setBackgroundResource(R.drawable.right_arrow_black);
 		}
+
+		// 处于开始状态,则获取主诉,诊断,体征等信息
+		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0
+				|| (mAppointment.getOPStatus() & AppointmentInfo.STATUS_FINISH) != 0) {
+			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
+
+			if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
+				if (sc_treating_patient_layout.getVisibility() == View.VISIBLE) {
+					llt_amount.setVisibility(View.VISIBLE);
+					iv_open.setVisibility(View.GONE);
+				}
+			} else {
+				llt_amount.setVisibility(View.GONE);
+			}
+		} else {
+			llt_amount.setVisibility(View.GONE);
+		}
 	}
 
 	// 初始化
@@ -323,6 +358,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		} else if ((opStatus & AppointmentInfo.STATUS_WATTING) != 0) {
 			tvOpterator.setText("过号");
 			tvOpterator.setTag(OPT_PASS);
+			tvOpterator.setVisibility(View.VISIBLE);
 			// if ((role & Employee.DOCTOR) != 0) {
 			// tvOpterator.setText("过号");
 			// tvOpterator.setTag(OPT_PASS);
@@ -384,6 +420,18 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		}
 	}
 
+	private void setImageViewVisibility(ViewGroup viewGroup, boolean isShow) {
+		int count = viewGroup.getChildCount();
+		for (int i = 0; i <= count; i++) {
+			View v = viewGroup.getChildAt(i);
+			if (v instanceof ViewGroup) {
+				setImageViewVisibility((ViewGroup) v, isShow);
+			} else if (v instanceof ImageView) {
+				v.setVisibility(isShow ? View.VISIBLE : View.GONE);
+			}
+		}
+	}
+
 	@Override
 	public void initMemberData() {
 		super.initMemberData();
@@ -412,6 +460,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		super.onResume();
 		presenter.getPatientDetail(mAppointment.getPatientID());
 		presenter.addScreenCallBack();
+		updateInterface();
 	}
 
 	@Override
@@ -471,15 +520,6 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 		// 既往史
 		presenter.getPatientMedicalHistory(mAppointment.getPatientID());
-
-		// 处于开始状态,则获取主诉,诊断,体征等信息
-		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
-			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
-
-			llt_amount.setVisibility(View.VISIBLE);
-		} else {
-			llt_amount.setVisibility(View.GONE);
-		}
 	}
 
 	/**
@@ -497,58 +537,40 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+		case R.id.rlt_signs:
 		case R.id.llt_signs: {
-			Intent intent = new Intent(this, PatientVitalSignsActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_VITAL_SIGNS, mVitalSigns);
-			startActivity(intent);
+			if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0 && (role & Employee.DOCTOR) != 0) {
+				Intent intent = new Intent(this, PatientVitalSignsActivity.class);
+				intent.putExtra(MemberConstant.APPOINTMENT_VITAL_SIGNS, mVitalSigns);
+				startActivity(intent);
+			}
 			break;
 		}
+		case R.id.rlt_chief_complaint:
 		case R.id.llt_chief_complaint: {
-			Intent intent = new Intent(this, PatientChiefComplaintActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_CHIEF_COMPLAINT, mChiefComplaint);
-			startActivity(intent);
+			if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0 && (role & Employee.DOCTOR) != 0) {
+				Intent intent = new Intent(this, PatientChiefComplaintActivity.class);
+				intent.putExtra(MemberConstant.APPOINTMENT_CHIEF_COMPLAINT, mChiefComplaint);
+				startActivity(intent);
+			}
 			break;
 		}
+		case R.id.rlt_diagnosis:
 		case R.id.llt_diagnosis: {
-			Intent intent = new Intent(this, PatientDiagnosisActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
-			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE, mDiagnosisAddTemplate);
-			startActivity(intent);
+			if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0 && (role & Employee.DOCTOR) != 0) {
+				Intent intent = new Intent(this, PatientDiagnosisActivity.class);
+				intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
+				intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE, mDiagnosisAddTemplate);
+				startActivity(intent);
+			}
 			break;
 		}
+		case R.id.rlt_prescription:
 		case R.id.llt_prescription: {
-			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST, mDrugUseList);
-			intent.putExtra(MemberConstant.APPOINTMENT_OFFICE_VISIT_FEE_LIST, mOfficeVisitFeeList);
-			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE, mDrugUseAddTemplate);
-			startActivity(intent);
-			break;
-		}
-		case R.id.rlt_signs: {
-			Intent intent = new Intent(this, PatientVitalSignsActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_VITAL_SIGNS, mVitalSigns);
-			startActivity(intent);
-			break;
-		}
-		case R.id.rlt_chief_complaint: {
-			Intent intent = new Intent(this, PatientChiefComplaintActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_CHIEF_COMPLAINT, mChiefComplaint);
-			startActivity(intent);
-			break;
-		}
-		case R.id.rlt_diagnosis: {
-			Intent intent = new Intent(this, PatientDiagnosisActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_LIST, mDiagnosisList);
-			intent.putExtra(MemberConstant.APPOINTMENT_DIAGNOSIS_ADD_TEMPLATE, mDiagnosisAddTemplate);
-			startActivity(intent);
-			break;
-		}
-		case R.id.rlt_prescription: {
-			Intent intent = new Intent(this, PatientPrescriptionActivity.class);
-			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_LIST, mDrugUseList);
-			intent.putExtra(MemberConstant.APPOINTMENT_OFFICE_VISIT_FEE_LIST, mOfficeVisitFeeList);
-			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_ADD_TEMPLATE, mDrugUseAddTemplate);
-			startActivity(intent);
+			if ((opStatus & AppointmentInfo.STATUS_DIAGNOSING) != 0 && (role & Employee.DOCTOR) != 0) {
+				Intent intent = new Intent(this, PatientPrescriptionActivity.class);
+				startActivity(intent);
+			}
 			break;
 		}
 		case R.id.btn_left_arrow:
@@ -639,6 +661,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 			iv_collapse.setVisibility(View.INVISIBLE);
 			iv_open.setVisibility(View.VISIBLE);
+			llt_amount.setVisibility(View.GONE);
 			break;
 		}
 		case R.id.iv_open: {
@@ -658,6 +681,9 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 			iv_collapse.setVisibility(View.VISIBLE);
 			iv_open.setVisibility(View.GONE);
+			if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
+				llt_amount.setVisibility(View.VISIBLE);
+			}
 			break;
 		}
 		default:
@@ -694,6 +720,10 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			presenter.updateAppointment(mAppointment, AppointmentInfo.STATUS_DIAGNOSING);
 			break;
 		case OPT_STOP:
+			if (MedicalAppliction.mDrugUseMap.size() == 0 && MedicalAppliction.mOfficeVisitFeeMap.size() == 0) {
+				Toast.makeText(getApplicationContext(), R.string.no_presciption, Toast.LENGTH_SHORT).show();
+				return;
+			}
 			presenter.updateAppointment(mAppointment, AppointmentInfo.STATUS_FINISH);
 			break;
 
@@ -788,10 +818,6 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 		// 处于开始状态,则获取主诉,诊断,体征等信息
 		if ((mAppointment.getOPStatus() & AppointmentInfo.STATUS_DIAGNOSING) != 0) {
 			presenter.getPatientAppointmentDetail(mAppointment.getOPID());
-
-			llt_amount.setVisibility(View.VISIBLE);
-		} else {
-			llt_amount.setVisibility(View.GONE);
 		}
 
 		setScreenOn();
@@ -839,19 +865,60 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 				tv_temperature.setText(Tools.getFormat(getApplicationContext(), R.string.temperature_unit,
 						mVitalSigns.getBodyTemperature()));
+				if (mVitalSigns.getBodyTemperature() >= 38) {
+					tv_temperature.setTextColor(getResources().getColor(R.color.red));
+				} else if (mVitalSigns.getBodyTemperature() <= 36) {
+					tv_temperature.setTextColor(getResources().getColor(R.color.blue));
+				} else {
+					tv_temperature.setTextColor(getResources().getColor(R.color.black));
+				}
+				
 				tv_height.setText(
 						Tools.getFormat(getApplicationContext(), R.string.height_unit, mVitalSigns.getHeight()));
 				tv_weight.setText(
 						Tools.getFormat(getApplicationContext(), R.string.weight_unit, mVitalSigns.getWeight()));
 				tv_bmi.setText(String.valueOf(mVitalSigns.getBMI()));
+				
 				tv_heartbeat.setText(
 						Tools.getFormat(getApplicationContext(), R.string.heartbeat_unit, mVitalSigns.getHeartbeat()));
+				if (mVitalSigns.getHeartbeat() >= 160) {
+					tv_heartbeat.setTextColor(getResources().getColor(R.color.red));
+				} else if (mVitalSigns.getHeartbeat() <= 60) {
+					tv_heartbeat.setTextColor(getResources().getColor(R.color.blue));
+				} else {
+					tv_heartbeat.setTextColor(getResources().getColor(R.color.black));
+				}
+				
 				tv_breath.setText(
 						Tools.getFormat(getApplicationContext(), R.string.breath_unit, mVitalSigns.getBreathing()));
+				if (mVitalSigns.getBreathing() >= 24) {
+					tv_breath.setTextColor(getResources().getColor(R.color.red));
+				} else if (mVitalSigns.getBreathing() <= 12) {
+					tv_breath.setTextColor(getResources().getColor(R.color.blue));
+				} else {
+					tv_breath.setTextColor(getResources().getColor(R.color.black));
+				}
+				
 				tv_blood_pressure.setText(Tools.getFormat(getApplicationContext(), R.string.blood_pressure_unit,
 						mVitalSigns.getSystolicPressure(), mVitalSigns.getDiastolicBloodPressure()));
+				float bloodPressure = mVitalSigns.getSystolicPressure() / mVitalSigns.getDiastolicBloodPressure();
+				if (bloodPressure >= (140 / 90f)) {
+					tv_blood_pressure.setTextColor(getResources().getColor(R.color.red));
+				} else if (bloodPressure <= (90 / 60f)) {
+					tv_blood_pressure.setTextColor(getResources().getColor(R.color.blue));
+				} else {
+					tv_blood_pressure.setTextColor(getResources().getColor(R.color.black));
+				}
+				
 				tv_blood_glucose.setText(Tools.getFormat(getApplicationContext(), R.string.blood_glucose_unit,
 						mVitalSigns.getBloodGlucose()));
+				if (mVitalSigns.getBloodGlucose() >= 200) {
+					tv_blood_glucose.setTextColor(getResources().getColor(R.color.red));
+				} else if (mVitalSigns.getBloodGlucose() <= 60) {
+					tv_blood_glucose.setTextColor(getResources().getColor(R.color.blue));
+				} else {
+					tv_blood_glucose.setTextColor(getResources().getColor(R.color.black));
+				}
 			} else {
 				rlt_signs.setVisibility(View.VISIBLE);
 				llt_signs.setVisibility(View.GONE);
@@ -927,41 +994,53 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			}
 
 			// 新增处方用法的模版
-			mDrugUseAddTemplate = new DrugUse();
-			mDrugUseAddTemplate.setClinicID(clinicID);
-			mDrugUseAddTemplate.setDoctorID(doctorID);
-			mDrugUseAddTemplate.setPatientID(patientID);
-			mDrugUseAddTemplate.setVisitID(visitID);
-			mDrugUseAddTemplate.setDays(1);
+			MedicalAppliction.mDrugUseAddTemplate = new DrugUse();
+			MedicalAppliction.mDrugUseAddTemplate.setClinicID(clinicID);
+			MedicalAppliction.mDrugUseAddTemplate.setDoctorID(doctorID);
+			MedicalAppliction.mDrugUseAddTemplate.setPatientID(patientID);
+			MedicalAppliction.mDrugUseAddTemplate.setVisitID(visitID);
+			MedicalAppliction.mDrugUseAddTemplate.setDays(1);
+
+			MedicalAppliction.mDrugUseMap.clear();
+			MedicalAppliction.mOfficeVisitFeeMap.clear();
 
 			// 处方
-			String drugUseList = content.getString("DrugUseList");
+			String drugUseListString = content.getString("DrugUseList");
 
-			if (!StringUtil.isEmpty(drugUseList)) {
-				mDrugUseList = new Gson().fromJson(drugUseList, new TypeToken<ArrayList<DrugUse>>() {
-				}.getType());
+			if (!StringUtil.isEmpty(drugUseListString)) {
+				ArrayList<DrugUse> drugUseList = new Gson().fromJson(drugUseListString,
+						new TypeToken<ArrayList<DrugUse>>() {
+						}.getType());
+
+				for (DrugUse item : drugUseList) {
+					MedicalAppliction.mDrugUseMap.put(String.valueOf(item.getDrugID()), item);
+				}
 			}
 
 			// 费用
-			String feeList = content.getString("FeeList");
+			String feeListString = content.getString("FeeList");
 
-			if (!StringUtil.isEmpty(feeList)) {
-				mOfficeVisitFeeList = new Gson().fromJson(feeList, new TypeToken<ArrayList<OfficeVisitFee>>() {
-				}.getType());
+			if (!StringUtil.isEmpty(feeListString)) {
+				ArrayList<OfficeVisitFee> mOfficeVisitFeeList = new Gson().fromJson(feeListString,
+						new TypeToken<ArrayList<OfficeVisitFee>>() {
+						}.getType());
 
+				for (OfficeVisitFee item : mOfficeVisitFeeList) {
+					MedicalAppliction.mOfficeVisitFeeMap.put(item.getFeeType(), item);
+				}
 			}
 
-			if (!StringUtil.isEmpty(drugUseList) || !StringUtil.isEmpty(feeList)) {
+			if (!StringUtil.isEmpty(drugUseListString) || !StringUtil.isEmpty(feeListString)) {
 				rlt_prescription.setVisibility(View.GONE);
 				llt_prescription.setVisibility(View.VISIBLE);
 
-				if (!StringUtil.isEmpty(drugUseList)) {
+				if (!StringUtil.isEmpty(drugUseListString)) {
 					lv_drug_use.setAdapter(new DrugUseAdapter());
 
 					ViewUtil.setListViewHeightBasedOnChildren(lv_drug_use);
 				}
 
-				calculateAmount();
+				FeeUtil.calculateAmountAndShowInTextView(tv_amount);
 			} else {
 				rlt_prescription.setVisibility(View.VISIBLE);
 				llt_prescription.setVisibility(View.GONE);
@@ -977,24 +1056,6 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			L.e(PatientAppointmentActivity.this, "出错了");
 		}
 
-	}
-
-	private void calculateAmount() {
-		float amount = 0;
-
-		// 费用
-		for (int i = 0; i < mOfficeVisitFeeList.size(); i++) {
-			amount += mOfficeVisitFeeList.get(i).getTotalFee() / 100f;
-		}
-
-		// 药物
-		for (int i = 0; i < mDrugUseList.size(); i++) {
-			DrugUse drugUse = mDrugUseList.get(i);
-
-			amount += drugUse.getSaleQuantity() * drugUse.getSalePrice() / 100f;
-		}
-
-		tv_amount.setText(String.valueOf(amount));
 	}
 
 	@Override
@@ -1071,12 +1132,12 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 
 		@Override
 		public int getCount() {
-			return mDrugUseList.size();
+			return MedicalAppliction.mDrugUseMap.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return mDrugUseList.get(position);
+			return MedicalAppliction.mDrugUseMap.values().toArray()[position];
 		}
 
 		@Override
@@ -1110,7 +1171,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			DrugUse drugUse = mDrugUseList.get(position);
+			DrugUse drugUse = (DrugUse) MedicalAppliction.mDrugUseMap.values().toArray()[position];
 
 			if (drugUse.getGroupNo() == 0) {
 				holder.tv_group_name.setText(R.string.not_yet_group);
@@ -1118,7 +1179,7 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 				holder.tv_group_name.setText(getResources().getString(R.string.group) + drugUse.getGroupNo());
 			}
 
-			holder.tv_drug_name.setText(drugUse.getDrugName());
+			holder.tv_drug_name.setText(drugUse.getDrugName() + "  x" + drugUse.getSaleQuantity());
 
 			Drug drug = mDrugDao.getDrugByDrugID(drugUse.getDrugID());
 			if (drug != null) {
@@ -1126,7 +1187,8 @@ public class PatientAppointmentActivity extends PatientCommonActivity
 			} else {
 				holder.tv_specification.setText("");
 			}
-			holder.tv_unit_price.setText(drugUse.getSalePrice() / 100f + getResources().getString(R.string.yuan));
+			holder.tv_unit_price.setText(String.format("%.02f", drugUse.getSalePrice() / 100f)
+					+ getResources().getString(R.string.yuan) + "/" + drugUse.getSaleUnit());
 
 			holder.tv_single_dosage.setText(drugUse.getTake() + drugUse.getTakeUnit());
 

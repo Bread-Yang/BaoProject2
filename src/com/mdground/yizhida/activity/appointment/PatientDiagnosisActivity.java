@@ -5,15 +5,20 @@ import java.util.ArrayList;
 import org.apache.http.Header;
 
 import com.mdground.yizhida.R;
+import com.mdground.yizhida.activity.login.LoginActivity;
 import com.mdground.yizhida.api.base.RequestCallBack;
 import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.clinic.SaveDiagnosis;
 import com.mdground.yizhida.api.utils.PxUtil;
 import com.mdground.yizhida.bean.Diagnosis;
 import com.mdground.yizhida.constant.MemberConstant;
+import com.mdground.yizhida.util.PreferenceUtils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PatientDiagnosisActivity extends Activity implements OnClickListener {
 
@@ -90,7 +96,17 @@ public class PatientDiagnosisActivity extends Activity implements OnClickListene
 
 			@Override
 			public void onClick(View v) {
-				llt_diagnosis.removeView(rlt_diagnosis);
+
+				AlertDialog myDialog = new AlertDialog.Builder(PatientDiagnosisActivity.this)
+						.setMessage(R.string.confirm_to_delete)
+						.setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						llt_diagnosis.removeView(rlt_diagnosis);
+					}
+				}).setNeutralButton(R.string.cancle, null).create();
+				myDialog.show();
 			}
 		});
 	}
@@ -110,31 +126,38 @@ public class PatientDiagnosisActivity extends Activity implements OnClickListene
 			} else {
 				mDiagnosisList = new ArrayList<Diagnosis>();
 			}
-			
+
 			findAllEditText(llt_diagnosis);
-			
-			new SaveDiagnosis(getApplicationContext()).saveDiagnosis(mDiagnosisList, new RequestCallBack() {
-				
-				@Override
-				public void onSuccess(ResponseData response) {
-					finish();
-				}
-				
-				@Override
-				public void onStart() {
-					
-				}
-				
-				@Override
-				public void onFinish() {
-					
-				}
-				
-				@Override
-				public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-					
-				}
-			});
+
+			if (mDiagnosisList.size() == 0) {
+				Toast.makeText(this, R.string.please_add_diagnosis, Toast.LENGTH_SHORT).show();
+				return;
+			}
+
+			new SaveDiagnosis(getApplicationContext()).saveDiagnosis(mDiagnosisTemplate.getVisitID(), mDiagnosisList,
+					new RequestCallBack() {
+
+						@Override
+						public void onSuccess(ResponseData response) {
+							finish();
+						}
+
+						@Override
+						public void onStart() {
+
+						}
+
+						@Override
+						public void onFinish() {
+
+						}
+
+						@Override
+						public void onFailure(int statusCode, Header[] headers, String responseString,
+								Throwable throwable) {
+
+						}
+					});
 			break;
 
 		case R.id.rlt_add_diagnosis:
@@ -154,8 +177,8 @@ public class PatientDiagnosisActivity extends Activity implements OnClickListene
 					findAllEditText(child);
 				}
 			} else if (v instanceof EditText) {
-				String diagnosisName = ((EditText)v).getText().toString();
-				
+				String diagnosisName = ((EditText) v).getText().toString();
+
 				if (!TextUtils.isEmpty(diagnosisName)) {
 					Diagnosis newDiagnosis = new Diagnosis();
 					newDiagnosis.setClinicID(mDiagnosisTemplate.getClinicID());
@@ -163,7 +186,7 @@ public class PatientDiagnosisActivity extends Activity implements OnClickListene
 					newDiagnosis.setPatientID(mDiagnosisTemplate.getPatientID());
 					newDiagnosis.setVisitID(mDiagnosisTemplate.getVisitID());
 					newDiagnosis.setDiagnosisName(diagnosisName);
-					
+
 					mDiagnosisList.add(newDiagnosis);
 				}
 			}

@@ -779,7 +779,7 @@ public class Patient implements Parcelable {
 		} else if (day < 30) {
 			return (day) + "天";
 		} else if (day < 365) {
-			return (day / 30) + "月";
+			return (day / 30) + "个月";
 		} else if (day < 5 * 365) {
 			int mounth = DateUtils.calcAgeMonthByBrithday(DOB);
 			int age = DateUtils.calcAgeByBrithday(DOB);

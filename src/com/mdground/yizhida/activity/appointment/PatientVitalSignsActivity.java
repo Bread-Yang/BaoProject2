@@ -36,9 +36,8 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 
 	private ImageView iv_back;
 	private TextView tv_title, tv_top_right;
-	private TextView tv_temperature, tv_height, tv_weight, tv_heartbeat, tv_breath, tv_blood_pressure,
-			tv_blood_glucose;
-	
+	private TextView tv_temperature, tv_height, tv_weight, tv_heartbeat, tv_breath, tv_blood_pressure, tv_blood_glucose;
+
 	private EditText et_bmi;
 
 	private Dialog dialog_wheelView;
@@ -84,8 +83,9 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 		tv_breath = (TextView) findViewById(R.id.tv_breath);
 		tv_blood_pressure = (TextView) findViewById(R.id.tv_blood_pressure);
 		tv_blood_glucose = (TextView) findViewById(R.id.tv_blood_glucose);
-		
+
 		et_bmi = (EditText) findViewById(R.id.et_bmi);
+		et_bmi.setEnabled(false);
 
 		// 初始化dialog及dialog里面的控件
 		dialog_wheelView = new Dialog(this, R.style.patient_detail_dialog);
@@ -126,37 +126,81 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 
 			@Override
 			public void onScrollingFinished(WheelView wheel) {
-				String text = ((AbstractWheelTextAdapter) wheel.getViewAdapter())
-						.getItemText(wheel.getCurrentItem()).toString();
+				String text = ((AbstractWheelTextAdapter) wheel.getViewAdapter()).getItemText(wheel.getCurrentItem())
+						.toString();
+				float value = Float.valueOf(text);
 
 				switch (wheelview1_set_flag) {
 				case R.id.tv_temperature:
 					vitalSigns.setBodyTemperature(Float.valueOf(text));
+
+					if (value >= 38) {
+						tv_temperature.setTextColor(getResources().getColor(R.color.red));
+					} else if (value <= 36) {
+						tv_temperature.setTextColor(getResources().getColor(R.color.blue));
+					} else {
+						tv_temperature.setTextColor(getResources().getColor(R.color.black));
+					}
 					tv_temperature.setText(Tools.getFormat(getApplicationContext(), R.string.temperature_unit, text));
 					break;
 				case R.id.tv_height:
 					vitalSigns.setHeight(Integer.valueOf(text));
 					tv_height.setText(Tools.getFormat(getApplicationContext(), R.string.height_unit, text));
+
+					setBMI();
 					break;
 				case R.id.tv_weight:
 					vitalSigns.setWeight(Integer.valueOf(text));
 					tv_weight.setText(Tools.getFormat(getApplicationContext(), R.string.weight_unit, text));
+
+					setBMI();
 					break;
 				case R.id.tv_heartbeat:
 					vitalSigns.setHeartbeat(Integer.valueOf(text));
+					if (value >= 160) {
+						tv_heartbeat.setTextColor(getResources().getColor(R.color.red));
+					} else if (value <= 60) {
+						tv_heartbeat.setTextColor(getResources().getColor(R.color.blue));
+					} else {
+						tv_heartbeat.setTextColor(getResources().getColor(R.color.black));
+					}
 					tv_heartbeat.setText(Tools.getFormat(getApplicationContext(), R.string.heartbeat_unit, text));
 					break;
 				case R.id.tv_breath:
 					vitalSigns.setBreathing(Integer.valueOf(text));
+					if (value >= 24) {
+						tv_breath.setTextColor(getResources().getColor(R.color.red));
+					} else if (value <= 12) {
+						tv_breath.setTextColor(getResources().getColor(R.color.blue));
+					} else {
+						tv_breath.setTextColor(getResources().getColor(R.color.black));
+					}
 					tv_breath.setText(Tools.getFormat(getApplicationContext(), R.string.breath_unit, text));
 					break;
 				case R.id.tv_blood_pressure:
 					vitalSigns.setSystolicPressure(Integer.valueOf(text));
+					
+					float bloodPressure = value / vitalSigns.getDiastolicBloodPressure();
+
+					if (bloodPressure >= (140 / 90f)) {
+						tv_blood_pressure.setTextColor(getResources().getColor(R.color.red));
+					} else if (bloodPressure <= (90 / 60f)) {
+						tv_blood_pressure.setTextColor(getResources().getColor(R.color.blue));
+					} else {
+						tv_blood_pressure.setTextColor(getResources().getColor(R.color.black));
+					}
 					tv_blood_pressure.setText(Tools.getFormat(getApplicationContext(), R.string.blood_pressure_unit,
 							text, String.valueOf(vitalSigns.getDiastolicBloodPressure())));
 					break;
 				case R.id.tv_blood_glucose:
 					vitalSigns.setBloodGlucose(Integer.valueOf(text));
+					if (value >= 200) {
+						tv_blood_glucose.setTextColor(getResources().getColor(R.color.red));
+					} else if (value <= 60) {
+						tv_blood_glucose.setTextColor(getResources().getColor(R.color.blue));
+					} else {
+						tv_blood_glucose.setTextColor(getResources().getColor(R.color.black));
+					}
 					tv_blood_glucose
 							.setText(Tools.getFormat(getApplicationContext(), R.string.blood_glucose_unit, text));
 					break;
@@ -174,14 +218,29 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 
 			@Override
 			public void onScrollingFinished(WheelView wheel) {
-				String text = ((AbstractWheelTextAdapter) wheel.getViewAdapter())
-						.getItemText(wheel.getCurrentItem()).toString();
+				String text = ((AbstractWheelTextAdapter) wheel.getViewAdapter()).getItemText(wheel.getCurrentItem())
+						.toString();
+				int value = Integer.valueOf(text);
+				float bloodPressure = vitalSigns.getSystolicPressure() / value;
+
+				if (bloodPressure >= (140 / 90f)) {
+					tv_blood_pressure.setTextColor(getResources().getColor(R.color.red));
+				} else if (bloodPressure <= (90 / 60f)) {
+					tv_blood_pressure.setTextColor(getResources().getColor(R.color.blue));
+				} else {
+					tv_blood_pressure.setTextColor(getResources().getColor(R.color.black));
+				}
 
 				vitalSigns.setDiastolicBloodPressure(Integer.valueOf(text));
 				tv_blood_pressure.setText(Tools.getFormat(getApplicationContext(), R.string.blood_pressure_unit,
 						String.valueOf(vitalSigns.getSystolicPressure()), text));
 			}
 		});
+	}
+
+	private void setBMI() {
+		et_bmi.setText(String.format("%.01f",
+				vitalSigns.getWeight() / (vitalSigns.getHeight() / 100f * vitalSigns.getHeight() / 100f)));
 	}
 
 	private void init() {
@@ -203,19 +262,19 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 				Tools.getFormat(getApplicationContext(), R.string.blood_glucose_unit, vitalSigns.getBloodGlucose()));
 
 		tv_temperature.setOnClickListener(this);
-		
+
 		et_bmi.setText(String.valueOf(vitalSigns.getBMI()));
 		int position = et_bmi.length();
 		Editable etext = et_bmi.getText();
 		Selection.setSelection(etext, position);
 
 		// 体温
-		temperatureArray = new String[21];
+		temperatureArray = new String[71];
 		float temp = 35.0f;
-		for (int i = 0; i < 21; i++) {
+		for (int i = 0; i < 71; i++) {
 			temperatureArray[i] = String.valueOf(temp + 0.1 * i);
 		}
-		
+
 		wheelView2.setViewAdapter(new NumericWheelAdapter(this, 60, 100, wheelView2));
 		wheelView2.setLabel("mmhg");
 	}
@@ -230,7 +289,7 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 			break;
 
 		case R.id.tv_top_right:
-			
+
 			vitalSigns.setBMI(Float.valueOf(et_bmi.getText().toString()));
 
 			new SaveVitalSign(getApplicationContext()).saveVitalSign(vitalSigns, new RequestCallBack() {
@@ -264,14 +323,14 @@ public class PatientVitalSignsActivity extends Activity implements OnClickListen
 		case R.id.tv_temperature:
 			wheelView1.setViewAdapter(new ArrayWheelAdapter(this, temperatureArray, wheelView1));
 			wheelView1.setLabel("℃");
-			wheelView1.setCurrentItem((int)((vitalSigns.getBodyTemperature() - 35.0f) * 10));
+			wheelView1.setCurrentItem((int) ((vitalSigns.getBodyTemperature() - 35.0f) * 10));
 			wheelView2.setVisibility(View.GONE);
 			wheelview1_set_flag = R.id.tv_temperature;
 
 			dialog_wheelView.show();
 			break;
 		case R.id.tv_height:
-			wheelView1.setViewAdapter(new NumericWheelAdapter(this, 40, 200, wheelView1));
+			wheelView1.setViewAdapter(new NumericWheelAdapter(this, 40, 240, wheelView1));
 			wheelView1.setLabel("cm");
 			wheelView1.setCurrentItem(vitalSigns.getHeight() - 40);
 			wheelView2.setVisibility(View.GONE);

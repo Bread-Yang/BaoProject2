@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.text.TextUtils;
 
@@ -20,6 +22,13 @@ public class StringUtil {
 			return true;
 		}
 		return false;
+	}
+	
+	public static String trimUnit(String beTrimedString) {
+		String regEx = "[^0-9.]";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(beTrimedString);
+		return m.replaceAll("").trim();
 	}
 
 	public static String getAge(String dob) {

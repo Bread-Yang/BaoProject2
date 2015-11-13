@@ -111,6 +111,7 @@
 	<string name="bmi_colon">BMI:</string>
 	<string name="chief_complaint_hint">描述身体状况,特殊状况,病况</string>
 	<string name="add_diagnosis">添加诊断</string>
+	<string name="please_add_diagnosis">请输入诊断内容</string>
 	<string name="fee">费用</string>
 	<string name="drug">药物</string>
 	<string name="input_chief_complaint">请输入主诉信息</string>
@@ -121,6 +122,8 @@
 	<string name="classification">分类</string>
 	<string name="search_drug_hint">药物编码,关键词</string>
 	<string name="sync_data">同步数据</string>
+	<string name="sync_data_success">同步完成</string>
+	<string name="please_sync_data_in_personal_center">请到个人中心同步数据</string>
 	<string name="yuan">元</string>
 	<string name="specification_colon">规格:</string>
 	<string name="unit_price_colon">单价:</string>
@@ -137,8 +140,12 @@
 	<string name="days">天数</string>
 	<string name="not_yet_group">未分组</string>
 	<string name="group">分组</string>
-	<string name="no_fee">没有任何费用</string>
+	<string name="no_fee">请添加费用或药物</string>
+	<string name="no_presciption">请添加处方</string>
 	<string name="total_sum">合计: </string>
+	<string name="confirm_to_delete">确认删除?</string>
+	<string name="more_than_zero">金额必须大于0元</string>
+	<string name="quantity_more_than_zero">总量必须大于0</string>
 
 	<!-- 找回密码界面文字 -->
     <string name="activity_pwd_verify_prompt">您的密保手机号码是%s,请点击&quot;获取验证码&quot;</string>

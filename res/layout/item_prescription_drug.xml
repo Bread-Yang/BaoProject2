@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="10dp" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="-1dp"
         android:background="@drawable/selector_bg_doctor_item"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingLeft="15dp"
         android:paddingRight="3dp" >
 
@@ -49,11 +51,10 @@
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/iv_add"
             android:background="@drawable/shape_prescription_edittext"
-            android:digits="1234567890"
-            android:focusable="false"
             android:gravity="center"
-            android:inputType="numberDecimal"
+            android:numeric="integer"
             android:paddingBottom="3dp"
+            android:imeOptions="actionDone"
             android:paddingTop="3dp"
             android:singleLine="true"
             android:text="1"
@@ -71,8 +72,8 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-         android:background="@drawable/selector_bg_doctor_item"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_bg_doctor_item"
         android:orientation="horizontal" >
 
         <RelativeLayout
@@ -100,12 +101,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="7dp"
             android:paddingRight="3dp"
             android:paddingTop="10dp"
+            android:paddingBottom="5dp"
             android:visibility="visible" >
 
             <LinearLayout
@@ -156,6 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:ellipsize="end"
+                        android:singleLine="true"
                         android:textColor="@color/prescription_orange_color"
                         android:textSize="@dimen/prescription_text_size_15sp" />
                 </LinearLayout>
@@ -292,8 +295,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:singleLine="true"
                         android:ellipsize="end"
+                        android:singleLine="true"
                         android:textColor="@color/prescription_grey_color"
                         android:textSize="@dimen/prescription_text_size_15sp" />
                 </LinearLayout>

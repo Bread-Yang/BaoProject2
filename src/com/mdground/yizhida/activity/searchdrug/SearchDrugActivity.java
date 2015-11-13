@@ -1,8 +1,6 @@
 package com.mdground.yizhida.activity.searchdrug;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -18,6 +16,7 @@ import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.api.utils.PxUtil;
 import com.mdground.yizhida.bean.Drug;
 import com.mdground.yizhida.bean.DrugCategory;
+import com.mdground.yizhida.bean.DrugUse;
 import com.mdground.yizhida.bean.Employee;
 import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.db.dao.DrugCategoryDao;
@@ -26,19 +25,16 @@ import com.mdground.yizhida.view.ResizeLinearLayout;
 import com.mdground.yizhida.view.ResizeLinearLayout.OnResizeListener;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -72,15 +68,13 @@ public class SearchDrugActivity extends BaseActivity
 	private Employee mLoginEmployee;
 	private List<Drug> mDrugsList = new ArrayList<Drug>();// 搜索结果保存
 
-	List<DrugCategory> drugCategories;
+	private List<DrugCategory> mDrugCategories;
 
-	private DrugDao drugDao;
-	private DrugCategoryDao drugCategoryDao;
+	private DrugDao mDrugDao;
+	private DrugCategoryDao mDrugCategoryDao;
 
 	private String mSearchDrugName;
 	private int mSearchDrugTypeID;
-
-	private HashSet<Integer> mAlreadyAddDrugSet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,17 +114,16 @@ public class SearchDrugActivity extends BaseActivity
 		// mAppiontmentCallBack);
 		// searchDrugAdapter.setDataList(patients);
 
-		mAlreadyAddDrugSet = (HashSet<Integer>) getIntent()
-				.getSerializableExtra(MemberConstant.PRESCRIPTION_ALREADY_ADD_DRUG_SET);
+		mDrugDao = DrugDao.getInstance(getApplicationContext());
+		mDrugCategoryDao = mDrugCategoryDao.getInstance(getApplicationContext());
 
-		drugDao = DrugDao.getInstance(getApplicationContext());
-		drugCategoryDao = drugCategoryDao.getInstance(getApplicationContext());
+		mDrugCategories = mDrugCategoryDao.getDrugCateogriesByClinicID(mLoginEmployee.getClinicID());
 
-		drugCategories = drugCategoryDao.getDrugCateogriesByClinicID(mLoginEmployee.getClinicID());
-
-		for (DrugCategory item : drugCategories) {
+		for (DrugCategory item : mDrugCategories) {
 			RadioButton radioButton = (RadioButton) getLayoutInflater().inflate(R.layout.radiobutton_drug_category,
 					null);
+			
+			radioButton.setId(item.getTypeID());
 
 			radioButton.setText(item.getTypeName());
 
@@ -141,7 +134,7 @@ public class SearchDrugActivity extends BaseActivity
 			radioButton.setLayoutParams(params);
 		}
 
-		mDrugsList = drugDao.getAllDrug();
+		mDrugsList = mDrugDao.getAllDrug();
 
 		mDrugAdapter = new DrugAdapter();
 		LvSearchResult.setAdapter(mDrugAdapter);
@@ -184,9 +177,9 @@ public class SearchDrugActivity extends BaseActivity
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				L.e(SearchDrugActivity.this, "checkedId : " + checkedId);
+//				L.e(SearchDrugActivity.this, "checkedId : " + checkedId);
 				if (checkedId != -1) {
-					int newTypeID = drugCategories.get(checkedId - 1).getTypeID();
+					int newTypeID = checkedId;
 					if (mSearchDrugTypeID == newTypeID) {
 						return;
 					}
@@ -206,15 +199,16 @@ public class SearchDrugActivity extends BaseActivity
 
 		if (mSearchDrugTypeID != -1) {
 			if (!TextUtils.isEmpty(mSearchDrugName)) {
-				mDrugsList = drugDao.getDrugByDrugNameAndClinicIDAndTypeID(mSearchDrugName, clinicID, mSearchDrugTypeID);
+				mDrugsList = mDrugDao.getDrugByDrugNameAndClinicIDAndTypeID(mSearchDrugName, clinicID,
+						mSearchDrugTypeID);
 			} else {
-				mDrugsList = drugDao.getDrugByClinicIDAndTypeID(clinicID, mSearchDrugTypeID);
+				mDrugsList = mDrugDao.getDrugByClinicIDAndTypeID(clinicID, mSearchDrugTypeID);
 			}
 		} else {
 			if (!TextUtils.isEmpty(mSearchDrugName)) {
-				mDrugsList = drugDao.getDrugByDrugNameAndClinicID(mSearchDrugName, clinicID);
+				mDrugsList = mDrugDao.getDrugByDrugNameAndClinicID(mSearchDrugName, clinicID);
 			} else {
-				mDrugsList = drugDao.getDrugByClinicID(clinicID);
+				mDrugsList = mDrugDao.getDrugByClinicID(clinicID);
 			}
 		}
 
@@ -225,7 +219,7 @@ public class SearchDrugActivity extends BaseActivity
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		final Drug drug = mDrugsList.get(position);
 
-		if (!mAlreadyAddDrugSet.contains(drug.getDrugID())) {
+		if (!MedicalAppliction.mDrugUseMap.containsKey(String.valueOf(drug.getDrugID()))) {
 			new GetDurgInfoByID(getApplicationContext()).getDurgInfoByID(drug.getDrugID(), new RequestCallBack() {
 
 				@Override
@@ -233,13 +227,25 @@ public class SearchDrugActivity extends BaseActivity
 					if (response.getCode() == ResponseCode.Normal.getValue()) {
 						Drug drugDetail = response.getContent(Drug.class);
 
-						mAlreadyAddDrugSet.add(drug.getDrugID());
-						mDrugAdapter.notifyDataSetChanged();
+						DrugUse drugUse = new DrugUse();
+						drugUse.setClinicID(MedicalAppliction.mDrugUseAddTemplate.getClinicID());
+						drugUse.setVisitID(MedicalAppliction.mDrugUseAddTemplate.getVisitID());
+						drugUse.setDoctorID(MedicalAppliction.mDrugUseAddTemplate.getDoctorID());
+						drugUse.setPatientID(MedicalAppliction.mDrugUseAddTemplate.getPatientID());
+						drugUse.setSaleQuantity(1);
+						drugUse.setDays(1);
+						drugUse.setDrugID(drugDetail.getDrugID());
+						drugUse.setTake(drugDetail.getDosageSingle());
+						drugUse.setTakeType(drugDetail.getTakeType());
+						drugUse.setTakeUnit(drugDetail.getDosageUnit());
+						drugUse.setFrequency(drugDetail.getFrequency());
+						drugUse.setSaleUnit(drugDetail.getOVUnit());
+						drugUse.setSalePrice(drugDetail.getOVPirce());
+						drugUse.setDrugName(drugDetail.getDrugName());
+						drugUse.setInventoryCount(drugDetail.getInventoryQuantity());
 
-						Intent intent = new Intent();
-						intent.putExtra(MemberConstant.PRESCRIPTION_NEW_ADD_DRUG, drugDetail);
-						intent.putExtra(MemberConstant.PRESCRIPTION_ALREADY_ADD_DRUG_SET, mAlreadyAddDrugSet);
-						setResult(RESULT_OK, intent);
+						MedicalAppliction.mDrugUseMap.put(String.valueOf(drugDetail.getDrugID()), drugUse);
+						mDrugAdapter.notifyDataSetChanged();
 					}
 				}
 
@@ -259,7 +265,7 @@ public class SearchDrugActivity extends BaseActivity
 				}
 			});
 		} else {
-			mAlreadyAddDrugSet.remove(drug.getDrugID());
+			MedicalAppliction.mDrugUseMap.remove(String.valueOf(drug.getDrugID()));
 			mDrugAdapter.notifyDataSetChanged();
 		}
 
@@ -358,7 +364,7 @@ public class SearchDrugActivity extends BaseActivity
 			holder.tv_drug_name.setText(drug.getDrugName());
 			holder.tv_drug_description.setText(drug.getSpecification());
 
-			if (mAlreadyAddDrugSet.contains(drug.getDrugID())) {
+			if (MedicalAppliction.mDrugUseMap.containsKey(String.valueOf(drug.getDrugID()))) {
 				holder.tv_already_add.setVisibility(View.VISIBLE);
 			} else {
 				holder.tv_already_add.setVisibility(View.INVISIBLE);

@@ -74,6 +74,9 @@
     <color name="wheelview_grey_label">#C3C3C3</color>
     <color name="wheelview_border">#A9A9A9</color>
     <color name="black">#000000</color>
+    <color name="blue">#2373F1</color>
+    <color name="red">#F23529</color>
+    
     <color name="wheelview_disable_item">#D4D4D4</color>
     <color name="appointment_wheelview_color">#EEF2F3</color>
     

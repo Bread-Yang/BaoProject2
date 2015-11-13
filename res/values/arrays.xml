@@ -19,6 +19,7 @@
         <item>IM|肌肉注射(IM)</item> 
         <item>IV|静脉注射(IV)</item> 
         <item>VD|静脉滴注(VD)</item> 
+        <item>EXT|外用(EXT)</item> 
     </string-array>
     
     <string-array name="drug_frequency_map">

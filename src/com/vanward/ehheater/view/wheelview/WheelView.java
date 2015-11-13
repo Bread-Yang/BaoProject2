@@ -87,7 +87,7 @@ public class WheelView extends View {
 
 	private int text_normal_color_resId = R.color.wheelview_grey_label;
 
-	private boolean hasLeftBorder = true; 
+	private boolean hasLeftBorder = true;
 
 	private boolean hasTopBorder = true;
 
@@ -192,37 +192,24 @@ public class WheelView extends View {
 	 *            the context
 	 */
 	private void initData(Context context, AttributeSet attrs) {
-		TypedArray type_array = context.obtainStyledAttributes(attrs,
-				R.styleable.WheelView);
-		wheelBackground = (int) type_array.getResourceId(
-				R.styleable.WheelView_wheelBackground,
+		TypedArray type_array = context.obtainStyledAttributes(attrs, R.styleable.WheelView);
+		wheelBackground = (int) type_array.getResourceId(R.styleable.WheelView_wheelBackground,
 				R.drawable.layerlist_wheel_bg);
-		wheelForeground = (int) type_array.getResourceId(
-				R.styleable.WheelView_wheelForeground,
+		wheelForeground = (int) type_array.getResourceId(R.styleable.WheelView_wheelForeground,
 				R.drawable.shape_wheel_fg_orange);
-		center_label = type_array
-				.getString(R.styleable.WheelView_wheelCenterLabel);
-		center_label_position = type_array.getInteger(
-				R.styleable.WheelView_centerLabelPosition, -1);
-		hasLeftBorder = type_array.getBoolean(
-				R.styleable.WheelView_hasLeftBorder, false);
-		hasTopBorder = type_array.getBoolean(
-				R.styleable.WheelView_hasTopBorder, false);
-		hasRightBorder = type_array.getBoolean(
-				R.styleable.WheelView_hasRightBorder, false);
-		hasBottomBorder = type_array.getBoolean(
-				R.styleable.WheelView_hasBottomBorder, false);
-		text_highlight_color_resId = type_array.getResourceId(
-				R.styleable.WheelView_textHighlightColor, R.color.white);
-		text_normal_color_resId = type_array.getResourceId(
-				R.styleable.WheelView_textNormalColor,
-				R.color.wheelview_grey_label);
-		normal_textSize = (int) type_array.getDimension(
-				R.styleable.WheelView_normalTextSize, 22);
-		highlight_textSize = (int) type_array.getDimension(
-				R.styleable.WheelView_highlightTextSize, 25);
-		textHeight = (int) type_array.getDimension(
-				R.styleable.WheelView_TextHeight, 40);
+		center_label = type_array.getString(R.styleable.WheelView_wheelCenterLabel);
+		center_label_position = type_array.getInteger(R.styleable.WheelView_centerLabelPosition, -1);
+		hasLeftBorder = type_array.getBoolean(R.styleable.WheelView_hasLeftBorder, false);
+		hasTopBorder = type_array.getBoolean(R.styleable.WheelView_hasTopBorder, false);
+		hasRightBorder = type_array.getBoolean(R.styleable.WheelView_hasRightBorder, false);
+		hasBottomBorder = type_array.getBoolean(R.styleable.WheelView_hasBottomBorder, false);
+		text_highlight_color_resId = type_array.getResourceId(R.styleable.WheelView_textHighlightColor,
+				text_highlight_color_resId);
+		text_normal_color_resId = type_array.getResourceId(R.styleable.WheelView_textNormalColor,
+				text_normal_color_resId);
+		normal_textSize = (int) type_array.getDimension(R.styleable.WheelView_normalTextSize, 22);
+		highlight_textSize = (int) type_array.getDimension(R.styleable.WheelView_highlightTextSize, 25);
+		textHeight = (int) type_array.getDimension(R.styleable.WheelView_TextHeight, 40);
 		isEnable = type_array.getBoolean(R.styleable.WheelView_enabled, true);
 		super.setEnabled(isEnable);
 
@@ -562,14 +549,12 @@ public class WheelView extends View {
 	public void setCurrentItem(int index, boolean animated) {
 		WheelViewAdapter adapter = getViewAdapter();
 		// 当停止滚动的时候
-		if (!isScrollingPerformed
-				&& adapter instanceof AbstractWheelTextAdapter) {
+		if (!isScrollingPerformed && adapter instanceof AbstractWheelTextAdapter) {
 			hightLightItemIndex = index;
 			// ((AbstractWheelTextAdapter)
 			// adapter).setHightLightItemIndex(index);
 		}
-		if (viewAdapter == null || viewAdapter.getItemsCount() == 0
-				|| this.getCurrentItem() == index) {
+		if (viewAdapter == null || viewAdapter.getItemsCount() == 0 || this.getCurrentItem() == index) {
 			invalidateWheel(true);
 			return; // throw?
 		}
@@ -589,8 +574,7 @@ public class WheelView extends View {
 			if (animated) {
 				int itemsToScroll = index - currentItem;
 				if (isCyclic) {
-					int scroll = itemCount + Math.min(index, currentItem)
-							- Math.max(index, currentItem);
+					int scroll = itemCount + Math.min(index, currentItem) - Math.max(index, currentItem);
 					if (scroll < Math.abs(itemsToScroll)) {
 						itemsToScroll = itemsToScroll < 0 ? scroll : -scroll;
 					}
@@ -687,8 +671,7 @@ public class WheelView extends View {
 	 */
 	public void setWheelForeground(int resource) {
 		wheelForeground = resource;
-		centerDrawable = getContext().getResources().getDrawable(
-				wheelForeground);
+		centerDrawable = getContext().getResources().getDrawable(wheelForeground);
 	}
 
 	/**
@@ -717,18 +700,15 @@ public class WheelView extends View {
 	 */
 	private void initResourcesIfNecessary() {
 		if (centerDrawable == null) {
-			centerDrawable = getContext().getResources().getDrawable(
-					wheelForeground);
+			centerDrawable = getContext().getResources().getDrawable(wheelForeground);
 		}
 
 		if (topShadow == null) {
-			topShadow = new GradientDrawable(Orientation.TOP_BOTTOM,
-					SHADOWS_COLORS);
+			topShadow = new GradientDrawable(Orientation.TOP_BOTTOM, SHADOWS_COLORS);
 		}
 
 		if (bottomShadow == null) {
-			bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP,
-					SHADOWS_COLORS);
+			bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP, SHADOWS_COLORS);
 		}
 
 		setBackgroundResource(wheelBackground);
@@ -746,8 +726,7 @@ public class WheelView extends View {
 			itemHeight = layout.getChildAt(0).getMeasuredHeight();
 		}
 
-		int desired = itemHeight * visibleItems - itemHeight
-				* ITEM_OFFSET_PERCENT / 50;
+		int desired = itemHeight * visibleItems - itemHeight * ITEM_OFFSET_PERCENT / 50;
 
 		return Math.max(desired, getSuggestedMinimumHeight());
 	}
@@ -783,12 +762,9 @@ public class WheelView extends View {
 		initResourcesIfNecessary();
 
 		// TODO: make it static
-		itemsLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
-		itemsLayout
-				.measure(MeasureSpec.makeMeasureSpec(widthSize,
-						MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(
-						0, MeasureSpec.UNSPECIFIED));
+		itemsLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		itemsLayout.measure(MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.UNSPECIFIED),
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 		int width = itemsLayout.getMeasuredWidth();
 
 		if (mode == MeasureSpec.EXACTLY) {
@@ -804,9 +780,8 @@ public class WheelView extends View {
 			}
 		}
 
-		itemsLayout.measure(MeasureSpec.makeMeasureSpec(width - 2 * PADDING,
-				MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0,
-				MeasureSpec.UNSPECIFIED));
+		itemsLayout.measure(MeasureSpec.makeMeasureSpec(width - 2 * PADDING, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
 		return width;
 	}
@@ -837,7 +812,7 @@ public class WheelView extends View {
 			if (heightSpecMode == MeasureSpec.AT_MOST) {
 				setHeight = Math.min(setHeight, heightSpecSize);
 			}
-			
+
 			// MeasureSpec.UNSPECIFIED是未指定尺寸，这种情况不多，一般都是父控件是AdapterView，通过measure方法传入的模式。
 		}
 
@@ -971,19 +946,15 @@ public class WheelView extends View {
 
 		int height = (int) getItemHeight() * 2 + getItemHeight() / 2;
 		// topShadow.setColors(SHADOWS_FONT_SCOLORS); // 字体变灰(要4.1以上才能用)
-		topShadow = new GradientDrawable(Orientation.TOP_BOTTOM,
-				SHADOWS_FONT_SCOLORS);
-		topShadow.setBounds(left_position, top_position, right_position, height
-				+ stroke_width_px);
+		topShadow = new GradientDrawable(Orientation.TOP_BOTTOM, SHADOWS_FONT_SCOLORS);
+		topShadow.setBounds(left_position, top_position, right_position, height + stroke_width_px);
 		topShadow.draw(canvas);
 		// topShadow.setColors(SHADOWS_COLORS);
 		// topShadow.draw(canvas);
 
 		// bottomShadow.setColors(SHADOWS_FONT_SCOLORS); // (要4.1以上才能用)
-		bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP,
-				SHADOWS_FONT_SCOLORS);
-		bottomShadow.setBounds(left_position, getHeight() - height
-				- stroke_width_px, right_position, bottom_position);
+		bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP, SHADOWS_FONT_SCOLORS);
+		bottomShadow.setBounds(left_position, getHeight() - height - stroke_width_px, right_position, bottom_position);
 		bottomShadow.draw(canvas);
 		// bottomShadow.setColors(SHADOWS_COLORS);
 		// bottomShadow.draw(canvas);
@@ -1006,8 +977,7 @@ public class WheelView extends View {
 	private void drawItems(Canvas canvas) {
 		canvas.save();
 
-		int top = (currentItem - firstItem) * getItemHeight()
-				+ (getItemHeight() - getHeight()) / 2;
+		int top = (currentItem - firstItem) * getItemHeight() + (getItemHeight() - getHeight()) / 2;
 		canvas.translate(PADDING, -top + scrollingOffset);
 
 		itemsLayout.draw(canvas);
@@ -1043,8 +1013,7 @@ public class WheelView extends View {
 			right_offset = getWidth() - stroke_width_px;
 		}
 
-		centerDrawable.setBounds(left_offset, top_offset, right_offset,
-				bottom_offset);
+		centerDrawable.setBounds(left_offset, top_offset, right_offset, bottom_offset);
 
 		// if (wheelBackground ==
 		// R.drawable.layerlist_wheel_bg_without_right_border) {
@@ -1085,20 +1054,17 @@ public class WheelView extends View {
 			if (center_label_position > 0) {
 				baseX = getWidth() / 2 + center_label_position * scale + 0.5f;
 			} else {
-				baseX = getWidth()
-						- center_label_paint.measureText(center_label)
-						- margin_right;
+				baseX = getWidth() - center_label_paint.measureText(center_label) - margin_right;
 			}
 			Rect bounds = new Rect();
-			center_label_paint.getTextBounds(center_label, 0,
-					center_label.length(), bounds);
+			center_label_paint.getTextBounds(center_label, 0, center_label.length(), bounds);
 
 			// float baseY = (float) (getHeight() / 2 + getItemHeight() / 4);
 			// float baseY =
 			// (float)(getHeight()-bounds.height())/2+bounds.height() -6 ; //
 			// 也可以正确居中
-			float baseY = (float) ((getHeight() / 2) - ((center_label_paint
-					.descent() + center_label_paint.ascent()) / 2));
+			float baseY = (float) ((getHeight() / 2)
+					- ((center_label_paint.descent() + center_label_paint.ascent()) / 2));
 
 			// 在中间的最右边显示label, y是指定这个字符baseline在屏幕上的位置
 			canvas.drawText(center_label, baseX, baseY, center_label_paint);
@@ -1115,8 +1081,7 @@ public class WheelView extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (!isEnabled() || getViewAdapter() == null
-				|| getViewAdapter().getItemsCount() == 1) {
+		if (!isEnabled() || getViewAdapter() == null || getViewAdapter().getItemsCount() == 1) {
 			return false;
 		}
 
@@ -1277,8 +1242,7 @@ public class WheelView extends View {
 		}
 
 		if (!updated) {
-			updated = firstItem != range.getFirst()
-					|| itemsLayout.getChildCount() != range.getCount();
+			updated = firstItem != range.getFirst() || itemsLayout.getChildCount() != range.getCount();
 		}
 
 		if (firstItem > range.getFirst() && firstItem <= range.getLast()) {
@@ -1294,8 +1258,7 @@ public class WheelView extends View {
 
 		int first = firstItem;
 		for (int i = itemsLayout.getChildCount(); i < range.getCount(); i++) {
-			if (!addViewItem(firstItem + i, false)
-					&& itemsLayout.getChildCount() == 0) {
+			if (!addViewItem(firstItem + i, false) && itemsLayout.getChildCount() == 0) {
 				first++;
 			}
 		}
@@ -1391,10 +1354,8 @@ public class WheelView extends View {
 	 * @return true if item index is not out of bounds or the wheel is cyclic
 	 */
 	private boolean isValidItemIndex(int index) {
-		return viewAdapter != null
-				&& viewAdapter.getItemsCount() > 0
-				&& (isCyclic || index >= 0
-						&& index < viewAdapter.getItemsCount());
+		return viewAdapter != null && viewAdapter.getItemsCount() > 0
+				&& (isCyclic || index >= 0 && index < viewAdapter.getItemsCount());
 	}
 
 	/**
@@ -1408,11 +1369,10 @@ public class WheelView extends View {
 		// L.e(this, "getItemView被调用了");
 		if (viewAdapter == null || viewAdapter.getItemsCount() == 0) {
 			return null;
-		} 
+		}
 		int count = viewAdapter.getItemsCount();
 		if (!isValidItemIndex(index)) {
-			return viewAdapter
-					.getEmptyItem(recycle.getEmptyItem(), itemsLayout);
+			return viewAdapter.getEmptyItem(recycle.getEmptyItem(), itemsLayout);
 		} else {
 			while (index < 0) {
 				index = count + index;
@@ -1462,8 +1422,7 @@ public class WheelView extends View {
 		isEnable = enabled;
 		if (enabled) {
 			center_label_paint.setColor(Color.WHITE);
-			centerDrawable = getContext().getResources().getDrawable(
-					wheelForeground);
+			centerDrawable = getContext().getResources().getDrawable(wheelForeground);
 		} else {
 			// wheelview里面的全部view都设成灰色
 			// center_label_paint.setColor(context.getResources().getColor(

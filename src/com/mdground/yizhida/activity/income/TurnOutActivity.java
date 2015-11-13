@@ -130,6 +130,9 @@ public class TurnOutActivity extends TitleBarActivity {
 		imageVeiw.setImageResource(R.drawable.back);
 		titleBar.setTitle("结算");
 		titleBar.setBackgroundResource(R.drawable.top_bg4);
+		
+		TextView textView = titleBar.inflateView(TitleBar.RIGHT, TextView.class);
+		textView.setText("hello");
 	}
 
 }

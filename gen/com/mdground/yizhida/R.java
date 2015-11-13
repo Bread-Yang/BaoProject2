@@ -560,7 +560,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int actionbar_background_start=0x7f08001a;
         public static final int actionbar_separator=0x7f080018;
         public static final int actionbar_title=0x7f080019;
-        public static final int appointment_wheelview_color=0x7f08004d;
+        public static final int appointment_wheelview_color=0x7f08004f;
         public static final int background1=0x7f08002b;
         public static final int background2=0x7f08002c;
         public static final int background3=0x7f08002d;
@@ -571,6 +571,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int basic_information_text_color=0x7f08003d;
         public static final int bg_item_opt=0x7f080048;
         public static final int black=0x7f08004b;
+        public static final int blue=0x7f08004c;
         public static final int click_gray=0x7f08003c;
         public static final int click_white=0x7f08003b;
         public static final int color_default=0x7f080041;
@@ -593,12 +594,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int mysel2_text=0x7f080036;
         public static final int myyellow_background=0x7f080039;
         public static final int pinned_header_background=0x7f080030;
-        public static final int prescription_grey_color=0x7f08004e;
-        public static final int prescription_orange_color=0x7f08004f;
+        public static final int prescription_grey_color=0x7f080050;
+        public static final int prescription_orange_color=0x7f080051;
+        public static final int red=0x7f08004d;
         public static final int refresh_background=0x7f080000;
         public static final int rounded_container_border=0x7f08001e;
         public static final int screen_background=0x7f080033;
-        public static final int search_drug_category_highlight_color=0x7f080050;
+        public static final int search_drug_category_highlight_color=0x7f080052;
         public static final int selected_item_bg=0x7f080043;
         public static final int session_foreground_past=0x7f08002f;
         public static final int shadow_end=0x7f080045;
@@ -632,7 +634,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__bright_foreground_inverse_holo_dark=0x7f080010;
         public static final int vpi__bright_foreground_inverse_holo_light=0x7f080011;
         public static final int wheelview_border=0x7f08004a;
-        public static final int wheelview_disable_item=0x7f08004c;
+        public static final int wheelview_disable_item=0x7f08004e;
         public static final int wheelview_grey_label=0x7f080049;
         public static final int white=0x7f08003e;
     }
@@ -1206,7 +1208,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int llt_chief_complaint=0x7f0a0245;
         public static final int llt_diagnosis=0x7f0a00d8;
         public static final int llt_fee_button=0x7f0a016c;
-        public static final int llt_fee_display=0x7f0a00e4;
+        public static final int llt_fee_display=0x7f0a00e5;
         public static final int llt_prescription=0x7f0a0248;
         public static final int llt_section1=0x7f0a0022;
         public static final int llt_section2=0x7f0a003b;
@@ -1223,7 +1225,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int login_name=0x7f0a00ae;
         public static final int login_password=0x7f0a00b0;
         public static final int login_root_layout=0x7f0a00a8;
-        public static final int lv_drug=0x7f0a00e5;
+        public static final int lv_drug=0x7f0a00e4;
         public static final int lv_drug_use=0x7f0a0249;
         public static final int lv_income=0x7f0a00a7;
         public static final int lv_rota=0x7f0a0136;
@@ -1712,22 +1714,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class string {
         public static final int action_settings=0x7f060054;
-        public static final int activity_pwd_edit_comfirm_pwd_null=0x7f0600cf;
-        public static final int activity_pwd_edit_pwd_different=0x7f0600d0;
-        public static final int activity_pwd_edit_pwd_null=0x7f0600ce;
-        public static final int activity_pwd_verify_getAuthCode=0x7f0600cb;
+        public static final int activity_pwd_edit_comfirm_pwd_null=0x7f0600d6;
+        public static final int activity_pwd_edit_pwd_different=0x7f0600d7;
+        public static final int activity_pwd_edit_pwd_null=0x7f0600d5;
+        public static final int activity_pwd_verify_getAuthCode=0x7f0600d2;
         /**  找回密码界面文字 
          */
-        public static final int activity_pwd_verify_prompt=0x7f0600ca;
-        public static final int activity_pwd_verify_regetAuthCode=0x7f0600cc;
-        public static final int activity_pwd_verify_sending=0x7f0600cd;
+        public static final int activity_pwd_verify_prompt=0x7f0600d1;
+        public static final int activity_pwd_verify_regetAuthCode=0x7f0600d3;
+        public static final int activity_pwd_verify_sending=0x7f0600d4;
         public static final int add_diagnosis=0x7f0600ad;
-        public static final int address=0x7f0600e4;
-        public static final int allergic_history=0x7f0600d4;
-        public static final int already_add=0x7f0600b4;
-        public static final int amount=0x7f0600c3;
-        public static final int amount_unit=0x7f0600c4;
-        public static final int anamnesis=0x7f0600d3;
+        public static final int address=0x7f0600eb;
+        public static final int allergic_history=0x7f0600db;
+        public static final int already_add=0x7f0600b5;
+        public static final int amount=0x7f0600c6;
+        public static final int amount_unit=0x7f0600c7;
+        public static final int anamnesis=0x7f0600da;
         public static final int app_name=0x7f060000;
         public static final int aready_diagnosis_info_string=0x7f060078;
         public static final int aready_pass_info_string=0x7f06007b;
@@ -1743,10 +1745,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int bind_tips=0x7f060069;
         public static final int bind_wechat=0x7f060065;
         public static final int bind_wechat_benefit=0x7f060062;
-        public static final int binding_tips=0x7f0600ec;
+        public static final int binding_tips=0x7f0600f3;
         /**  病人信息编辑界面 
          */
-        public static final int birthday_no_less_than_30=0x7f0600e7;
+        public static final int birthday_no_less_than_30=0x7f0600ee;
         public static final int blood_glucose=0x7f0600a7;
         public static final int blood_glucose_colon=0x7f0600a8;
         public static final int blood_glucose_unit=0x7f0600a9;
@@ -1767,43 +1769,44 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int chief_complaint=0x7f060091;
         public static final int chief_complaint_hint=0x7f0600ac;
-        public static final int classification=0x7f0600b5;
-        public static final int comment=0x7f0600c2;
-        public static final int comment_colon=0x7f0600c1;
-        public static final int company=0x7f0600e5;
+        public static final int classification=0x7f0600b6;
+        public static final int comment=0x7f0600c5;
+        public static final int comment_colon=0x7f0600c4;
+        public static final int company=0x7f0600ec;
         /**  通用文字,频繁使用文字 
          */
         public static final int confirm=0x7f060073;
-        public static final int contact_relation=0x7f0600dd;
-        public static final int contact_tel=0x7f0600dc;
+        public static final int confirm_to_delete=0x7f0600ce;
+        public static final int contact_relation=0x7f0600e4;
+        public static final int contact_tel=0x7f0600e3;
         public static final int current_time_no_appointment_time=0x7f060090;
         public static final int current_time_nobody_finish=0x7f06008f;
         public static final int current_time_nobody_pass=0x7f06008e;
         public static final int current_time_nobody_waiting=0x7f06008d;
-        public static final int days=0x7f0600c5;
+        public static final int days=0x7f0600c8;
         public static final int diagnosis=0x7f060092;
         /**  挂号成功对话框 
          */
         public static final int dialog_regist_success=0x7f060071;
         public static final int dialog_regist_wait_people=0x7f060072;
-        public static final int direction=0x7f0600be;
-        public static final int direction_colon=0x7f0600bd;
+        public static final int direction=0x7f0600c1;
+        public static final int direction_colon=0x7f0600c0;
         public static final int doctor_waiting_string=0x7f06007e;
         public static final int doctor_waiting_title=0x7f06008b;
-        public static final int drug=0x7f0600af;
+        public static final int drug=0x7f0600b0;
         /**  候诊界面文字 
          */
         public static final int emergency=0x7f060083;
-        public static final int emergency_contact=0x7f0600db;
-        public static final int equipment_charges=0x7f0600b3;
+        public static final int emergency_contact=0x7f0600e2;
+        public static final int equipment_charges=0x7f0600b4;
         public static final int error_password_null=0x7f060057;
         /**  登录界面 
          */
         public static final int error_username_null=0x7f060056;
-        public static final int fee=0x7f0600ae;
-        public static final int frequency=0x7f0600c0;
-        public static final int frequency_colon=0x7f0600bf;
-        public static final int group=0x7f0600c7;
+        public static final int fee=0x7f0600af;
+        public static final int frequency=0x7f0600c3;
+        public static final int frequency_colon=0x7f0600c2;
+        public static final int group=0x7f0600ca;
         public static final int group_num=0x7f06008c;
         public static final int heartbeat=0x7f060098;
         public static final int heartbeat_colon=0x7f060099;
@@ -1813,40 +1816,44 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int height_unit=0x7f06009d;
         public static final int hello_world=0x7f060055;
         public static final int ignore_step=0x7f06005b;
-        public static final int input_chief_complaint=0x7f0600b0;
-        public static final int internal_number=0x7f0600df;
+        public static final int input_chief_complaint=0x7f0600b1;
+        public static final int internal_number=0x7f0600e6;
         public static final int logining=0x7f060058;
-        public static final int marital_status=0x7f0600e2;
-        public static final int medical_fee=0x7f0600b1;
-        public static final int medical_insurance_number=0x7f0600e1;
-        public static final int medication_compliance=0x7f0600d5;
+        public static final int marital_status=0x7f0600e9;
+        public static final int medical_fee=0x7f0600b2;
+        public static final int medical_insurance_number=0x7f0600e8;
+        public static final int medication_compliance=0x7f0600dc;
         public static final int medicine_info_string=0x7f06007c;
-        public static final int more_than_no_settle_balance=0x7f0600eb;
-        public static final int nation=0x7f0600e3;
+        public static final int more_than_no_settle_balance=0x7f0600f2;
+        public static final int more_than_zero=0x7f0600cf;
+        public static final int nation=0x7f0600ea;
         /**  病人详细信息 
          */
-        public static final int new_account=0x7f0600d7;
-        public static final int no_body=0x7f0600d2;
-        public static final int no_fee=0x7f0600c8;
-        public static final int no_less_than_1_yuan=0x7f0600ea;
+        public static final int new_account=0x7f0600de;
+        public static final int no_body=0x7f0600d9;
+        public static final int no_fee=0x7f0600cb;
+        public static final int no_less_than_1_yuan=0x7f0600f1;
         public static final int no_match_patient_title=0x7f06007f;
         public static final int no_match_patient_value=0x7f060080;
-        public static final int no_more_than_200_yuan=0x7f0600e9;
-        public static final int not_yet_group=0x7f0600c6;
+        public static final int no_more_than_200_yuan=0x7f0600f0;
+        public static final int no_presciption=0x7f0600cc;
+        public static final int not_yet_group=0x7f0600c9;
         public static final int nurse_waiting_string=0x7f06007d;
-        public static final int operation_fee=0x7f0600b2;
+        public static final int operation_fee=0x7f0600b3;
         public static final int opt_assign=0x7f060089;
         public static final int opt_call=0x7f060086;
         public static final int opt_finish=0x7f060088;
         public static final int opt_pass=0x7f060087;
         public static final int opt_rebuild=0x7f06008a;
-        public static final int other_information=0x7f0600d6;
-        public static final int patient_birthday=0x7f0600d8;
-        public static final int patient_email=0x7f0600de;
-        public static final int patient_identity=0x7f0600da;
-        public static final int patient_phone=0x7f0600d9;
+        public static final int other_information=0x7f0600dd;
+        public static final int patient_birthday=0x7f0600df;
+        public static final int patient_email=0x7f0600e5;
+        public static final int patient_identity=0x7f0600e1;
+        public static final int patient_phone=0x7f0600e0;
+        public static final int please_add_diagnosis=0x7f0600ae;
         public static final int please_install_wechat=0x7f06006c;
-        public static final int position=0x7f0600e6;
+        public static final int please_sync_data_in_personal_center=0x7f0600ba;
+        public static final int position=0x7f0600ed;
         public static final int prescription=0x7f060093;
         public static final int pull_to_refresh_footer_pull_label=0x7f060076;
         public static final int pull_to_refresh_footer_refreshing_label=0x7f060077;
@@ -1860,22 +1867,23 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int pull_to_refresh_pull_label=0x7f060001;
         public static final int pull_to_refresh_refreshing_label=0x7f060003;
         public static final int pull_to_refresh_release_label=0x7f060002;
-        public static final int query_ing=0x7f0600d1;
+        public static final int quantity_more_than_zero=0x7f0600d0;
+        public static final int query_ing=0x7f0600d8;
         public static final int recommend_bind=0x7f060061;
         public static final int record_info_string=0x7f06007a;
         public static final int remember_new_password=0x7f06005d;
         public static final int request_error=0x7f060059;
         public static final int save=0x7f060084;
         public static final int save_and_register=0x7f060085;
-        public static final int search_drug_hint=0x7f0600b6;
+        public static final int search_drug_hint=0x7f0600b7;
         public static final int search_prompt_title=0x7f060081;
         public static final int search_prompt_value=0x7f060082;
         /**  结算 
          */
-        public static final int settlement=0x7f0600e8;
+        public static final int settlement=0x7f0600ef;
         public static final int signs=0x7f060094;
-        public static final int single_dosage=0x7f0600bc;
-        public static final int single_dosage_colon=0x7f0600bb;
+        public static final int single_dosage=0x7f0600bf;
+        public static final int single_dosage_colon=0x7f0600be;
         public static final int smssdk_add_contact=0x7f06004e;
         public static final int smssdk_back=0x7f060028;
         public static final int smssdk_cancel=0x7f06002e;
@@ -1953,18 +1961,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int smssdk_write_mobile_phone=0x7f060031;
         public static final int smssdk_write_right_mobile_phone=0x7f060032;
         public static final int smssdk_your_ccount_is_verified=0x7f060041;
-        public static final int social_security_number=0x7f0600e0;
-        public static final int specification_colon=0x7f0600b9;
-        public static final int sync_data=0x7f0600b7;
+        public static final int social_security_number=0x7f0600e7;
+        public static final int specification_colon=0x7f0600bc;
+        public static final int sync_data=0x7f0600b8;
+        public static final int sync_data_success=0x7f0600b9;
         public static final int temperature=0x7f060095;
         public static final int temperature_colon=0x7f060096;
         public static final int temperature_unit=0x7f060097;
         public static final int thanks_to_cooperate=0x7f060063;
-        public static final int total_sum=0x7f0600c9;
+        public static final int total_sum=0x7f0600cd;
         public static final int unbind=0x7f060068;
         public static final int unbind_fail=0x7f06006e;
         public static final int unbind_tips=0x7f06006a;
-        public static final int unit_price_colon=0x7f0600ba;
+        public static final int unit_price_colon=0x7f0600bd;
         public static final int use_now=0x7f060064;
         /**  微信绑定 
          */
@@ -1974,9 +1983,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int weight_colon=0x7f0600a2;
         public static final int weight_unit=0x7f0600a3;
         public static final int welcome_to_use=0x7f06005f;
-        public static final int withdrawal_fail=0x7f0600ed;
-        public static final int withdrawal_success=0x7f0600ee;
-        public static final int yuan=0x7f0600b8;
+        public static final int withdrawal_fail=0x7f0600f4;
+        public static final int withdrawal_success=0x7f0600f5;
+        public static final int yuan=0x7f0600bb;
     }
     public static final class style {
         public static final int AnimBottom=0x7f070009;

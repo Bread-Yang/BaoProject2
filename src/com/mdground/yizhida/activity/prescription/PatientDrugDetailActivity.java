@@ -4,6 +4,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mdground.yizhida.MedicalAppliction;
 import com.mdground.yizhida.R;
 import com.mdground.yizhida.bean.Drug;
 import com.mdground.yizhida.bean.DrugUse;
@@ -11,6 +12,7 @@ import com.mdground.yizhida.constant.MemberConstant;
 import com.mdground.yizhida.db.dao.DrugDao;
 import com.mdground.yizhida.util.DecimalDigitsInputFilter;
 import com.mdground.yizhida.util.StringUtil;
+import com.mdground.yizhida.util.ViewUtil;
 import com.vanward.ehheater.view.wheelview.OnWheelScrollListener;
 import com.vanward.ehheater.view.wheelview.WheelView;
 import com.vanward.ehheater.view.wheelview.adapters.AbstractWheelTextAdapter;
@@ -18,19 +20,27 @@ import com.vanward.ehheater.view.wheelview.adapters.ArrayWheelAdapter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 
 public class PatientDrugDetailActivity extends Activity implements OnClickListener {
 
@@ -52,7 +62,7 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 	private String[] mAmountUnitArray;
 
 	private String[] mDirectionArray = new String[] { "滴(Drip)", "口服(PO)", "皮试(AST)", "皮内注射(ID)", "皮下注射(H)", "肌肉注射(IM)",
-			"静脉注射(IV)", "静脉滴注(VD)" };
+			"静脉注射(IV)", "静脉滴注(VD)", "外用(EXT)" };
 
 	private String[] mFrequencyArray = new String[] { "一天一次(QD)", "一天二次(BID)", "一天三次(TID)", "一天四次(QID)", "每小时一次(QH)",
 			"每二小时一次(Q2H)", "每四小时一次(Q4H)", "每六小时一次(Q6H)", "每八小时一次(Q8H)", "隔天一次(QOD)", "隔三日一次(Q3D)", "每晚一次(QN)" };
@@ -62,6 +72,10 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 
 	private int mWheelview1_set_flag;
 
+	private float mSingleDosage;
+
+	private float mFrequencyFactor;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,8 +83,8 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 		setContentView(R.layout.activity_patient_drug_detail);
 
 		findViewById();
-		setListener();
 		init();
+		setListener();
 	}
 
 	private void findViewById() {
@@ -130,6 +144,11 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 				case R.id.tv_amount_unit:
 					mDrugUse.setSaleUnit(text);
 					tv_amount_unit.setText(text);
+					if (!text.equals(mDrug.getUnitSmall())) {
+						mDrugUse.setSalePrice(mDrug.getOVPirce() * mDrug.getUnitConvert());
+					} else {
+						mDrugUse.setSalePrice(mDrug.getOVPirce());
+					}
 					break;
 				case R.id.tv_direction:
 					text = text.substring(text.indexOf("(") + 1, text.indexOf(")"));
@@ -140,14 +159,17 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 					if (wheel.getCurrentItem() == 0) {
 						text = getResources().getString(R.string.not_yet_group);
 					} else {
-						mDrugUse.setGroupNo(Integer.valueOf(trimUnit(text)));
+						mDrugUse.setGroupNo(Integer.valueOf(StringUtil.trimUnit(text)));
 					}
 					tv_group.setText(text);
 					break;
 				case R.id.tv_frequency:
 					text = text.substring(text.indexOf("(") + 1, text.indexOf(")"));
+					mFrequencyFactor = getFrequencyFactorByFrequency(text);
 					mDrugUse.setFrequency(text);
 					tv_frequency.setText(text);
+
+					et_amount.setText(calculateAmount());
 					break;
 				}
 			}
@@ -159,12 +181,71 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 			public void onFocusChange(View v, boolean hasFocus) {
 				String text = et_single_dosage.getText().toString();
 				if (hasFocus) {
-					et_single_dosage.setText(trimUnit(text));
+					et_single_dosage.setText(StringUtil.trimUnit(text));
 				} else {
-					et_single_dosage.setText(text + mDrugUse.getTakeUnit());
+					if (!StringUtil.isEmpty(text)) {
+						mSingleDosage = Float.valueOf(text);
+						et_single_dosage.setText(addUnit(mSingleDosage, mDrug.getDosageUnit()));
+					} else {
+						mSingleDosage = 0;
+					}
 				}
 			}
 		});
+
+		et_single_dosage.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				String singleDosageString = StringUtil.trimUnit(et_single_dosage.getText().toString());
+				float singleDosage = 0f;
+				if (!StringUtil.isEmpty(singleDosageString) && !".".equals(singleDosageString)) {
+					singleDosage = Float.valueOf(singleDosageString);
+				}
+				mDrugUse.setTake(singleDosage); // 单次用量
+
+				et_amount.setText(calculateAmount());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+
+		et_days.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (StringUtil.isEmpty(s.toString())) {
+					mDrugUse.setDays(0);
+				} else {
+					mDrugUse.setDays(Integer.valueOf(s.toString()));
+				}
+
+				et_amount.setText(calculateAmount());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+
+		ViewUtil.setLoseFocusWhenDoneButtonPress(et_single_dosage);
+		ViewUtil.setLoseFocusWhenDoneButtonPress(et_amount);
+		ViewUtil.setLoseFocusWhenDoneButtonPress(et_days);
+
 	}
 
 	private void init() {
@@ -178,7 +259,8 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 
 		// 只能输入三位小数
 		et_single_dosage.setFilters(new InputFilter[] { new DecimalDigitsInputFilter(3) });
-		et_single_dosage.setText(mDrugUse.getTake() + mDrugUse.getTakeUnit()); // 单次用量
+		et_single_dosage.setText(addUnit(mDrugUse.getTake(), mDrugUse.getTakeUnit())); // 单次用量
+
 		tv_direction.setText(mDrugUse.getTakeType()); // 用法
 		tv_frequency.setText(mDrugUse.getFrequency()); // 频度
 		et_days.setText(String.valueOf(mDrugUse.getDays()));
@@ -190,18 +272,79 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 			tv_group.setText(getResources().getString(R.string.group) + mDrugUse.getGroupNo());
 		}
 
-		mDrug = DrugDao.getInstance(getApplicationContext()).getDrugByDrugID(mDrugUse.getDrugID());
+		String frequency = mDrugUse.getFrequency();
+
+		mFrequencyFactor = getFrequencyFactorByFrequency(frequency);
+
+		mDrug = getIntent().getParcelableExtra(MemberConstant.PRESCRIPTION_DRUG_DETAIL);
 
 		if (mDrug != null) {
 			mAmountUnitArray = new String[] { mDrug.getUnitGeneric(), mDrug.getUnitSmall() };
 		}
+
 	}
 
-	private String trimUnit(String beTrimedString) {
-		String regEx = "[^0-9.]";
-		Pattern p = Pattern.compile(regEx);
-		Matcher m = p.matcher(beTrimedString);
-		return m.replaceAll("").trim();
+	private String addUnit(float price, String priceUnit) {
+		if (price == (int) price) {
+			return (int) price + priceUnit;
+		} else {
+			return price + priceUnit;
+		}
+	}
+
+	/**
+	 * 总次数 = Math.ceil(天数 * 频率)
+	 * 
+	 * 总剂量 = 总次数 * 单次用量(DrugUse的"Take")
+	 * 
+	 * 总量 = Math.ceil(总剂量 / 剂量(Drug的"Dosage"))
+	 * 
+	 * 如果DrugUse的SaleUnit == Drug的UnitSmall,总量不用转换
+	 * 
+	 * 如果DrugUse的SaleUnit != Drug的UnitSmall,则总量 = Math.ceil(总量 / UnitConvert)
+	 * 
+	 * @return 总量
+	 */
+	private String calculateAmount() {
+		int times = (int) Math.ceil(mDrugUse.getDays() * mFrequencyFactor); // 次数
+		float totalDosage = times * mDrugUse.getTake(); // 总剂量
+		float amount = (int) Math.ceil(totalDosage / mDrug.getDosage()); // 总量
+
+		// DrugUse里面的SalePrice就是Drug里面的OVPirce
+		if (mDrugUse.getSaleUnit().equals(mDrug.getUnitSmall())) { // 总量单位等于最小单位
+			return String.valueOf((int) amount);
+		} else { // 如选择了"盒",但是最小单位是"粒"
+			return String.valueOf((int) Math.ceil(amount / mDrug.getUnitConvert()));
+		}
+	}
+
+	private float getFrequencyFactorByFrequency(String frequency) {
+		if ("QD".equals(frequency)) {
+			return 1; // 一天一次
+		} else if ("BID".equals(frequency)) {
+			return 2; // 一天两次
+		} else if ("TID".equals(frequency)) {
+			return 3; // 一天三次
+		} else if ("QID".equals(frequency)) {
+			return 4; // 一天四次
+		} else if ("QH".equals(frequency)) {
+			return 24; // 每小时一次
+		} else if ("Q2H".equals(frequency)) {
+			return 12; // 每两小时一次
+		} else if ("Q4H".equals(frequency)) {
+			return 6; // 每四小时一次
+		} else if ("Q6H".equals(frequency)) {
+			return 4; // 每6小时一次
+		} else if ("Q8H".equals(frequency)) {
+			return 3; // 每8小时一次
+		} else if ("QOD".equals(frequency)) {
+			return 0.5f; // 隔天一次
+		} else if ("Q3D".equals(frequency)) {
+			return 1 / 3f; // 隔三日一次
+		} else if ("QN".equals(frequency)) {
+			return 1; // 每晚一次
+		}
+		return 1;
 	}
 
 	@Override
@@ -216,9 +359,13 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 			if (!StringUtil.isEmpty(amountString)) {
 				quantity = Integer.valueOf(amountString);
 			}
+			if (quantity == 0) {
+				Toast.makeText(getApplicationContext(), R.string.quantity_more_than_zero, Toast.LENGTH_SHORT).show();
+				return;
+			}
 			mDrugUse.setSaleQuantity(quantity); // 总量
 
-			String singleDosageString = trimUnit(et_single_dosage.getText().toString());
+			String singleDosageString = StringUtil.trimUnit(et_single_dosage.getText().toString());
 			float singleDosage = 0f;
 			if (!StringUtil.isEmpty(singleDosageString)) {
 				singleDosage = Float.valueOf(singleDosageString);
@@ -234,9 +381,7 @@ public class PatientDrugDetailActivity extends Activity implements OnClickListen
 
 			mDrugUse.setRemark(et_comment.getText().toString());
 
-			Intent intent = new Intent();
-			intent.putExtra(MemberConstant.APPOINTMENT_DRUG_USE_EDIT, mDrugUse);
-			setResult(RESULT_OK, intent);
+			MedicalAppliction.mDrugUseMap.put(String.valueOf(mDrugUse.getDrugID()), mDrugUse);
 
 			finish();
 			break;

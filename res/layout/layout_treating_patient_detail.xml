@@ -489,7 +489,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="3dp"
             android:paddingTop="10dp"
-            android:visibility="visible" >
+            android:visibility="gone" >
 
             <RelativeLayout
                 android:layout_width="match_parent"

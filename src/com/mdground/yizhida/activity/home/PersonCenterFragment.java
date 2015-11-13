@@ -24,6 +24,7 @@ import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.clinic.GetDrugListByClinic;
 import com.mdground.yizhida.api.server.clinic.GetDrugTypeList;
 import com.mdground.yizhida.api.server.clinic.GetFeeTemplateList;
+import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Drug;
 import com.mdground.yizhida.bean.DrugCategory;
 import com.mdground.yizhida.bean.Employee;
@@ -45,6 +46,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PersonCenterFragment extends BaseFragment implements OnClickListener, PersonCenterView {
 	private static final String TAG = PersonCenterFragment.class.getSimpleName();
@@ -203,6 +205,8 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 					
 					drugDao.deleteAllDrugByClinicID(loginEmployee.getClinicID());
 					drugDao.saveDrugs(list);
+					
+					Toast.makeText(getActivity(), R.string.sync_data_success, Toast.LENGTH_SHORT).show();;
 				}
 
 				@Override
