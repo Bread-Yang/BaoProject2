@@ -74,6 +74,8 @@ public class MemberConstant {
 	public static final String APPOINTMENT_DRUG_USE_EDIT = "appointment_drug_use_edit";
 	public static final String PRESCRIPTION_DRUG_DETAIL = "prescription_drug_detail";
 	public static final String PRESCRIPTION_DRUG_USE = "prescription_drug_use";
+	
+	public static final String BARCODE_SCAN_DRUG = "barcode_scan_drug";
 
 	// 登陆状态
 	public static final String LOGIN_STATUS = "loginStatus";

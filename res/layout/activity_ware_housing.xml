@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_drug_name"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/box3_nor"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="感冒999"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="198dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/nophoto" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/iv_edical_insurance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:src="@drawable/v2icon" />
+
+                <TextView
+                    android:id="@+id/tv_specification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_edical_insurance"
+                    android:layout_marginTop="10dp"
+                    android:text="0.22g/片*100/盒"
+                    android:textColor="@color/mynor_text"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_drug_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_specification"
+                    android:layout_marginTop="8dp"
+                    android:text="药品类型  剂型"
+                    android:textColor="@color/mynor_text"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_drug_producer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_drug_type"
+                    android:layout_marginTop="10dp"
+                    android:text="贵州威门贵州威门药业股份有限公司"
+                    android:textColor="@color/mynor_text" />
+
+                <TextView
+                    android:id="@+id/tv_total_inventory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="总库存: 2000盒"
+                    android:textColor="@color/mynor_text"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/tv_warehousing_quantity_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/warehousing_quantity"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_warehousing_quantity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:text="1"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/view_border_color" />
+
+            <Button
+                android:id="@+id/btn_warehousing_quantity_unit"
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:background="#F8F8F8"
+                android:onClick="onClick"
+                android:text="@string/unit"
+                android:textColor="@color/mynor_text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/tv_expiration_date_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/expiration_date"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_expiration_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:ems="10"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/tv_purchase_price_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/purchase_price"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_purchase_price"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/purchase_price_hint"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/view_border_color" />
+
+            <Button
+                android:id="@+id/btn_purchase_price_unit"
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:background="#F8F8F8"
+                android:onClick="onClick"
+                android:text="@string/unit"
+                android:textColor="@color/mynor_text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/tv_ov_price_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ov_price"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_ov_price"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/ov_price_hint"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/view_border_color" />
+
+            <Button
+                android:id="@+id/btn_ov_price_unit"
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:background="#F8F8F8"
+                android:onClick="onClick"
+                android:text="@string/unit"
+                android:textColor="@color/mynor_text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/tv_sale_price_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sale_price"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_sale_price"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/sale_price_hint"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/view_border_color" />
+
+            <Button
+                android:id="@+id/btn_sale_price_unit"
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:background="#F8F8F8"
+                android:onClick="onClick"
+                android:text="@string/unit"
+                android:textColor="@color/mynor_text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/box3_nor"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/production_date"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_production_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/production_date"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:id="@+id/tv_batch_number_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/batch_number"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_batch_number"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/batch_number_code"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/suppliers"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_suppliers"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/suppliers"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="-1dp"
+            android:background="@drawable/box3_nor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp" >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/purchase_number"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_purchase_number"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/purchase_number"
+                android:imeOptions="actionDone"
+                android:numeric="integer"
+                android:onClick="onClick"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

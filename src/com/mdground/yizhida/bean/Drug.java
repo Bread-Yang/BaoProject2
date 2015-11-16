@@ -62,6 +62,10 @@ public class Drug implements Parcelable {
 	@SerializedName("InvoiceItem")
 	@Expose
 	private String InvoiceItem;
+	
+	@SerializedName("Manufacturer")
+	@Expose
+	private String Manufacturer;
 
 	@SerializedName("OVPirce")
 	@Expose
@@ -198,6 +202,14 @@ public class Drug implements Parcelable {
 		InvoiceItem = invoiceItem;
 	}
 
+	public String getManufacturer() {
+		return Manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		Manufacturer = manufacturer;
+	}
+
 	public int getOVPirce() {
 		return OVPirce;
 	}
@@ -281,6 +293,7 @@ public class Drug implements Parcelable {
 		this.InventoryQuantity = source.readInt();
 		this.InventoryUnit = source.readString();
 		this.InvoiceItem = source.readString();
+		this.Manufacturer = source.readString();
 		this.OVPirce = source.readInt();
 		this.OVUnit = source.readString();
 		this.SalePirce = source.readInt();
@@ -305,6 +318,7 @@ public class Drug implements Parcelable {
 		dest.writeInt(InventoryQuantity);
 		dest.writeString(InventoryUnit);
 		dest.writeString(InvoiceItem);
+		dest.writeString(Manufacturer);
 		dest.writeInt(OVPirce);
 		dest.writeString(OVUnit);
 		dest.writeInt(SalePirce);

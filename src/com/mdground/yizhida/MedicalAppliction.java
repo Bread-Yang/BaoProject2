@@ -28,6 +28,8 @@ public class MedicalAppliction extends MdgAppliction {
 	public static TreeMap<String, DrugUse> mDrugUseMap = new TreeMap<String, DrugUse>();
 	public static TreeMap<String, OfficeVisitFee> mOfficeVisitFeeMap = new TreeMap<String, OfficeVisitFee>();
 	public static DrugUse mDrugUseAddTemplate;
+	
+	public static TreeMap<String, DrugUse> mInventoryMap = new TreeMap<String, DrugUse>();
 
 	private Employee employee;// 登陆用户
 	

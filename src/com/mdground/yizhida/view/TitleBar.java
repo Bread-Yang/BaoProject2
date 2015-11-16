@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mdground.yizhida.R;
@@ -120,6 +121,10 @@ public class TitleBar extends FrameLayout {
 				viewStub.setLayoutResource(R.layout.title_bar_text);
 				viewStub.inflate();
 				view = contentView.findViewById(R.id.text);
+			} else if (clazz.equals(RelativeLayout.class)) {
+				viewStub.setLayoutResource(R.layout.title_bar_relativelayout);
+				viewStub.inflate();
+				view = contentView.findViewById(R.id.rlt_layout);
 			}
 		}
 		return view;

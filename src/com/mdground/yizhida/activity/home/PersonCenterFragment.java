@@ -18,13 +18,13 @@ import com.mdground.yizhida.activity.personedit.PersonEditActivity;
 import com.mdground.yizhida.activity.rota.RotaActivity;
 import com.mdground.yizhida.activity.schedule.ScheduleTableActivity;
 import com.mdground.yizhida.activity.screen.ConnectScreenActivity;
+import com.mdground.yizhida.activity.warehousing.BarcodeScanActivity;
 import com.mdground.yizhida.activity.wechat.WechatBindActivity;
 import com.mdground.yizhida.api.base.RequestCallBack;
 import com.mdground.yizhida.api.base.ResponseData;
 import com.mdground.yizhida.api.server.clinic.GetDrugListByClinic;
 import com.mdground.yizhida.api.server.clinic.GetDrugTypeList;
 import com.mdground.yizhida.api.server.clinic.GetFeeTemplateList;
-import com.mdground.yizhida.api.utils.L;
 import com.mdground.yizhida.bean.Drug;
 import com.mdground.yizhida.bean.DrugCategory;
 import com.mdground.yizhida.bean.Employee;
@@ -67,7 +67,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 	private TextView TvChangePassword;
 	private TextView TvExit;
 	private TextView TvIncome;
-	private TextView tv_sync_data;
+	private TextView tv_sync_data, tv_warehousing;
 
 	private Employee loginEmployee;
 
@@ -131,6 +131,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		tvConnectScreen = (TextView) mainView.findViewById(R.id.connect_screen_title);
 		tv_bind_wechat = (TextView) mainView.findViewById(R.id.tv_bind_wechat);
 		tv_sync_data = (TextView) mainView.findViewById(R.id.tv_sync_data);
+		tv_warehousing = (TextView) mainView.findViewById(R.id.tv_warehousing);
 	}
 
 	private void setListener() {
@@ -147,6 +148,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		tvConnectScreen.setOnClickListener(this);
 		tv_bind_wechat.setOnClickListener(this);
 		tv_sync_data.setOnClickListener(this);
+		tv_warehousing.setOnClickListener(this);
 	}
 
 	@Override
@@ -283,6 +285,10 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 				}
 			});
 			break;
+		case R.id.tv_warehousing:
+			intent.setClass(this.getActivity(), BarcodeScanActivity.class);
+			this.getActivity().startActivity(intent);
+			break;
 		case R.id.contact_us:
 			intent.setClass(this.getActivity(), ContactActivity.class);
 			this.getActivity().startActivity(intent);
@@ -292,7 +298,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 			this.getActivity().startActivity(intent);
 			break;
 		case R.id.update_version:
-			break;
+			break; 
 		case R.id.about_yidiguan:
 			intent.setClass(this.getActivity(), AboutActivity.class);
 			this.getActivity().startActivity(intent);
@@ -300,7 +306,7 @@ public class PersonCenterFragment extends BaseFragment implements OnClickListene
 		case R.id.change_password:
 			intent.setClass(this.getActivity(), VerifyCodeActivity.class);
 			intent.putExtra(MemberConstant.PHONE, loginEmployee.getWorkPhone());
-			this.getActivity().startActivityForResult(intent, MemberConstant.PASSWORD_REQUEST_CODE);
+			this.getActivity().startActivityForResult(intent, MemberConstant.PASSWORD_REQUEST_CODE); 
 			break;
 		case R.id.exit:
 			final AlertDialog myDialog = new AlertDialog.Builder(getActivity()).setMessage("是否退出当前账号？")

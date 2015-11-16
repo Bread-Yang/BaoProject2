@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center" />
+
+        <com.google.zxing.client.android.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/transparent" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#99000000"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="20dp" >
+
+        <Button
+            android:id="@+id/btn_ware_housing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/selector_bg_button_ware_housing"
+            android:text="@string/warehousing"
+            android:textColor="@drawable/selector_text_color_ware_housing" />
+
+        <Button
+            android:id="@+id/btn_check_inventory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/selector_bg_button_check_inventory"
+            android:text="@string/check_inventory"
+            android:textColor="@drawable/selector_text_color_ware_housing" />
+
+        <Button
+            android:id="@+id/btn_breakage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/selector_bg_button_breakage"
+            android:text="@string/breakage"
+            android:textColor="@drawable/selector_text_color_ware_housing" />
+
+        <Button
+            android:id="@+id/btn_ware_refund"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/selector_bg_button_refund"
+            android:text="@string/refund"
+            android:textColor="@drawable/selector_text_color_ware_housing" />
+
+        <Button
+            android:id="@+id/btn_price_adjust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/selector_bg_button_price_adjust"
+            android:text="@string/price_adjust"
+            android:textColor="@drawable/selector_text_color_ware_housing" />
+    </LinearLayout>
+
+</RelativeLayout>

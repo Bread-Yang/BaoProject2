@@ -60,7 +60,7 @@ import com.mdground.yizhida.util.ToolNetwork;
 public abstract class BaseRequest {
 	protected static final String TAG = "API";
 
-	private final static int TIME_OUT = 10 * 1000;
+	private final static int TIME_OUT = 30 * 1000;
 
 	private AsyncHttpClient httpClient;
 	private HttpClient httpsClient;

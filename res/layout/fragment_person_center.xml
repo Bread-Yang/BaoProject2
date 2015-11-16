@@ -144,6 +144,17 @@
                 android:clickable="true"
                 android:drawableRight="@drawable/in_button"
                 android:text="@string/sync_data" />
+            
+            <TextView
+                android:id="@+id/tv_warehousing"
+                style="@style/edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-1dp"
+                android:background="@drawable/selector_bg_doctor_item"
+                android:clickable="true"
+                android:drawableRight="@drawable/in_button"
+                android:text="@string/warehousing" />
 
             <TextView
                 android:id="@+id/contact_us"

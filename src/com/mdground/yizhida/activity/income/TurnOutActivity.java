@@ -34,6 +34,19 @@ public class TurnOutActivity extends TitleBarActivity {
 	private Button btn_confirm;
 	private EditText et_amount;
 	private float not_settle_balance;
+	
+	@Override
+	public int getContentLayout() {
+		return R.layout.activity_turn_out;
+	}
+
+	@Override
+	public void initTitleBar(TitleBar titleBar) {
+		ImageView imageVeiw = titleBar.inflateView(TitleBar.LEFT, ImageView.class);
+		imageVeiw.setImageResource(R.drawable.back);
+		titleBar.setTitle("结算");
+		titleBar.setBackgroundResource(R.drawable.top_bg4);
+	}
 
 	@Override
 	public void findView() {
@@ -55,6 +68,11 @@ public class TurnOutActivity extends TitleBarActivity {
 		int position = et_amount.length();
 		Editable etext = et_amount.getText();
 		Selection.setSelection(etext, position);
+	}
+	
+	@Override
+	public void onLeftClick(View v) {
+		onBackPressed();
 	}
 
 	@Override
@@ -113,26 +131,4 @@ public class TurnOutActivity extends TitleBarActivity {
 			}
 		});
 	}
-
-	@Override
-	public void onLeftClick(View v) {
-		onBackPressed();
-	}
-
-	@Override
-	public int getContentLayout() {
-		return R.layout.activity_turn_out;
-	}
-
-	@Override
-	public void initTitleBar(TitleBar titleBar) {
-		ImageView imageVeiw = titleBar.inflateView(TitleBar.LEFT, ImageView.class);
-		imageVeiw.setImageResource(R.drawable.back);
-		titleBar.setTitle("结算");
-		titleBar.setBackgroundResource(R.drawable.top_bg4);
-		
-		TextView textView = titleBar.inflateView(TitleBar.RIGHT, TextView.class);
-		textView.setText("hello");
-	}
-
 }
